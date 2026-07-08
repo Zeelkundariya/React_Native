@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Alert } from 'react-native';
+import { View, Text, Button, Alert, StyleSheet } from 'react-native';
 
 const Setting = () => {
 
@@ -9,8 +9,7 @@ const Setting = () => {
   };
 
   return (
-    <View
-      style={{  flex: 1,  backgroundColor: "grey", justifyContent: "center",alignItems: "center" }}>
+    <View style={styles.container}>
       <Text>React Native</Text>
 
       <Button
@@ -23,5 +22,15 @@ const Setting = () => {
     </View>
   );
 };
+
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:"grey",
+        justifyContent:"center",
+        alignItems:"center"
+    }
+})
 
 export default Setting;
