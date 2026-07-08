@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Button, Alert, StyleSheet, Pressable } from 'react-native';
+import { View,Text, Button, Alert, StyleSheet, TouchableOpacity,} from 'react-native';
 
 const Setting = () => {
-
   const handlePress = () => {
     console.log("Pressed");
     Alert.alert("Success", "Button Pressed");
@@ -11,41 +10,51 @@ const Setting = () => {
   return (
     <View style={styles.container}>
 
-        <Pressable style={styles.button} 
-        onPress={()=> Alert.alert("Button Pressed")}>
-            <Text style={styles.buttonText}>Button</Text>
-        </Pressable>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => Alert.alert("Button Pressed")}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.buttonText}>Button</Text>
+      </TouchableOpacity>
 
-      <Text>React Native</Text>
+      <Text style={styles.text}>React Native</Text>
 
       <Button
         title="Click Me"
-        onPress={() => Alert.alert("Clicked")}/>
+        onPress={() => Alert.alert("Clicked")}
+      />
+
       <Button
         title="Login"
         onPress={handlePress}
       />
+
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:"grey",
-        justifyContent:"center",
-        alignItems:"center"
-    },
-     button: {
-    backgroundColor: '#3b82f6',
+  container: {
+    flex: 1,
+    backgroundColor: "grey",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  button: {
+    backgroundColor: "#3b82f6",
     paddingVertical: 13,
     paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 20,
   },
+
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-  }
-})
+    fontWeight: "bold",
+  },
+});
 
 export default Setting;
