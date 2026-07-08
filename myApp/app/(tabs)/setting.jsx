@@ -12,8 +12,8 @@ const Setting = () => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => Alert.alert("Button Pressed")}
-        activeOpacity={0.7}
+        onPress={() => console.log("Button Pressed")}
+        activeOpacity={0.3}
       >
         <Text style={styles.buttonText}>Button</Text>
       </TouchableOpacity>
