@@ -272,3 +272,13 @@
 //     fontSize: 18,
 //   },
 // });
+
+import { View, Text } from "react-native";
+
+export default function Setting() {
+  return (
+    <View>
+      <Text>Setting Page</Text>
+    </View>
+  );
+}
