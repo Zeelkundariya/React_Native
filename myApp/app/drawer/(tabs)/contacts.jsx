@@ -16,7 +16,6 @@ import {
 } from "react-native";
 import * as Contacts from "expo-contacts";
 import { Swipeable } from "react-native-gesture-handler";
-import sectionListGetItemLayout from 'react-native-section-list-get-item-layout';
 
 const TAGS = ["All", "Work", "Family", "Friends", "Other"];
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#".split("");
