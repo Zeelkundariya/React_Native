@@ -8,213 +8,691 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Dashboard() {
   const router = useRouter();
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container}>
-        
-        {/* Custom Header */}
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerText}>
-            Smart Field Survey
-          </Text>
+          <View>
+            <Text style={styles.headerSmall}>
+              SMART FIELD SURVEY
+            </Text>
+
+            <Text style={styles.headerTitle}>
+              Dashboard
+            </Text>
+          </View>
+
+          <TouchableOpacity style={styles.profileIcon}>
+            <Text style={styles.profileText}>ZK</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Welcome */}
-        <Text style={styles.title}>
-          Welcome
-        </Text>
+        {/* Welcome Section */}
+        <View style={styles.welcomeSection}>
+          <View>
+            <Text style={styles.welcomeTitle}>
+              Hello, Zeel 👋
+            </Text>
 
-        <Text style={styles.subtitle}>
-          Zeel Kundariya
-        </Text>
-
-        {/* Student Details */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>
-            Student Details
-          </Text>
-
-          <Text>Name: Zeel Kundariya</Text>
-
-          <Text>
-            Course: Bachelor of Engineering in Computer Science
-          </Text>
-
-          <Text>
-            University: CodingGita X Swaminarayan University
-          </Text>
+            <Text style={styles.welcomeText}>
+              Let's complete today's field surveys.
+            </Text>
+          </View>
         </View>
 
-        {/* Today's Survey Count */}
+        {/* Student Information */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>
-            Today's Surveys
-          </Text>
+          <View style={styles.cardHeader}>
+            <View style={styles.iconBox}>
+              <Ionicons
+                name="person-outline"
+                size={22}
+                color="#059669"
+              />
+            </View>
 
-          <Text style={styles.count}>
-            0
-          </Text>
+            <View>
+              <Text style={styles.cardTitle}>
+                Student Information
+              </Text>
 
-          <Text>
-            Surveys completed
-          </Text>
+              <Text style={styles.cardSubtitle}>
+                Surveyor details
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          <View style={styles.infoRow}>
+            <Ionicons
+              name="person-outline"
+              size={18}
+              color="#64748B"
+            />
+
+            <View style={styles.infoContent}>
+              <Text style={styles.infoLabel}>Name</Text>
+              <Text style={styles.infoValue}>
+                Zeel Kundariya
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Ionicons
+              name="book-outline"
+              size={18}
+              color="#64748B"
+            />
+
+            <View style={styles.infoContent}>
+              <Text style={styles.infoLabel}>Course</Text>
+              <Text style={styles.infoValue}>
+                Bachelor of Engineering in Computer Science
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.infoRow}>
+            <Ionicons
+              name="school-outline"
+              size={18}
+              color="#64748B"
+            />
+
+            <View style={styles.infoContent}>
+              <Text style={styles.infoLabel}>University</Text>
+              <Text style={styles.infoValue}>
+                CodingGita X Swaminarayan University
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Survey Statistics */}
+        <Text style={styles.sectionTitle}>
+          Survey Overview
+        </Text>
+
+        <View style={styles.statsContainer}>
+          <View style={styles.statCard}>
+            <View style={styles.statIconGreen}>
+              <Ionicons
+                name="document-text-outline"
+                size={23}
+                color="#059669"
+              />
+            </View>
+
+            <Text style={styles.statNumber}>0</Text>
+
+            <Text style={styles.statLabel}>
+              Today's Surveys
+            </Text>
+          </View>
+
+          <View style={styles.statCard}>
+            <View style={styles.statIconOrange}>
+              <Ionicons
+                name="time-outline"
+                size={23}
+                color="#EA580C"
+              />
+            </View>
+
+            <Text style={styles.statNumber}>0</Text>
+
+            <Text style={styles.statLabel}>
+              Pending
+            </Text>
+          </View>
         </View>
 
         {/* Quick Actions */}
-        <Text style={styles.sectionTitle}>
-          Quick Actions
-        </Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
+            Quick Actions
+          </Text>
+
+          <Text style={styles.sectionHint}>
+            Choose an action
+          </Text>
+        </View>
 
         <View style={styles.actions}>
-
           {/* New Survey */}
           <TouchableOpacity
-            style={styles.actionButton}
+            style={styles.actionCard}
             onPress={() => router.push("/survey")}
           >
-            <Text style={styles.actionText}>
+            <View style={styles.newSurveyIcon}>
+              <Ionicons
+                name="add"
+                size={26}
+                color="#059669"
+              />
+            </View>
+
+            <Text style={styles.actionTitle}>
               New Survey
             </Text>
+
+            <Text style={styles.actionDescription}>
+              Create a new field survey
+            </Text>
+
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#94A3B8"
+              style={styles.arrow}
+            />
           </TouchableOpacity>
 
           {/* Camera */}
           <TouchableOpacity
-            style={styles.actionButton}
+            style={styles.actionCard}
             onPress={() => router.push("/camera")}
           >
-            <Text style={styles.actionText}>
+            <View style={styles.cameraIcon}>
+              <Ionicons
+                name="camera-outline"
+                size={26}
+                color="#7C3AED"
+              />
+            </View>
+
+            <Text style={styles.actionTitle}>
               Camera
             </Text>
+
+            <Text style={styles.actionDescription}>
+              Capture survey photos
+            </Text>
+
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#94A3B8"
+              style={styles.arrow}
+            />
           </TouchableOpacity>
 
           {/* Location */}
           <TouchableOpacity
-            style={styles.actionButton}
+            style={styles.actionCard}
             onPress={() => router.push("/location")}
           >
-            <Text style={styles.actionText}>
+            <View style={styles.locationIcon}>
+              <Ionicons
+                name="location-outline"
+                size={26}
+                color="#DC2626"
+              />
+            </View>
+
+            <Text style={styles.actionTitle}>
               Location
             </Text>
+
+            <Text style={styles.actionDescription}>
+              Get current GPS location
+            </Text>
+
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#94A3B8"
+              style={styles.arrow}
+            />
           </TouchableOpacity>
 
           {/* Contacts */}
           <TouchableOpacity
-            style={styles.actionButton}
+            style={styles.actionCard}
             onPress={() => router.push("/contacts")}
           >
-            <Text style={styles.actionText}>
+            <View style={styles.contactsIcon}>
+              <Ionicons
+                name="people-outline"
+                size={26}
+                color="#EA580C"
+              />
+            </View>
+
+            <Text style={styles.actionTitle}>
               Contacts
             </Text>
+
+            <Text style={styles.actionDescription}>
+              Browse saved contacts
+            </Text>
+
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#94A3B8"
+              style={styles.arrow}
+            />
           </TouchableOpacity>
-
         </View>
 
-        {/* Recent Survey Summary */}
-        <Text style={styles.sectionTitle}>
-          Recent Survey
-        </Text>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>
-            No Surveys Yet
+        {/* Recent Surveys */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
+            Recent Surveys
           </Text>
 
-          <Text>
-            Your recent surveys will appear here.
-          </Text>
+          <TouchableOpacity
+            onPress={() => router.push("/history")}
+          >
+            <Text style={styles.viewAll}>
+              View All
+            </Text>
+          </TouchableOpacity>
         </View>
 
+        <View style={styles.emptyCard}>
+          <View style={styles.emptyIcon}>
+            <Ionicons
+              name="clipboard-outline"
+              size={32}
+              color="#059669"
+            />
+          </View>
+
+          <Text style={styles.emptyTitle}>
+            No surveys yet
+          </Text>
+
+          <Text style={styles.emptyDescription}>
+            Start your first field survey and it will appear here.
+          </Text>
+
+          <TouchableOpacity
+            style={styles.createButton}
+            onPress={() => router.push("/survey")}
+          >
+            <Ionicons
+              name="add"
+              size={20}
+              color="#FFFFFF"
+            />
+
+            <Text style={styles.createButtonText}>
+              Create New Survey
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-
-  // Safe area for mobile notch/status bar
   safeArea: {
     flex: 1,
-    backgroundColor: "#2563EB",
+    backgroundColor: "#047857",
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8FAFC",
   },
 
+  scrollContent: {
+    paddingBottom: 30,
+  },
+
+  // Header
   header: {
-    backgroundColor: "#2563EB",
-    padding: 20,
+    backgroundColor: "#047857",
+    paddingHorizontal: 20,
+    paddingTop: 18,
+    paddingBottom: 28,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
 
-  headerText: {
-    color: "#fff",
-    fontSize: 22,
+  headerSmall: {
+    color: "#A7F3D0",
+    fontSize: 11,
+    fontWeight: "600",
+    letterSpacing: 1,
+  },
+
+  headerTitle: {
+    color: "#FFFFFF",
+    fontSize: 27,
+    fontWeight: "bold",
+    marginTop: 3,
+  },
+
+  profileIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  profileText: {
+    color: "#047857",
+    fontSize: 16,
     fontWeight: "bold",
   },
 
-  title: {
+  // Welcome
+  welcomeSection: {
+    marginHorizontal: 20,
+    marginTop: 24,
+  },
+
+  welcomeTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 20,
-    marginHorizontal: 20,
+    color: "#0F172A",
   },
 
-  subtitle: {
-    marginHorizontal: 20,
+  welcomeText: {
+    fontSize: 14,
+    color: "#64748B",
     marginTop: 5,
-    color: "#555",
   },
 
+  // Common Card
   card: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 15,
-    margin: 20,
-    marginBottom: 0,
-    borderRadius: 8,
-  },
-
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-
-  count: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#2563EB",
-  },
-
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    backgroundColor: "#FFFFFF",
     marginHorizontal: 20,
-    marginTop: 25,
+    marginTop: 20,
+    padding: 18,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 2,
   },
 
-  actions: {
+  cardHeader: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    marginHorizontal: 15,
-  },
-
-  actionButton: {
-    width: "45%",
-    backgroundColor: "#2563EB",
-    padding: 15,
-    margin: 5,
-    borderRadius: 5,
     alignItems: "center",
   },
 
-  actionText: {
-    color: "#fff",
+  iconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: "#ECFDF5",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  cardTitle: {
+    fontSize: 17,
     fontWeight: "bold",
+    color: "#0F172A",
+  },
+
+  cardSubtitle: {
+    fontSize: 12,
+    color: "#94A3B8",
+    marginTop: 2,
+  },
+
+  divider: {
+    height: 1,
+    backgroundColor: "#E2E8F0",
+    marginVertical: 15,
+  },
+
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 13,
+  },
+
+  infoContent: {
+    flex: 1,
+    marginLeft: 12,
+  },
+
+  infoLabel: {
+    fontSize: 11,
+    color: "#94A3B8",
+  },
+
+  infoValue: {
+    fontSize: 14,
+    color: "#334155",
+    fontWeight: "500",
+    marginTop: 2,
+  },
+
+  // Sections
+  sectionHeader: {
+    marginHorizontal: 20,
+    marginTop: 28,
+    marginBottom: 12,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+
+  sectionTitle: {
+    fontSize: 19,
+    fontWeight: "bold",
+    color: "#0F172A",
+    marginHorizontal: 20,
+    marginTop: 28,
+    marginBottom: 12,
+  },
+
+  sectionHint: {
+    fontSize: 12,
+    color: "#94A3B8",
+    marginBottom: 1,
+  },
+
+  viewAll: {
+    color: "#059669",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+
+  // Statistics
+  statsContainer: {
+    flexDirection: "row",
+    marginHorizontal: 20,
+    justifyContent: "space-between",
+  },
+
+  statCard: {
+    width: "48%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 15,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+  },
+
+  statIconGreen: {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    backgroundColor: "#ECFDF5",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  statIconOrange: {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    backgroundColor: "#FFF7ED",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  statNumber: {
+    fontSize: 27,
+    fontWeight: "bold",
+    color: "#0F172A",
+    marginTop: 10,
+  },
+
+  statLabel: {
+    fontSize: 12,
+    color: "#64748B",
+    marginTop: 2,
+  },
+
+  // Quick Actions
+  actions: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+  },
+
+  actionCard: {
+    width: "48%",
+    backgroundColor: "#FFFFFF",
+    padding: 15,
+    borderRadius: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    position: "relative",
+  },
+
+  newSurveyIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    backgroundColor: "#ECFDF5",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  cameraIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    backgroundColor: "#F5F3FF",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  locationIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    backgroundColor: "#FEF2F2",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  contactsIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    backgroundColor: "#FFF7ED",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  actionTitle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#0F172A",
+    marginTop: 12,
+  },
+
+  actionDescription: {
+    fontSize: 11,
+    color: "#94A3B8",
+    marginTop: 4,
+    paddingRight: 15,
+  },
+
+  arrow: {
+    position: "absolute",
+    right: 12,
+    top: 15,
+  },
+
+  // Empty Survey
+  emptyCard: {
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 20,
+    padding: 25,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    alignItems: "center",
+  },
+
+  emptyIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: "#ECFDF5",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  emptyTitle: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "#0F172A",
+    marginTop: 14,
+  },
+
+  emptyDescription: {
+    fontSize: 13,
+    color: "#64748B",
+    textAlign: "center",
+    marginTop: 6,
+    lineHeight: 19,
+  },
+
+  createButton: {
+    backgroundColor: "#059669",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 18,
+    paddingVertical: 11,
+    borderRadius: 10,
+    marginTop: 17,
+  },
+
+  createButtonText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginLeft: 6,
   },
 });
