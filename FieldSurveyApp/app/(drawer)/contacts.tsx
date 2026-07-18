@@ -52,6 +52,7 @@ export default function ContactsScreen() {
 
       setContacts(data);
     } catch (error) {
+      console.log(error);
       Alert.alert(
         "Error",
         "Could not load contacts."
@@ -101,6 +102,7 @@ export default function ContactsScreen() {
         "Contact number copied to clipboard."
       );
     } catch (error) {
+      console.log(error);
       Alert.alert(
         "Error",
         "Could not copy contact number."

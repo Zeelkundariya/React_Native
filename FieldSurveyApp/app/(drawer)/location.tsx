@@ -52,6 +52,7 @@ export default function LocationScreen() {
       // Save location fetched time
       setTimestamp(new Date().toLocaleString());
     } catch (error) {
+      console.log(error);
       Alert.alert(
         "Error",
         "Could not get your current location"

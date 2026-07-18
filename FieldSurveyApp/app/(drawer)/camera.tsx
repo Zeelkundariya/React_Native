@@ -76,6 +76,7 @@ export default function CameraScreen() {
 
       return true;
     } catch (error) {
+      console.log(error);
       Alert.alert(
         "Save Error",
         "Could not save photo to gallery."
@@ -119,6 +120,7 @@ export default function CameraScreen() {
         }
       }
     } catch (error) {
+      console.log(error);
       Alert.alert(
         "Error",
         "Could not capture photo."

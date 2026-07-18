@@ -49,7 +49,7 @@ export default function Dashboard() {
           </Text>
 
           <Text style={styles.welcomeText}>
-            Let's complete today's field surveys.
+            Let&apos;s complete today&apos;s field surveys.
           </Text>
         </View>
 
@@ -156,7 +156,7 @@ export default function Dashboard() {
             </Text>
 
             <Text style={styles.statLabel}>
-              Today's Surveys
+              Today&apos;s Surveys
             </Text>
           </View>
 

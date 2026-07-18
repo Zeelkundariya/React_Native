@@ -39,7 +39,7 @@ export default function PreviewScreen() {
 
   // Edit Survey
   const editSurvey = () => {
-    router.push("/(tabs)/survey");
+    router.push("/(drawer)/(tabs)/survey");
   };
 
   // Submit Survey
@@ -50,7 +50,7 @@ export default function PreviewScreen() {
       [
         {
           text: "OK",
-          onPress: () => router.push("/(tabs)"),
+          onPress: () => router.push("/(drawer)/(tabs)"),
         },
       ]
     );
