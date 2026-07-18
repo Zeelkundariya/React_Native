@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -20,7 +20,7 @@ export default function ProfileScreen() {
               source={{ uri: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400" }}
               style={styles.avatar}
             />
-            <TouchableOpacity style={styles.editAvatarButton}>
+            <TouchableOpacity style={styles.editAvatarButton} onPress={() => Alert.alert("Edit Avatar", "Choose a new photo from your gallery.")}>
               <Ionicons name="camera" size={16} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
@@ -105,7 +105,7 @@ export default function ProfileScreen() {
         </View>
         
         {/* Edit Button */}
-        <TouchableOpacity style={styles.editButton}>
+        <TouchableOpacity style={styles.editButton} onPress={() => Alert.alert("Edit Profile", "Profile editing feature coming soon!")}>
           <Text style={styles.editButtonText}>Edit Profile</Text>
         </TouchableOpacity>
         

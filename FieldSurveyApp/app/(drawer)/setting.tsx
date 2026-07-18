@@ -20,9 +20,12 @@ export default function SettingsScreen() {
   };
 
   const handleClearData = () => {
-    Alert.alert("Clear Data", "This will remove all saved offline surveys. Proceed?", [
+    Alert.alert("Clear Data", "This will remove all saved offline surveys and clipboard data. Proceed?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Clear", style: "destructive", onPress: () => Alert.alert("Data Cleared", "All offline data has been removed.") }
+      { text: "Clear", style: "destructive", onPress: async () => {
+          await Clipboard.setStringAsync("");
+          Alert.alert("Data Cleared", "All offline data and clipboard has been removed.");
+      }}
     ]);
   };
 
@@ -54,7 +57,10 @@ export default function SettingsScreen() {
               </View>
               <Switch
                 value={notificationsEnabled}
-                onValueChange={setNotificationsEnabled}
+                onValueChange={(val) => {
+                  setNotificationsEnabled(val);
+                  Alert.alert("Push Notifications", val ? "Enabled" : "Disabled");
+                }}
                 trackColor={{ false: "#E2E8F0", true: "#34D399" }}
                 thumbColor={notificationsEnabled ? "#059669" : "#F8FAFC"}
               />
@@ -69,7 +75,10 @@ export default function SettingsScreen() {
               </View>
               <Switch
                 value={darkMode}
-                onValueChange={setDarkMode}
+                onValueChange={(val) => {
+                  setDarkMode(val);
+                  Alert.alert("Dark Mode", val ? "Enabled" : "Disabled");
+                }}
                 trackColor={{ false: "#E2E8F0", true: "#34D399" }}
                 thumbColor={darkMode ? "#059669" : "#F8FAFC"}
               />
@@ -84,7 +93,10 @@ export default function SettingsScreen() {
               </View>
               <Switch
                 value={locationTracking}
-                onValueChange={setLocationTracking}
+                onValueChange={(val) => {
+                  setLocationTracking(val);
+                  Alert.alert("Location Tracking", val ? "Enabled" : "Disabled");
+                }}
                 trackColor={{ false: "#E2E8F0", true: "#34D399" }}
                 thumbColor={locationTracking ? "#059669" : "#F8FAFC"}
               />
@@ -100,7 +112,10 @@ export default function SettingsScreen() {
               </View>
               <Switch
                 value={autoSave}
-                onValueChange={setAutoSave}
+                onValueChange={(val) => {
+                  setAutoSave(val);
+                  Alert.alert("Auto-Save", val ? "Enabled" : "Disabled");
+                }}
                 trackColor={{ false: "#E2E8F0", true: "#34D399" }}
                 thumbColor={autoSave ? "#059669" : "#F8FAFC"}
               />
