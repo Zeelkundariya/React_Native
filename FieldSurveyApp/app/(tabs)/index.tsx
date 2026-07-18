@@ -230,6 +230,7 @@ export default function Dashboard() {
           </TouchableOpacity>
 
           {/* Location */}
+          {/* Location */}
           <TouchableOpacity
             style={styles.actionCard}
             onPress={() => router.push("/location")}
@@ -257,7 +258,6 @@ export default function Dashboard() {
               style={styles.arrow}
             />
           </TouchableOpacity>
-
           {/* Contacts */}
           <TouchableOpacity
             style={styles.actionCard}

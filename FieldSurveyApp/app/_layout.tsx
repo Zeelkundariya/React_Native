@@ -9,6 +9,20 @@ export default function RootLayout() {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="camera"
+        options={{
+          title: "Camera",
+        }}
+      />
+
+      <Stack.Screen
+        name="location"
+        options={{
+          title: "Location",
+        }}
+      />
     </Stack>
   );
 }
