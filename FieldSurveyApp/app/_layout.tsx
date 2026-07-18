@@ -23,6 +23,13 @@ export default function RootLayout() {
           title: "Location",
         }}
       />
+
+      <Stack.Screen
+        name="contacts"
+        options={{
+          title: "Contacts",
+        }}
+      />
     </Stack>
   );
 }
