@@ -37,6 +37,13 @@ export default function RootLayout() {
           title: "Clipboard",
         }}
       />
+
+      <Stack.Screen
+        name="preview"
+        options={{
+          title: "Survey Preview",
+        }}
+      />
     </Stack>
   );
 }
