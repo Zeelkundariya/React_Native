@@ -8,6 +8,7 @@ import {
   Image,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,12 +24,15 @@ import * as MediaLibrary from "expo-media-library";
 export default function CameraScreen() {
   const cameraRef = useRef<CameraView>(null);
 
+  // Camera Permission
   const [permission, requestPermission] =
     useCameraPermissions();
 
+  // Gallery Permission
   const [mediaPermission, requestMediaPermission] =
     MediaLibrary.usePermissions();
 
+  // States
   const [photo, setPhoto] =
     useState<string | null>(null);
 
@@ -41,7 +45,129 @@ export default function CameraScreen() {
   const [saved, setSaved] =
     useState(false);
 
+  // ----------------------------------
+  // Save Photo to Gallery
+  // ----------------------------------
+  const saveToGallery = async (uri: string) => {
+    try {
+      let granted = mediaPermission?.granted;
+
+      // Ask Gallery Permission
+      if (!granted) {
+        const result =
+          await requestMediaPermission();
+
+        granted = result.granted;
+      }
+
+      if (!granted) {
+        Alert.alert(
+          "Permission Required",
+          "Gallery permission is required to save photos."
+        );
+
+        return false;
+      }
+
+      // Save Photo
+      await MediaLibrary.saveToLibraryAsync(uri);
+
+      setSaved(true);
+
+      return true;
+    } catch (error) {
+      Alert.alert(
+        "Save Error",
+        "Could not save photo to gallery."
+      );
+
+      return false;
+    }
+  };
+
+  // ----------------------------------
+  // Capture Photo
+  // ----------------------------------
+  const takePhoto = async () => {
+    if (!cameraRef.current) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setSaved(false);
+
+      const result =
+        await cameraRef.current.takePictureAsync();
+
+      if (result) {
+        setPhoto(result.uri);
+
+        setCaptureTime(
+          new Date().toLocaleString()
+        );
+
+        // Automatically Save to Gallery
+        const wasSaved =
+          await saveToGallery(result.uri);
+
+        if (wasSaved) {
+          Alert.alert(
+            "Photo Saved",
+            "Photo captured and saved to your gallery."
+          );
+        }
+      }
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "Could not capture photo."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ----------------------------------
+  // Retake Photo
+  // ----------------------------------
+  const retakePhoto = () => {
+    setPhoto(null);
+    setCaptureTime("");
+    setSaved(false);
+  };
+
+  // ----------------------------------
+  // Delete Photo Preview
+  // ----------------------------------
+  const deletePhoto = () => {
+    Alert.alert(
+      "Delete Photo",
+      saved
+        ? "This will remove the photo from the survey preview. The saved photo will remain in your gallery."
+        : "Are you sure you want to delete this photo?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+
+          onPress: () => {
+            setPhoto(null);
+            setCaptureTime("");
+            setSaved(false);
+          },
+        },
+      ]
+    );
+  };
+
+  // ----------------------------------
   // Loading Camera Permission
+  // ----------------------------------
   if (!permission) {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -59,7 +185,9 @@ export default function CameraScreen() {
     );
   }
 
+  // ----------------------------------
   // Camera Permission Not Granted
+  // ----------------------------------
   if (!permission.granted) {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -100,117 +228,9 @@ export default function CameraScreen() {
     );
   }
 
-  // Save Photo to Gallery
-  const saveToGallery = async (uri: string) => {
-    try {
-      let granted = mediaPermission?.granted;
-
-      if (!granted) {
-        const result =
-          await requestMediaPermission();
-
-        granted = result.granted;
-      }
-
-      if (!granted) {
-        Alert.alert(
-          "Permission Required",
-          "Gallery permission is required to save photos."
-        );
-
-        return false;
-      }
-
-      await MediaLibrary.saveToLibraryAsync(uri);
-
-      setSaved(true);
-
-      return true;
-    } catch (error) {
-      Alert.alert(
-        "Save Error",
-        "Could not save photo to gallery."
-      );
-
-      return false;
-    }
-  };
-
-  // Capture Photo
-  const takePhoto = async () => {
-    if (!cameraRef.current) {
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setSaved(false);
-
-      const result =
-        await cameraRef.current.takePictureAsync();
-
-      if (result) {
-        setPhoto(result.uri);
-
-        setCaptureTime(
-          new Date().toLocaleString()
-        );
-
-        // Automatically save photo
-        const wasSaved =
-          await saveToGallery(result.uri);
-
-        if (wasSaved) {
-          Alert.alert(
-            "Photo Saved",
-            "Photo captured and saved to your gallery."
-          );
-        }
-      }
-    } catch (error) {
-      Alert.alert(
-        "Error",
-        "Could not capture photo."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Retake Photo
-  const retakePhoto = () => {
-    setPhoto(null);
-    setCaptureTime("");
-    setSaved(false);
-  };
-
-  // Delete Preview
-  const deletePhoto = () => {
-    Alert.alert(
-      "Delete Photo",
-      saved
-        ? "This will remove the photo from this survey preview. The saved copy will remain in your gallery."
-        : "Are you sure you want to delete this photo?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          style: "destructive",
-
-          onPress: () => {
-            setPhoto(null);
-            setCaptureTime("");
-            setSaved(false);
-          },
-        },
-      ]
-    );
-  };
-
-  // Photo Preview
+  // ----------------------------------
+  // Photo Preview Screen
+  // ----------------------------------
   if (photo) {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -237,19 +257,27 @@ export default function CameraScreen() {
             </View>
           </View>
 
-          {/* Preview Content */}
-          <View style={styles.content}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={
+              styles.content
+            }
+          >
+
+            {/* Photo */}
             <View style={styles.imageCard}>
               <Image
                 source={{ uri: photo }}
                 style={styles.image}
+                resizeMode="cover"
               />
 
+              {/* Saved Status */}
               {saved && (
                 <View style={styles.savedBadge}>
                   <Ionicons
                     name="checkmark-circle"
-                    size={18}
+                    size={19}
                     color="#059669"
                   />
 
@@ -260,7 +288,7 @@ export default function CameraScreen() {
               )}
             </View>
 
-            {/* Photo Information */}
+            {/* Capture Time */}
             <View style={styles.infoCard}>
               <View style={styles.infoIcon}>
                 <Ionicons
@@ -270,7 +298,7 @@ export default function CameraScreen() {
                 />
               </View>
 
-              <View>
+              <View style={styles.infoContent}>
                 <Text style={styles.infoLabel}>
                   Captured At
                 </Text>
@@ -281,7 +309,7 @@ export default function CameraScreen() {
               </View>
             </View>
 
-            {/* Retake */}
+            {/* Retake Button */}
             <TouchableOpacity
               style={styles.primaryButton}
               onPress={retakePhoto}
@@ -297,7 +325,7 @@ export default function CameraScreen() {
               </Text>
             </TouchableOpacity>
 
-            {/* Delete */}
+            {/* Delete Button */}
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={deletePhoto}
@@ -312,13 +340,16 @@ export default function CameraScreen() {
                 Delete Preview
               </Text>
             </TouchableOpacity>
-          </View>
+
+          </ScrollView>
         </View>
       </SafeAreaView>
     );
   }
 
-  // Camera Screen
+  // ----------------------------------
+  // Main Camera Screen
+  // ----------------------------------
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -344,7 +375,15 @@ export default function CameraScreen() {
           </View>
         </View>
 
-        <View style={styles.content}>
+        {/* Scrollable Content */}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={
+            styles.content
+          }
+        >
+
+          {/* Title */}
           <Text style={styles.title}>
             Capture Survey Photo
           </Text>
@@ -361,32 +400,44 @@ export default function CameraScreen() {
               facing="back"
             />
 
+            {/* Loading Overlay */}
             {loading && (
               <View style={styles.cameraLoader}>
                 <ActivityIndicator
                   size="large"
                   color="#FFFFFF"
                 />
+
+                <Text style={styles.capturingText}>
+                  Capturing...
+                </Text>
               </View>
             )}
           </View>
 
-          {/* Gallery Info */}
+          {/* Gallery Information */}
           <View style={styles.galleryInfo}>
-            <Ionicons
-              name="images-outline"
-              size={21}
-              color="#059669"
-            />
+            <View style={styles.galleryIcon}>
+              <Ionicons
+                name="images-outline"
+                size={21}
+                color="#059669"
+              />
+            </View>
 
             <Text style={styles.galleryInfoText}>
-              Captured photos will be saved to your gallery.
+              Captured photos will automatically
+              be saved to your gallery.
             </Text>
           </View>
 
           {/* Capture Button */}
           <TouchableOpacity
-            style={styles.captureButton}
+            style={[
+              styles.captureButton,
+              loading &&
+                styles.captureButtonDisabled,
+            ]}
             onPress={takePhoto}
             disabled={loading}
           >
@@ -402,13 +453,17 @@ export default function CameraScreen() {
                 : "Capture Photo"}
             </Text>
           </TouchableOpacity>
-        </View>
+
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  // ----------------------------------
+  // Main
+  // ----------------------------------
   safeArea: {
     flex: 1,
     backgroundColor: "#047857",
@@ -419,15 +474,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8FAFC",
   },
 
+  content: {
+    paddingHorizontal: 20,
+    paddingTop: 22,
+    paddingBottom: 50,
+  },
+
+  // ----------------------------------
   // Header
+  // ----------------------------------
   header: {
     backgroundColor: "#047857",
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
+
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
   },
@@ -450,16 +515,16 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
+
     backgroundColor: "#FFFFFF",
+
     justifyContent: "center",
     alignItems: "center",
   },
 
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-
+  // ----------------------------------
+  // Title
+  // ----------------------------------
   title: {
     fontSize: 22,
     fontWeight: "bold",
@@ -473,9 +538,12 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
 
+  // ----------------------------------
   // Camera
+  // ----------------------------------
   cameraCard: {
-    height: 390,
+    width: "100%",
+    height: 380,
     borderRadius: 18,
     overflow: "hidden",
     backgroundColor: "#000000",
@@ -488,54 +556,103 @@ const styles = StyleSheet.create({
 
   cameraLoader: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.4)",
+
+    backgroundColor: "rgba(0,0,0,0.5)",
+
     justifyContent: "center",
     alignItems: "center",
   },
 
-  // Gallery Information
+  capturingText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "600",
+    marginTop: 10,
+  },
+
+  // ----------------------------------
+  // Gallery Info
+  // ----------------------------------
   galleryInfo: {
     backgroundColor: "#ECFDF5",
+
     borderWidth: 1,
     borderColor: "#D1FAE5",
-    borderRadius: 12,
+
+    borderRadius: 14,
     padding: 13,
     marginTop: 15,
+
     flexDirection: "row",
+    alignItems: "center",
+  },
+
+  galleryIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+
+    backgroundColor: "#D1FAE5",
+
+    justifyContent: "center",
     alignItems: "center",
   },
 
   galleryInfoText: {
     flex: 1,
+
     color: "#047857",
+
     fontSize: 12,
-    marginLeft: 9,
+    lineHeight: 17,
+
+    marginLeft: 10,
   },
 
-  // Buttons
+  // ----------------------------------
+  // Capture Button
+  // ----------------------------------
   captureButton: {
     backgroundColor: "#059669",
-    paddingVertical: 14,
+
+    paddingVertical: 15,
+
     borderRadius: 12,
+
     marginTop: 15,
+    marginBottom: 10,
+
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
 
+  captureButtonDisabled: {
+    opacity: 0.6,
+  },
+
   captureButtonText: {
     color: "#FFFFFF",
+
     fontSize: 15,
     fontWeight: "bold",
+
     marginLeft: 8,
   },
 
+  // ----------------------------------
+  // Primary Button
+  // ----------------------------------
   primaryButton: {
     backgroundColor: "#059669",
+
     paddingVertical: 14,
     paddingHorizontal: 20,
+
     borderRadius: 12,
+
     marginTop: 15,
+
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -543,18 +660,29 @@ const styles = StyleSheet.create({
 
   primaryButtonText: {
     color: "#FFFFFF",
+
     fontSize: 15,
     fontWeight: "bold",
+
     marginLeft: 8,
   },
 
+  // ----------------------------------
+  // Delete Button
+  // ----------------------------------
   deleteButton: {
     backgroundColor: "#FEF2F2",
+
     borderWidth: 1,
     borderColor: "#FECACA",
+
     paddingVertical: 14,
+
     borderRadius: 12,
+
     marginTop: 10,
+    marginBottom: 10,
+
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -562,16 +690,23 @@ const styles = StyleSheet.create({
 
   deleteButtonText: {
     color: "#DC2626",
+
     fontSize: 15,
     fontWeight: "600",
+
     marginLeft: 8,
   },
 
+  // ----------------------------------
   // Photo Preview
+  // ----------------------------------
   imageCard: {
     backgroundColor: "#FFFFFF",
+
     borderRadius: 18,
+
     overflow: "hidden",
+
     borderWidth: 1,
     borderColor: "#E2E8F0",
   },
@@ -582,8 +717,10 @@ const styles = StyleSheet.create({
   },
 
   savedBadge: {
-    padding: 12,
+    paddingVertical: 12,
+
     backgroundColor: "#ECFDF5",
+
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -591,19 +728,27 @@ const styles = StyleSheet.create({
 
   savedText: {
     color: "#047857",
+
     fontSize: 13,
     fontWeight: "600",
+
     marginLeft: 6,
   },
 
-  // Photo Information
+  // ----------------------------------
+  // Photo Info
+  // ----------------------------------
   infoCard: {
     backgroundColor: "#FFFFFF",
+
     borderWidth: 1,
     borderColor: "#E2E8F0",
+
     borderRadius: 12,
+
     padding: 14,
     marginTop: 15,
+
     flexDirection: "row",
     alignItems: "center",
   },
@@ -611,11 +756,19 @@ const styles = StyleSheet.create({
   infoIcon: {
     width: 40,
     height: 40,
+
     borderRadius: 10,
+
     backgroundColor: "#ECFDF5",
+
     justifyContent: "center",
     alignItems: "center",
+
     marginRight: 12,
+  },
+
+  infoContent: {
+    flex: 1,
   },
 
   infoLabel: {
@@ -625,46 +778,68 @@ const styles = StyleSheet.create({
 
   infoValue: {
     fontSize: 13,
+
     color: "#334155",
+
     fontWeight: "600",
+
     marginTop: 2,
   },
 
-  // Permission
+  // ----------------------------------
+  // Permission Screen
+  // ----------------------------------
   permissionContainer: {
     flex: 1,
+
     backgroundColor: "#F8FAFC",
+
     justifyContent: "center",
     alignItems: "center",
+
     padding: 30,
   },
 
   permissionIcon: {
     width: 80,
     height: 80,
+
     borderRadius: 40,
+
     backgroundColor: "#ECFDF5",
+
     justifyContent: "center",
     alignItems: "center",
   },
 
   permissionTitle: {
     fontSize: 22,
+
     fontWeight: "bold",
+
     color: "#0F172A",
+
     marginTop: 18,
   },
 
   permissionText: {
     color: "#64748B",
+
     textAlign: "center",
+
     marginTop: 8,
+
     lineHeight: 20,
   },
 
+  // ----------------------------------
+  // Loading
+  // ----------------------------------
   center: {
     flex: 1,
+
     backgroundColor: "#F8FAFC",
+
     justifyContent: "center",
     alignItems: "center",
   },
