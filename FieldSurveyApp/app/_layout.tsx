@@ -30,6 +30,13 @@ export default function RootLayout() {
           title: "Contacts",
         }}
       />
+
+      <Stack.Screen
+        name="clipboard"
+        options={{
+          title: "Clipboard",
+        }}
+      />
     </Stack>
   );
 }

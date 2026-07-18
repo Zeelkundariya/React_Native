@@ -32,22 +32,25 @@ export default function Dashboard() {
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.profileIcon}>
-            <Text style={styles.profileText}>ZK</Text>
+          <TouchableOpacity
+            style={styles.profileIcon}
+            onPress={() => router.push("/profile")}
+          >
+            <Text style={styles.profileText}>
+              ZK
+            </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Welcome Section */}
+        {/* Welcome */}
         <View style={styles.welcomeSection}>
-          <View>
-            <Text style={styles.welcomeTitle}>
-              Hello, Zeel 👋
-            </Text>
+          <Text style={styles.welcomeTitle}>
+            Hello, Zeel 👋
+          </Text>
 
-            <Text style={styles.welcomeText}>
-              Let's complete today's field surveys.
-            </Text>
-          </View>
+          <Text style={styles.welcomeText}>
+            Let's complete today's field surveys.
+          </Text>
         </View>
 
         {/* Student Information */}
@@ -74,6 +77,7 @@ export default function Dashboard() {
 
           <View style={styles.divider} />
 
+          {/* Name */}
           <View style={styles.infoRow}>
             <Ionicons
               name="person-outline"
@@ -82,13 +86,17 @@ export default function Dashboard() {
             />
 
             <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Name</Text>
+              <Text style={styles.infoLabel}>
+                Name
+              </Text>
+
               <Text style={styles.infoValue}>
                 Zeel Kundariya
               </Text>
             </View>
           </View>
 
+          {/* Course */}
           <View style={styles.infoRow}>
             <Ionicons
               name="book-outline"
@@ -97,13 +105,17 @@ export default function Dashboard() {
             />
 
             <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>Course</Text>
+              <Text style={styles.infoLabel}>
+                Course
+              </Text>
+
               <Text style={styles.infoValue}>
                 Bachelor of Engineering in Computer Science
               </Text>
             </View>
           </View>
 
+          {/* University */}
           <View style={styles.infoRow}>
             <Ionicons
               name="school-outline"
@@ -112,7 +124,10 @@ export default function Dashboard() {
             />
 
             <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>University</Text>
+              <Text style={styles.infoLabel}>
+                University
+              </Text>
+
               <Text style={styles.infoValue}>
                 CodingGita X Swaminarayan University
               </Text>
@@ -120,12 +135,13 @@ export default function Dashboard() {
           </View>
         </View>
 
-        {/* Survey Statistics */}
+        {/* Survey Overview */}
         <Text style={styles.sectionTitle}>
           Survey Overview
         </Text>
 
         <View style={styles.statsContainer}>
+          {/* Today's Surveys */}
           <View style={styles.statCard}>
             <View style={styles.statIconGreen}>
               <Ionicons
@@ -135,13 +151,16 @@ export default function Dashboard() {
               />
             </View>
 
-            <Text style={styles.statNumber}>0</Text>
+            <Text style={styles.statNumber}>
+              0
+            </Text>
 
             <Text style={styles.statLabel}>
               Today's Surveys
             </Text>
           </View>
 
+          {/* Pending */}
           <View style={styles.statCard}>
             <View style={styles.statIconOrange}>
               <Ionicons
@@ -151,7 +170,9 @@ export default function Dashboard() {
               />
             </View>
 
-            <Text style={styles.statNumber}>0</Text>
+            <Text style={styles.statNumber}>
+              0
+            </Text>
 
             <Text style={styles.statLabel}>
               Pending
@@ -159,9 +180,9 @@ export default function Dashboard() {
           </View>
         </View>
 
-        {/* Quick Actions */}
+        {/* Quick Actions Header */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
+          <Text style={styles.quickSectionTitle}>
             Quick Actions
           </Text>
 
@@ -170,7 +191,9 @@ export default function Dashboard() {
           </Text>
         </View>
 
+        {/* Quick Actions */}
         <View style={styles.actions}>
+
           {/* New Survey */}
           <TouchableOpacity
             style={styles.actionCard}
@@ -230,7 +253,6 @@ export default function Dashboard() {
           </TouchableOpacity>
 
           {/* Location */}
-          {/* Location */}
           <TouchableOpacity
             style={styles.actionCard}
             onPress={() => router.push("/location")}
@@ -258,6 +280,7 @@ export default function Dashboard() {
               style={styles.arrow}
             />
           </TouchableOpacity>
+
           {/* Contacts */}
           <TouchableOpacity
             style={styles.actionCard}
@@ -286,11 +309,41 @@ export default function Dashboard() {
               style={styles.arrow}
             />
           </TouchableOpacity>
+
+          {/* Clipboard */}
+          <TouchableOpacity
+            style={styles.actionCard}
+            onPress={() => router.push("/clipboard")}
+          >
+            <View style={styles.clipboardIcon}>
+              <Ionicons
+                name="clipboard-outline"
+                size={26}
+                color="#2563EB"
+              />
+            </View>
+
+            <Text style={styles.actionTitle}>
+              Clipboard
+            </Text>
+
+            <Text style={styles.actionDescription}>
+              Manage copied survey data
+            </Text>
+
+            <Ionicons
+              name="arrow-forward"
+              size={18}
+              color="#94A3B8"
+              style={styles.arrow}
+            />
+          </TouchableOpacity>
+
         </View>
 
-        {/* Recent Surveys */}
+        {/* Recent Surveys Header */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
+          <Text style={styles.quickSectionTitle}>
             Recent Surveys
           </Text>
 
@@ -303,6 +356,7 @@ export default function Dashboard() {
           </TouchableOpacity>
         </View>
 
+        {/* Empty Survey Card */}
         <View style={styles.emptyCard}>
           <View style={styles.emptyIcon}>
             <Ionicons
@@ -335,6 +389,7 @@ export default function Dashboard() {
             </Text>
           </TouchableOpacity>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -352,7 +407,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
-    paddingBottom: 30,
+    paddingBottom: 40,
   },
 
   // Header
@@ -415,7 +470,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
-  // Common Card
+  // Student Card
   card: {
     backgroundColor: "#FFFFFF",
     marginHorizontal: 20,
@@ -490,16 +545,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  // Sections
-  sectionHeader: {
-    marginHorizontal: 20,
-    marginTop: 28,
-    marginBottom: 12,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
-
+  // Section
   sectionTitle: {
     fontSize: 19,
     fontWeight: "bold",
@@ -509,10 +555,24 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+  sectionHeader: {
+    marginHorizontal: 20,
+    marginTop: 28,
+    marginBottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  quickSectionTitle: {
+    fontSize: 19,
+    fontWeight: "bold",
+    color: "#0F172A",
+  },
+
   sectionHint: {
     fontSize: 12,
     color: "#94A3B8",
-    marginBottom: 1,
   },
 
   viewAll: {
@@ -619,6 +679,15 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 12,
     backgroundColor: "#FFF7ED",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  clipboardIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 12,
+    backgroundColor: "#EFF6FF",
     justifyContent: "center",
     alignItems: "center",
   },
