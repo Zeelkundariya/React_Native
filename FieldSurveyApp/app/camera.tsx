@@ -832,9 +832,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 
-  // ----------------------------------
-  // Loading
-  // ----------------------------------
   center: {
     flex: 1,
 
