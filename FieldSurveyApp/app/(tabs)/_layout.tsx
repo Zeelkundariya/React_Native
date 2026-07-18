@@ -3,7 +3,27 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+
+        // Tab bar style
+        tabBarStyle: {
+          height: 65,
+          paddingTop: 5,
+          paddingBottom: 8,
+        },
+
+        tabBarActiveTintColor: "#2563EB",
+        tabBarInactiveTintColor: "#777",
+
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "500",
+        },
+      }}
+    >
+      {/* Dashboard */}
       <Tabs.Screen
         name="index"
         options={{
@@ -18,6 +38,7 @@ export default function TabLayout() {
         }}
       />
 
+      {/* New Survey */}
       <Tabs.Screen
         name="survey"
         options={{
@@ -32,6 +53,7 @@ export default function TabLayout() {
         }}
       />
 
+      {/* History */}
       <Tabs.Screen
         name="history"
         options={{
@@ -46,6 +68,7 @@ export default function TabLayout() {
         }}
       />
 
+      {/* Profile */}
       <Tabs.Screen
         name="profile"
         options={{

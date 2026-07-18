@@ -1,69 +1,146 @@
-import { View, Text, StyleSheet, ScrollView,  TouchableOpacity,} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 export default function Dashboard() {
+  const router = useRouter();
+
   return (
-    <ScrollView style={styles.container}>
-      {/* Custom Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}> Smart Field Survey </Text>
-      </View>
-      
- {/* Welcome */}
-      <Text style={styles.title}> Welcome </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container}>
+        
+        {/* Custom Header */}
+        <View style={styles.header}>
+          <Text style={styles.headerText}>
+            Smart Field Survey
+          </Text>
+        </View>
 
-      <Text style={styles.subtitle}> Zeel Kundariya </Text>
+        {/* Welcome */}
+        <Text style={styles.title}>
+          Welcome
+        </Text>
 
-    {/* Student Details */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>  Student Details </Text>
+        <Text style={styles.subtitle}>
+          Zeel Kundariya
+        </Text>
 
-        <Text>Name: Zeel Kundariya</Text>
-        <Text>Course: Bachelor of Engineering in Computer Science</Text>
-        <Text>University: Codinggita X Swaminaryan University</Text>
-      </View>
-  {/* Today's Survey Count */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Today's Surveys</Text>
+        {/* Student Details */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>
+            Student Details
+          </Text>
 
-        <Text style={styles.count}>0</Text>
+          <Text>Name: Zeel Kundariya</Text>
 
-        <Text> Surveys completed</Text>
-      </View>
+          <Text>
+            Course: Bachelor of Engineering in Computer Science
+          </Text>
 
-      {/* Quick Actions */}
-      <Text style={styles.sectionTitle}>Quick Actions</Text>
+          <Text>
+            University: CodingGita X Swaminarayan University
+          </Text>
+        </View>
 
-      <View style={styles.actions}>
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionText}> New Survey </Text>
-        </TouchableOpacity>
+        {/* Today's Survey Count */}
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>
+            Today's Surveys
+          </Text>
 
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionText}>Camera </Text>
-        </TouchableOpacity>
+          <Text style={styles.count}>
+            0
+          </Text>
 
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionText}> Location </Text>
-        </TouchableOpacity>
+          <Text>
+            Surveys completed
+          </Text>
+        </View>
 
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionText}> Contacts</Text>
-        </TouchableOpacity>
-      </View>
+        {/* Quick Actions */}
+        <Text style={styles.sectionTitle}>
+          Quick Actions
+        </Text>
 
-      {/* Recent Survey Summary */}
-      <Text style={styles.sectionTitle}>Recent Survey </Text>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}> No Surveys Yet</Text>
+        <View style={styles.actions}>
 
-        <Text> Your recent surveys will appear here. </Text> 
-       </View>
+          {/* New Survey */}
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => router.push("/survey")}
+          >
+            <Text style={styles.actionText}>
+              New Survey
+            </Text>
+          </TouchableOpacity>
 
-     </ScrollView>
+          {/* Camera */}
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => router.push("/camera")}
+          >
+            <Text style={styles.actionText}>
+              Camera
+            </Text>
+          </TouchableOpacity>
+
+          {/* Location */}
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => router.push("/location")}
+          >
+            <Text style={styles.actionText}>
+              Location
+            </Text>
+          </TouchableOpacity>
+
+          {/* Contacts */}
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => router.push("/contacts")}
+          >
+            <Text style={styles.actionText}>
+              Contacts
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+
+        {/* Recent Survey Summary */}
+        <Text style={styles.sectionTitle}>
+          Recent Survey
+        </Text>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>
+            No Surveys Yet
+          </Text>
+
+          <Text>
+            Your recent surveys will appear here.
+          </Text>
+        </View>
+
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+
+  // Safe area for mobile notch/status bar
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#2563EB",
+  },
+
   container: {
     flex: 1,
     backgroundColor: "#fff",
