@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
+  Platform,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -43,16 +44,21 @@ export default function Survey() {
       return;
     }
 
-    Alert.alert(
-      "Survey Saved",
-      "Survey details saved successfully.",
-      [
-        {
-          text: "OK",
-          onPress: () => router.push("/preview"),
-        },
-      ]
-    );
+    if (Platform.OS === "web") {
+      window.alert("Survey details saved successfully.");
+      router.push("/preview");
+    } else {
+      Alert.alert(
+        "Survey Saved",
+        "Survey details saved successfully.",
+        [
+          {
+            text: "OK",
+            onPress: () => router.push("/preview"),
+          },
+        ]
+      );
+    }
   };
 
   return (
