@@ -13,11 +13,15 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../context/ThemeContext";
+import { AnimatedPressable } from "../../components/AnimatedPressable";
 
 import * as Location from "expo-location";
 import * as Clipboard from "expo-clipboard";
 
 export default function LocationScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [accuracy, setAccuracy] = useState<number | null>(null);
@@ -126,7 +130,7 @@ export default function LocationScreen() {
             <Ionicons
               name="location"
               size={26}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -147,7 +151,7 @@ export default function LocationScreen() {
           <View style={styles.loadingCard}>
             <ActivityIndicator
               size="large"
-              color="#059669"
+              color={colors.primaryLight}
             />
 
             <Text style={styles.loadingText}>
@@ -163,7 +167,7 @@ export default function LocationScreen() {
                   <Ionicons
                     name="navigate"
                     size={24}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -186,7 +190,7 @@ export default function LocationScreen() {
                   <Ionicons
                     name="location-outline"
                     size={19}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -209,7 +213,7 @@ export default function LocationScreen() {
                   <Ionicons
                     name="compass-outline"
                     size={19}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -232,7 +236,7 @@ export default function LocationScreen() {
                   <Ionicons
                     name="radio-outline"
                     size={19}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -255,7 +259,7 @@ export default function LocationScreen() {
                   <Ionicons
                     name="time-outline"
                     size={19}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -277,52 +281,52 @@ export default function LocationScreen() {
             </Text>
 
             {/* Refresh */}
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.primaryButton}
               onPress={getLocation}
             >
               <Ionicons
                 name="refresh"
                 size={20}
-                color="#FFFFFF"
+                color={colors.card}
               />
 
               <Text style={styles.primaryButtonText}>
                 Refresh Location
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
 
             {/* Copy */}
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.secondaryButton}
               onPress={copyLocation}
             >
               <Ionicons
                 name="copy-outline"
                 size={20}
-                color="#059669"
+                color={colors.primaryLight}
               />
 
               <Text style={styles.secondaryButtonText}>
                 Copy Location
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
 
             {/* Open Map - New Feature */}
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.secondaryButton}
               onPress={openMap}
             >
               <Ionicons
                 name="map-outline"
                 size={20}
-                color="#059669"
+                color={colors.primaryLight}
               />
 
               <Text style={styles.secondaryButtonText}>
                 Open in Google Maps
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
 
             {/* Location Status */}
             <View style={styles.statusCard}>
@@ -330,7 +334,7 @@ export default function LocationScreen() {
                 <Ionicons
                   name="checkmark-circle"
                   size={24}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
               </View>
 
@@ -353,20 +357,20 @@ export default function LocationScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   // Header
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
@@ -385,7 +389,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -395,7 +399,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -409,40 +413,40 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 23,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
   },
 
   // Loading
   loadingCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     margin: 20,
     padding: 40,
     borderRadius: 16,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
   },
 
   loadingText: {
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 12,
   },
 
   // Location Card
   locationCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     marginTop: 20,
     padding: 18,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
@@ -462,7 +466,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 12,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
@@ -471,18 +475,18 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   cardSubtitle: {
     fontSize: 12,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 2,
   },
 
   divider: {
     height: 1,
-    backgroundColor: "#E2E8F0",
+    backgroundColor: colors.border,
     marginVertical: 16,
   },
 
@@ -497,7 +501,7 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 10,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -509,7 +513,7 @@ const styles = StyleSheet.create({
 
   infoLabel: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   infoValue: {
@@ -523,7 +527,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginHorizontal: 20,
     marginTop: 25,
     marginBottom: 12,
@@ -531,7 +535,7 @@ const styles = StyleSheet.create({
 
   // Primary Button
   primaryButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
     marginHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 12,
@@ -541,7 +545,7 @@ const styles = StyleSheet.create({
   },
 
   primaryButtonText: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 8,
@@ -549,7 +553,7 @@ const styles = StyleSheet.create({
 
   // Secondary Buttons
   secondaryButton: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     marginTop: 10,
     paddingVertical: 14,
@@ -562,7 +566,7 @@ const styles = StyleSheet.create({
   },
 
   secondaryButtonText: {
-    color: "#047857",
+    color: colors.primary,
     fontSize: 15,
     fontWeight: "600",
     marginLeft: 8,
@@ -570,7 +574,7 @@ const styles = StyleSheet.create({
 
   // Status
   statusCard: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
     marginHorizontal: 20,
     marginTop: 20,
     padding: 15,
@@ -598,12 +602,12 @@ const styles = StyleSheet.create({
   statusTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#047857",
+    color: colors.primary,
   },
 
   statusText: {
     fontSize: 12,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 3,
     lineHeight: 17,
   },

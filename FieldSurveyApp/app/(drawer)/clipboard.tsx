@@ -12,9 +12,13 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../context/ThemeContext";
+import { AnimatedPressable } from "../../components/AnimatedPressable";
 import * as Clipboard from "expo-clipboard";
 
 export default function ClipboardScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   const [notes, setNotes] = useState("");
 
   // Sample Data
@@ -103,7 +107,7 @@ export default function ClipboardScreen() {
             <Ionicons
               name="clipboard-outline"
               size={26}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -133,7 +137,7 @@ export default function ClipboardScreen() {
                 <Ionicons
                   name="document-text-outline"
                   size={22}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
               </View>
 
@@ -153,32 +157,32 @@ export default function ClipboardScreen() {
                 {surveyId}
               </Text>
 
-              <TouchableOpacity
+              <AnimatedPressable
                 style={styles.copyIconButton}
                 onPress={copySurveyId}
               >
                 <Ionicons
                   name="copy-outline"
                   size={20}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
-              </TouchableOpacity>
+              </AnimatedPressable>
             </View>
 
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.copyButton}
               onPress={copySurveyId}
             >
               <Ionicons
                 name="copy-outline"
                 size={18}
-                color="#047857"
+                color={colors.primary}
               />
 
               <Text style={styles.copyButtonText}>
                 Copy Survey ID
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
           </View>
 
           {/* Contact Card */}
@@ -208,32 +212,32 @@ export default function ClipboardScreen() {
                 {contactNumber}
               </Text>
 
-              <TouchableOpacity
+              <AnimatedPressable
                 style={styles.copyIconButton}
                 onPress={copyContactNumber}
               >
                 <Ionicons
                   name="copy-outline"
                   size={20}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
-              </TouchableOpacity>
+              </AnimatedPressable>
             </View>
 
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.copyButton}
               onPress={copyContactNumber}
             >
               <Ionicons
                 name="copy-outline"
                 size={18}
-                color="#047857"
+                color={colors.primary}
               />
 
               <Text style={styles.copyButtonText}>
                 Copy Contact Number
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
           </View>
 
           {/* Location Card */}
@@ -263,32 +267,32 @@ export default function ClipboardScreen() {
                 {currentLocation}
               </Text>
 
-              <TouchableOpacity
+              <AnimatedPressable
                 style={styles.copyIconButton}
                 onPress={copyLocation}
               >
                 <Ionicons
                   name="copy-outline"
                   size={20}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
-              </TouchableOpacity>
+              </AnimatedPressable>
             </View>
 
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.copyButton}
               onPress={copyLocation}
             >
               <Ionicons
                 name="copy-outline"
                 size={18}
-                color="#047857"
+                color={colors.primary}
               />
 
               <Text style={styles.copyButtonText}>
                 Copy Location
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
           </View>
 
           {/* Notes Card */}
@@ -316,26 +320,26 @@ export default function ClipboardScreen() {
             <TextInput
               style={styles.notesInput}
               placeholder="Paste or enter notes..."
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={colors.textMuted}
               value={notes}
               onChangeText={setNotes}
               multiline
             />
 
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.pasteButton}
               onPress={pasteNotes}
             >
               <Ionicons
                 name="clipboard-outline"
                 size={19}
-                color="#FFFFFF"
+                color={colors.card}
               />
 
               <Text style={styles.pasteButtonText}>
                 Paste from Clipboard
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
           </View>
 
           {/* Clipboard Info */}
@@ -344,7 +348,7 @@ export default function ClipboardScreen() {
               <Ionicons
                 name="information-circle-outline"
                 size={21}
-                color="#059669"
+                color={colors.primaryLight}
               />
             </View>
 
@@ -355,7 +359,7 @@ export default function ClipboardScreen() {
           </View>
 
           {/* Clear Clipboard */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.clearButton}
             onPress={clearClipboard}
           >
@@ -368,7 +372,7 @@ export default function ClipboardScreen() {
             <Text style={styles.clearButtonText}>
               Clear Clipboard
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
 
         </ScrollView>
       </View>
@@ -376,16 +380,16 @@ export default function ClipboardScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // Main
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   content: {
@@ -396,7 +400,7 @@ const styles = StyleSheet.create({
 
   // Header
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
 
     paddingHorizontal: 20,
     paddingTop: 18,
@@ -418,7 +422,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -429,7 +433,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -439,22 +443,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
     marginBottom: 18,
   },
 
   // Cards
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 16,
 
@@ -483,12 +487,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   cardSubtitle: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 2,
   },
 
@@ -498,7 +502,7 @@ const styles = StyleSheet.create({
     height: 42,
     borderRadius: 11,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -547,10 +551,10 @@ const styles = StyleSheet.create({
 
   // Data Box
   dataBox: {
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 10,
 
@@ -579,7 +583,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 8,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -589,7 +593,7 @@ const styles = StyleSheet.create({
 
   // Copy Button
   copyButton: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -606,7 +610,7 @@ const styles = StyleSheet.create({
   },
 
   copyButtonText: {
-    color: "#047857",
+    color: colors.primary,
 
     fontSize: 13,
     fontWeight: "bold",
@@ -618,10 +622,10 @@ const styles = StyleSheet.create({
   notesInput: {
     height: 110,
 
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 11,
 
@@ -630,13 +634,13 @@ const styles = StyleSheet.create({
     marginTop: 14,
 
     fontSize: 14,
-    color: "#0F172A",
+    color: colors.text,
 
     textAlignVertical: "top",
   },
 
   pasteButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
 
     paddingVertical: 12,
 
@@ -650,7 +654,7 @@ const styles = StyleSheet.create({
   },
 
   pasteButtonText: {
-    color: "#FFFFFF",
+    color: colors.card,
 
     fontSize: 13,
     fontWeight: "bold",
@@ -660,7 +664,7 @@ const styles = StyleSheet.create({
 
   // Information
   infoCard: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -692,7 +696,7 @@ const styles = StyleSheet.create({
     flex: 1,
 
     fontSize: 12,
-    color: "#047857",
+    color: colors.primary,
 
     lineHeight: 18,
   },

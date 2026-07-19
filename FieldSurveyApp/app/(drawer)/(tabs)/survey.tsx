@@ -12,9 +12,13 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../../context/ThemeContext";
+import { AnimatedPressable } from "../../../components/AnimatedPressable";
 import { useRouter } from "expo-router";
 
 export default function Survey() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   const router = useRouter();
 
   const [siteName, setSiteName] = useState("");
@@ -71,7 +75,7 @@ export default function Survey() {
             <Ionicons
               name="document-text-outline"
               size={26}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -101,7 +105,7 @@ export default function Survey() {
                 <Ionicons
                   name="information-circle-outline"
                   size={23}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
               </View>
 
@@ -127,13 +131,13 @@ export default function Survey() {
               <Ionicons
                 name="business-outline"
                 size={19}
-                color="#94A3B8"
+                color={colors.textMuted}
               />
 
               <TextInput
                 style={styles.input}
                 placeholder="Enter site name"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={colors.textMuted}
                 value={siteName}
                 onChangeText={setSiteName}
               />
@@ -148,13 +152,13 @@ export default function Survey() {
               <Ionicons
                 name="person-outline"
                 size={19}
-                color="#94A3B8"
+                color={colors.textMuted}
               />
 
               <TextInput
                 style={styles.input}
                 placeholder="Enter client name"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={colors.textMuted}
                 value={clientName}
                 onChangeText={setClientName}
               />
@@ -174,7 +178,7 @@ export default function Survey() {
               <Ionicons
                 name="create-outline"
                 size={19}
-                color="#94A3B8"
+                color={colors.textMuted}
                 style={styles.descriptionIcon}
               />
 
@@ -184,7 +188,7 @@ export default function Survey() {
                   styles.descriptionInput,
                 ]}
                 placeholder="Enter survey description"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={colors.textMuted}
                 value={description}
                 onChangeText={setDescription}
                 multiline
@@ -199,7 +203,7 @@ export default function Survey() {
             <View style={styles.priorityContainer}>
 
               {/* Low */}
-              <TouchableOpacity
+              <AnimatedPressable
                 style={[
                   styles.priorityButton,
                   priority === "Low" &&
@@ -216,8 +220,8 @@ export default function Survey() {
                   size={17}
                   color={
                     priority === "Low"
-                      ? "#059669"
-                      : "#94A3B8"
+                      ? colors.primaryLight
+                      : colors.textMuted
                   }
                 />
 
@@ -230,10 +234,10 @@ export default function Survey() {
                 >
                   Low
                 </Text>
-              </TouchableOpacity>
+              </AnimatedPressable>
 
               {/* Medium */}
-              <TouchableOpacity
+              <AnimatedPressable
                 style={[
                   styles.priorityButton,
                   priority === "Medium" &&
@@ -251,7 +255,7 @@ export default function Survey() {
                   color={
                     priority === "Medium"
                       ? "#D97706"
-                      : "#94A3B8"
+                      : colors.textMuted
                   }
                 />
 
@@ -264,10 +268,10 @@ export default function Survey() {
                 >
                   Medium
                 </Text>
-              </TouchableOpacity>
+              </AnimatedPressable>
 
               {/* High */}
-              <TouchableOpacity
+              <AnimatedPressable
                 style={[
                   styles.priorityButton,
                   priority === "High" &&
@@ -285,7 +289,7 @@ export default function Survey() {
                   color={
                     priority === "High"
                       ? "#DC2626"
-                      : "#94A3B8"
+                      : colors.textMuted
                   }
                 />
 
@@ -298,7 +302,7 @@ export default function Survey() {
                 >
                   High
                 </Text>
-              </TouchableOpacity>
+              </AnimatedPressable>
 
             </View>
 
@@ -311,13 +315,13 @@ export default function Survey() {
               <Ionicons
                 name="calendar-outline"
                 size={19}
-                color="#94A3B8"
+                color={colors.textMuted}
               />
 
               <TextInput
                 style={styles.input}
                 placeholder="DD/MM/YYYY"
-                placeholderTextColor="#94A3B8"
+                placeholderTextColor={colors.textMuted}
                 value={date}
                 onChangeText={setDate}
                 keyboardType="numbers-and-punctuation"
@@ -332,7 +336,7 @@ export default function Survey() {
               <Ionicons
                 name="bulb-outline"
                 size={21}
-                color="#059669"
+                color={colors.primaryLight}
               />
             </View>
 
@@ -343,21 +347,21 @@ export default function Survey() {
           </View>
 
           {/* Save Button */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.submitButton}
             onPress={handleSubmit}
-            activeOpacity={0.8}
+            
           >
             <Ionicons
               name="save-outline"
               size={21}
-              color="#FFFFFF"
+              color={colors.card}
             />
 
             <Text style={styles.submitText}>
               Save Survey Details
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
 
         </ScrollView>
       </View>
@@ -365,16 +369,16 @@ export default function Survey() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // Main
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   content: {
@@ -385,7 +389,7 @@ const styles = StyleSheet.create({
 
   // Header
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
@@ -406,7 +410,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -416,7 +420,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -426,22 +430,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
     marginBottom: 18,
   },
 
   // Form Card
   formCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 16,
     padding: 17,
@@ -465,7 +469,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -480,18 +484,18 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   cardSubtitle: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 2,
   },
 
   divider: {
     height: 1,
-    backgroundColor: "#E2E8F0",
+    backgroundColor: colors.border,
     marginVertical: 17,
   },
 
@@ -514,10 +518,10 @@ const styles = StyleSheet.create({
     minHeight: 50,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 11,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     paddingHorizontal: 13,
 
@@ -529,7 +533,7 @@ const styles = StyleSheet.create({
     flex: 1,
 
     fontSize: 14,
-    color: "#0F172A",
+    color: colors.text,
 
     paddingVertical: 12,
     marginLeft: 9,
@@ -562,11 +566,11 @@ const styles = StyleSheet.create({
     paddingVertical: 11,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 10,
 
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     flexDirection: "row",
     justifyContent: "center",
@@ -574,19 +578,19 @@ const styles = StyleSheet.create({
   },
 
   priorityText: {
-    color: "#64748B",
+    color: colors.textSecondary,
     fontSize: 12,
     fontWeight: "600",
     marginLeft: 5,
   },
 
   lowSelected: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
     borderColor: "#6EE7B7",
   },
 
   lowSelectedText: {
-    color: "#047857",
+    color: colors.primary,
   },
 
   mediumSelected: {
@@ -609,7 +613,7 @@ const styles = StyleSheet.create({
 
   // Info Card
   infoCard: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -640,14 +644,14 @@ const styles = StyleSheet.create({
     flex: 1,
 
     fontSize: 12,
-    color: "#047857",
+    color: colors.primary,
 
     lineHeight: 18,
   },
 
   // Submit
   submitButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
 
     paddingVertical: 15,
 
@@ -662,7 +666,7 @@ const styles = StyleSheet.create({
   },
 
   submitText: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 8,

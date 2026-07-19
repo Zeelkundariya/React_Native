@@ -1,29 +1,32 @@
 import { Drawer } from "expo-router/drawer";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../context/ThemeContext";
 
 export default function DrawerLayout() {
+  const { colors, isDark } = useTheme();
+
   return (
     <Drawer
       screenOptions={{
         headerShown: true,
 
         headerStyle: {
-          backgroundColor: "#047857",
+          backgroundColor: colors.primary,
         },
 
-        headerTintColor: "#FFFFFF",
+        headerTintColor: colors.white,
 
         headerTitleStyle: {
           fontWeight: "bold",
         },
 
-        drawerActiveTintColor: "#047857",
-        drawerInactiveTintColor: "#64748B",
+        drawerActiveTintColor: colors.primary,
+        drawerInactiveTintColor: colors.textSecondary,
 
-        drawerActiveBackgroundColor: "#ECFDF5",
+        drawerActiveBackgroundColor: isDark ? colors.primaryHighlight : colors.primaryHighlight,
 
         drawerStyle: {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: colors.background,
           width: 280,
         },
 

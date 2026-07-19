@@ -2,8 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../../context/ThemeContext";
+import { AnimatedPressable } from "../../../components/AnimatedPressable";
 
 export default function ProfileScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -20,9 +24,9 @@ export default function ProfileScreen() {
               source={{ uri: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400" }}
               style={styles.avatar}
             />
-            <TouchableOpacity style={styles.editAvatarButton} onPress={() => Alert.alert("Edit Avatar", "Choose a new photo from your gallery.")}>
-              <Ionicons name="camera" size={16} color="#FFFFFF" />
-            </TouchableOpacity>
+            <AnimatedPressable style={styles.editAvatarButton} onPress={() => Alert.alert("Edit Avatar", "Choose a new photo from your gallery.")}>
+              <Ionicons name="camera" size={16} color={colors.card} />
+            </AnimatedPressable>
           </View>
           
           <Text style={styles.name}>Zeel Kundariya</Text>
@@ -51,7 +55,7 @@ export default function ProfileScreen() {
         <View style={styles.card}>
           <View style={styles.detailRow}>
             <View style={styles.iconBox}>
-              <Ionicons name="mail-outline" size={20} color="#059669" />
+              <Ionicons name="mail-outline" size={20} color={colors.primaryLight} />
             </View>
             <View style={styles.detailContent}>
               <Text style={styles.detailLabel}>Email</Text>
@@ -61,7 +65,7 @@ export default function ProfileScreen() {
 
           <View style={styles.detailRow}>
             <View style={styles.iconBox}>
-              <Ionicons name="call-outline" size={20} color="#059669" />
+              <Ionicons name="call-outline" size={20} color={colors.primaryLight} />
             </View>
             <View style={styles.detailContent}>
               <Text style={styles.detailLabel}>Phone</Text>
@@ -71,7 +75,7 @@ export default function ProfileScreen() {
 
           <View style={styles.detailRow}>
             <View style={styles.iconBox}>
-              <Ionicons name="location-outline" size={20} color="#059669" />
+              <Ionicons name="location-outline" size={20} color={colors.primaryLight} />
             </View>
             <View style={styles.detailContent}>
               <Text style={styles.detailLabel}>Location</Text>
@@ -85,7 +89,7 @@ export default function ProfileScreen() {
         <View style={styles.card}>
           <View style={styles.detailRow}>
             <View style={styles.iconBox}>
-              <Ionicons name="book-outline" size={20} color="#059669" />
+              <Ionicons name="book-outline" size={20} color={colors.primaryLight} />
             </View>
             <View style={styles.detailContent}>
               <Text style={styles.detailLabel}>Course</Text>
@@ -95,7 +99,7 @@ export default function ProfileScreen() {
           
           <View style={styles.detailRow}>
             <View style={styles.iconBox}>
-              <Ionicons name="school-outline" size={20} color="#059669" />
+              <Ionicons name="school-outline" size={20} color={colors.primaryLight} />
             </View>
             <View style={styles.detailContent}>
               <Text style={styles.detailLabel}>University</Text>
@@ -105,9 +109,9 @@ export default function ProfileScreen() {
         </View>
         
         {/* Edit Button */}
-        <TouchableOpacity style={styles.editButton} onPress={() => Alert.alert("Edit Profile", "Profile editing feature coming soon!")}>
+        <AnimatedPressable style={styles.editButton} onPress={() => Alert.alert("Edit Profile", "Profile editing feature coming soon!")}>
           <Text style={styles.editButtonText}>Edit Profile</Text>
-        </TouchableOpacity>
+        </AnimatedPressable>
         
         <View style={{ height: 40 }} />
       </ScrollView>
@@ -115,16 +119,16 @@ export default function ProfileScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
   container: {
     paddingBottom: 20,
   },
   headerBackground: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
     height: 140,
     alignItems: "center",
     paddingTop: 20,
@@ -134,10 +138,10 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: colors.card,
   },
   profileCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     marginTop: -60,
     borderRadius: 20,
@@ -158,30 +162,30 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 4,
-    borderColor: "#FFFFFF",
+    borderColor: colors.card,
   },
   editAvatarButton: {
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
     width: 32,
     height: 32,
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#FFFFFF",
+    borderColor: colors.card,
   },
   name: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#1E293B",
+    color: colors.text,
     marginBottom: 4,
   },
   role: {
     fontSize: 15,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginBottom: 20,
   },
   statsRow: {
@@ -199,12 +203,12 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1E293B",
+    color: colors.text,
     marginBottom: 2,
   },
   statLabel: {
     fontSize: 12,
-    color: "#64748B",
+    color: colors.textSecondary,
   },
   statDivider: {
     width: 1,
@@ -214,13 +218,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1E293B",
+    color: colors.text,
     marginLeft: 20,
     marginTop: 24,
     marginBottom: 12,
   },
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     borderRadius: 16,
     padding: 16,
@@ -239,7 +243,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 10,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 16,
@@ -249,7 +253,7 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 13,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginBottom: 2,
   },
   detailValue: {
@@ -258,7 +262,7 @@ const styles = StyleSheet.create({
     color: "#334155",
   },
   editButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
     marginHorizontal: 20,
     marginTop: 24,
     paddingVertical: 16,
@@ -266,7 +270,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   editButtonText: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 16,
     fontWeight: "bold",
   },

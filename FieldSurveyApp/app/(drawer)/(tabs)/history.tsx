@@ -12,6 +12,8 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../../context/ThemeContext";
+import { AnimatedPressable } from "../../../components/AnimatedPressable";
 
 type Survey = {
   id: string;
@@ -22,6 +24,8 @@ type Survey = {
 };
 
 export default function History() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   // Sample Survey Data
   const [surveys, setSurveys] = useState<Survey[]>([
     {
@@ -151,7 +155,7 @@ Date: ${survey.date}`
             <Ionicons
               name="document-text-outline"
               size={23}
-              color="#059669"
+              color={colors.primaryLight}
             />
           </View>
 
@@ -191,7 +195,7 @@ Date: ${survey.date}`
           <Ionicons
             name="business-outline"
             size={18}
-            color="#64748B"
+            color={colors.textSecondary}
           />
 
           <View style={styles.infoContent}>
@@ -210,7 +214,7 @@ Date: ${survey.date}`
           <Ionicons
             name="calendar-outline"
             size={18}
-            color="#64748B"
+            color={colors.textSecondary}
           />
 
           <View style={styles.infoContent}>
@@ -226,7 +230,7 @@ Date: ${survey.date}`
 
         {/* Buttons */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.viewButton}
             onPress={() =>
               viewDetails(item)
@@ -235,15 +239,15 @@ Date: ${survey.date}`
             <Ionicons
               name="eye-outline"
               size={18}
-              color="#047857"
+              color={colors.primary}
             />
 
             <Text style={styles.viewButtonText}>
               View Details
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
 
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.deleteButton}
             onPress={() =>
               deleteSurvey(item.id)
@@ -258,7 +262,7 @@ Date: ${survey.date}`
             <Text style={styles.deleteButtonText}>
               Delete
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
         </View>
       </View>
     );
@@ -284,7 +288,7 @@ Date: ${survey.date}`
             <Ionicons
               name="time-outline"
               size={27}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -306,27 +310,27 @@ Date: ${survey.date}`
             <Ionicons
               name="search-outline"
               size={20}
-              color="#94A3B8"
+              color={colors.textMuted}
             />
 
             <TextInput
               style={styles.input}
               placeholder="Search surveys..."
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={colors.textMuted}
               value={search}
               onChangeText={setSearch}
             />
 
             {search.length > 0 && (
-              <TouchableOpacity
+              <AnimatedPressable
                 onPress={() => setSearch("")}
               >
                 <Ionicons
                   name="close-circle"
                   size={20}
-                  color="#94A3B8"
+                  color={colors.textMuted}
                 />
-              </TouchableOpacity>
+              </AnimatedPressable>
             )}
           </View>
 
@@ -349,7 +353,7 @@ Date: ${survey.date}`
               "Medium",
               "High",
             ].map((item) => (
-              <TouchableOpacity
+              <AnimatedPressable
                 key={item}
                 style={[
                   styles.filterButton,
@@ -369,7 +373,7 @@ Date: ${survey.date}`
                 >
                   {item}
                 </Text>
-              </TouchableOpacity>
+              </AnimatedPressable>
             ))}
           </View>
 
@@ -379,7 +383,7 @@ Date: ${survey.date}`
               <Ionicons
                 name="documents-outline"
                 size={21}
-                color="#059669"
+                color={colors.primaryLight}
               />
             </View>
 
@@ -415,7 +419,7 @@ Date: ${survey.date}`
                   <Ionicons
                     name="search-outline"
                     size={30}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -442,21 +446,21 @@ Date: ${survey.date}`
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // Main
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   // Header
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
 
     paddingHorizontal: 20,
     paddingTop: 18,
@@ -478,7 +482,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -489,7 +493,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -505,12 +509,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
     marginBottom: 18,
   },
@@ -519,10 +523,10 @@ const styles = StyleSheet.create({
   searchContainer: {
     height: 50,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 12,
 
@@ -536,7 +540,7 @@ const styles = StyleSheet.create({
     flex: 1,
 
     fontSize: 14,
-    color: "#0F172A",
+    color: colors.text,
 
     marginLeft: 9,
   },
@@ -559,7 +563,7 @@ const styles = StyleSheet.create({
 
   resultText: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   // Filters
@@ -571,10 +575,10 @@ const styles = StyleSheet.create({
   filterButton: {
     width: "23%",
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     paddingVertical: 9,
 
@@ -584,23 +588,23 @@ const styles = StyleSheet.create({
   },
 
   selectedFilter: {
-    backgroundColor: "#059669",
-    borderColor: "#059669",
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primaryLight,
   },
 
   filterText: {
-    color: "#64748B",
+    color: colors.textSecondary,
     fontSize: 12,
     fontWeight: "600",
   },
 
   selectedText: {
-    color: "#FFFFFF",
+    color: colors.card,
   },
 
   // Counter
   countCard: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -633,12 +637,12 @@ const styles = StyleSheet.create({
   countNumber: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#047857",
+    color: colors.primary,
   },
 
   countLabel: {
     fontSize: 11,
-    color: "#059669",
+    color: colors.primaryLight,
     marginTop: 1,
   },
 
@@ -649,10 +653,10 @@ const styles = StyleSheet.create({
 
   // Survey Card
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 16,
 
@@ -680,7 +684,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 12,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -695,18 +699,18 @@ const styles = StyleSheet.create({
   siteName: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   surveyId: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 3,
   },
 
   divider: {
     height: 1,
-    backgroundColor: "#E2E8F0",
+    backgroundColor: colors.border,
     marginVertical: 14,
   },
 
@@ -739,11 +743,11 @@ const styles = StyleSheet.create({
   },
 
   lowPriority: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
   },
 
   lowPriorityText: {
-    color: "#059669",
+    color: colors.primaryLight,
   },
 
   // Info
@@ -759,7 +763,7 @@ const styles = StyleSheet.create({
 
   infoLabel: {
     fontSize: 10,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   infoValue: {
@@ -779,7 +783,7 @@ const styles = StyleSheet.create({
   viewButton: {
     width: "64%",
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -794,7 +798,7 @@ const styles = StyleSheet.create({
   },
 
   viewButtonText: {
-    color: "#047857",
+    color: colors.primary,
     fontSize: 12,
     fontWeight: "bold",
     marginLeft: 6,
@@ -826,10 +830,10 @@ const styles = StyleSheet.create({
 
   // Empty
   empty: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 16,
 
@@ -846,7 +850,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 30,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -855,13 +859,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginTop: 13,
   },
 
   emptyDescription: {
     fontSize: 12,
-    color: "#64748B",
+    color: colors.textSecondary,
     textAlign: "center",
     marginTop: 5,
   },

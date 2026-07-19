@@ -13,6 +13,8 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../context/ThemeContext";
+import { AnimatedPressable } from "../../components/AnimatedPressable";
 
 import {
   CameraView,
@@ -22,6 +24,8 @@ import {
 import * as MediaLibrary from "expo-media-library";
 
 export default function CameraScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   const cameraRef = useRef<CameraView>(null);
 
   // Camera Permission
@@ -176,7 +180,7 @@ export default function CameraScreen() {
         <View style={styles.center}>
           <ActivityIndicator
             size="large"
-            color="#059669"
+            color={colors.primaryLight}
           />
 
           <Text style={styles.loadingText}>
@@ -198,7 +202,7 @@ export default function CameraScreen() {
             <Ionicons
               name="camera-outline"
               size={40}
-              color="#059669"
+              color={colors.primaryLight}
             />
           </View>
 
@@ -211,20 +215,20 @@ export default function CameraScreen() {
             survey photos.
           </Text>
 
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.primaryButton}
             onPress={requestPermission}
           >
             <Ionicons
               name="camera"
               size={20}
-              color="#FFFFFF"
+              color={colors.card}
             />
 
             <Text style={styles.primaryButtonText}>
               Allow Camera
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
         </View>
       </SafeAreaView>
     );
@@ -254,7 +258,7 @@ export default function CameraScreen() {
               <Ionicons
                 name="image-outline"
                 size={26}
-                color="#047857"
+                color={colors.primary}
               />
             </View>
           </View>
@@ -280,7 +284,7 @@ export default function CameraScreen() {
                   <Ionicons
                     name="checkmark-circle"
                     size={19}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
 
                   <Text style={styles.savedText}>
@@ -296,7 +300,7 @@ export default function CameraScreen() {
                 <Ionicons
                   name="time-outline"
                   size={20}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
               </View>
 
@@ -312,23 +316,23 @@ export default function CameraScreen() {
             </View>
 
             {/* Retake Button */}
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.primaryButton}
               onPress={retakePhoto}
             >
               <Ionicons
                 name="camera-reverse-outline"
                 size={20}
-                color="#FFFFFF"
+                color={colors.card}
               />
 
               <Text style={styles.primaryButtonText}>
                 Retake Photo
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
 
             {/* Delete Button */}
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.deleteButton}
               onPress={deletePhoto}
             >
@@ -341,7 +345,7 @@ export default function CameraScreen() {
               <Text style={styles.deleteButtonText}>
                 Delete Preview
               </Text>
-            </TouchableOpacity>
+            </AnimatedPressable>
 
           </ScrollView>
         </View>
@@ -372,7 +376,7 @@ export default function CameraScreen() {
             <Ionicons
               name="camera-outline"
               size={26}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -407,7 +411,7 @@ export default function CameraScreen() {
               <View style={styles.cameraLoader}>
                 <ActivityIndicator
                   size="large"
-                  color="#FFFFFF"
+                  color={colors.card}
                 />
 
                 <Text style={styles.capturingText}>
@@ -423,7 +427,7 @@ export default function CameraScreen() {
               <Ionicons
                 name="images-outline"
                 size={21}
-                color="#059669"
+                color={colors.primaryLight}
               />
             </View>
 
@@ -434,7 +438,7 @@ export default function CameraScreen() {
           </View>
 
           {/* Capture Button */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={[
               styles.captureButton,
               loading &&
@@ -446,7 +450,7 @@ export default function CameraScreen() {
             <Ionicons
               name="camera"
               size={22}
-              color="#FFFFFF"
+              color={colors.card}
             />
 
             <Text style={styles.captureButtonText}>
@@ -454,7 +458,7 @@ export default function CameraScreen() {
                 ? "Capturing..."
                 : "Capture Photo"}
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
 
         </ScrollView>
       </View>
@@ -462,18 +466,18 @@ export default function CameraScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // ----------------------------------
   // Main
   // ----------------------------------
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   content: {
@@ -486,7 +490,7 @@ const styles = StyleSheet.create({
   // Header
   // ----------------------------------
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
@@ -507,7 +511,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -518,7 +522,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -530,12 +534,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
     marginBottom: 18,
   },
@@ -566,7 +570,7 @@ const styles = StyleSheet.create({
   },
 
   capturingText: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 14,
     fontWeight: "600",
     marginTop: 10,
@@ -576,7 +580,7 @@ const styles = StyleSheet.create({
   // Gallery Info
   // ----------------------------------
   galleryInfo: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -603,7 +607,7 @@ const styles = StyleSheet.create({
   galleryInfoText: {
     flex: 1,
 
-    color: "#047857",
+    color: colors.primary,
 
     fontSize: 12,
     lineHeight: 17,
@@ -615,7 +619,7 @@ const styles = StyleSheet.create({
   // Capture Button
   // ----------------------------------
   captureButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
 
     paddingVertical: 15,
 
@@ -634,7 +638,7 @@ const styles = StyleSheet.create({
   },
 
   captureButtonText: {
-    color: "#FFFFFF",
+    color: colors.card,
 
     fontSize: 15,
     fontWeight: "bold",
@@ -646,7 +650,7 @@ const styles = StyleSheet.create({
   // Primary Button
   // ----------------------------------
   primaryButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
 
     paddingVertical: 14,
     paddingHorizontal: 20,
@@ -661,7 +665,7 @@ const styles = StyleSheet.create({
   },
 
   primaryButtonText: {
-    color: "#FFFFFF",
+    color: colors.card,
 
     fontSize: 15,
     fontWeight: "bold",
@@ -703,14 +707,14 @@ const styles = StyleSheet.create({
   // Photo Preview
   // ----------------------------------
   imageCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderRadius: 18,
 
     overflow: "hidden",
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
   },
 
   image: {
@@ -721,7 +725,7 @@ const styles = StyleSheet.create({
   savedBadge: {
     paddingVertical: 12,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     flexDirection: "row",
     justifyContent: "center",
@@ -729,7 +733,7 @@ const styles = StyleSheet.create({
   },
 
   savedText: {
-    color: "#047857",
+    color: colors.primary,
 
     fontSize: 13,
     fontWeight: "600",
@@ -741,10 +745,10 @@ const styles = StyleSheet.create({
   // Photo Info
   // ----------------------------------
   infoCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 12,
 
@@ -761,7 +765,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 10,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -775,7 +779,7 @@ const styles = StyleSheet.create({
 
   infoLabel: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   infoValue: {
@@ -794,7 +798,7 @@ const styles = StyleSheet.create({
   permissionContainer: {
     flex: 1,
 
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     justifyContent: "center",
     alignItems: "center",
@@ -808,7 +812,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 40,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -819,13 +823,13 @@ const styles = StyleSheet.create({
 
     fontWeight: "bold",
 
-    color: "#0F172A",
+    color: colors.text,
 
     marginTop: 18,
   },
 
   permissionText: {
-    color: "#64748B",
+    color: colors.textSecondary,
 
     textAlign: "center",
 
@@ -837,14 +841,14 @@ const styles = StyleSheet.create({
   center: {
     flex: 1,
 
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     justifyContent: "center",
     alignItems: "center",
   },
 
   loadingText: {
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 12,
   },
 });

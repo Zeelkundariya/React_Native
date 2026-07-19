@@ -14,11 +14,15 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../context/ThemeContext";
+import { AnimatedPressable } from "../../components/AnimatedPressable";
 
 import * as Contacts from "expo-contacts";
 import * as Clipboard from "expo-clipboard";
 
 export default function ContactsScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   const [contacts, setContacts] = useState<Contacts.Contact[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -150,7 +154,7 @@ export default function ContactsScreen() {
             <Ionicons
               name="call-outline"
               size={14}
-              color="#64748B"
+              color={colors.textSecondary}
             />
 
             <Text style={styles.phoneNumber}>
@@ -161,7 +165,7 @@ export default function ContactsScreen() {
 
         {/* Copy Button */}
         {phoneNumber && (
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.copyButton}
             onPress={() =>
               copyNumber(phoneNumber)
@@ -170,9 +174,9 @@ export default function ContactsScreen() {
             <Ionicons
               name="copy-outline"
               size={18}
-              color="#059669"
+              color={colors.primaryLight}
             />
-          </TouchableOpacity>
+          </AnimatedPressable>
         )}
       </View>
     );
@@ -187,7 +191,7 @@ export default function ContactsScreen() {
         <View style={styles.center}>
           <ActivityIndicator
             size="large"
-            color="#059669"
+            color={colors.primaryLight}
           />
 
           <Text style={styles.loadingText}>
@@ -221,7 +225,7 @@ export default function ContactsScreen() {
             <Ionicons
               name="people-outline"
               size={26}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -243,27 +247,27 @@ export default function ContactsScreen() {
             <Ionicons
               name="search-outline"
               size={20}
-              color="#94A3B8"
+              color={colors.textMuted}
             />
 
             <TextInput
               style={styles.searchInput}
               placeholder="Search contacts..."
-              placeholderTextColor="#94A3B8"
+              
               value={search}
               onChangeText={setSearch}
             />
 
             {search.length > 0 && (
-              <TouchableOpacity
+              <AnimatedPressable
                 onPress={() => setSearch("")}
               >
                 <Ionicons
                   name="close-circle"
                   size={20}
-                  color="#94A3B8"
+                  color={colors.textMuted}
                 />
-              </TouchableOpacity>
+              </AnimatedPressable>
             )}
           </View>
 
@@ -273,7 +277,7 @@ export default function ContactsScreen() {
               <Ionicons
                 name="people"
                 size={21}
-                color="#059669"
+                color={colors.primaryLight}
               />
             </View>
 
@@ -287,16 +291,16 @@ export default function ContactsScreen() {
               </Text>
             </View>
 
-            <TouchableOpacity
+            <AnimatedPressable
               style={styles.refreshButton}
               onPress={onRefresh}
             >
               <Ionicons
                 name="refresh"
                 size={20}
-                color="#059669"
+                color={colors.primaryLight}
               />
-            </TouchableOpacity>
+            </AnimatedPressable>
           </View>
 
           {/* Section Header */}
@@ -327,8 +331,8 @@ export default function ContactsScreen() {
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={onRefresh}
-                colors={["#059669"]}
-                tintColor="#059669"
+                colors={[colors.primaryLight]}
+                
               />
             }
             ListEmptyComponent={
@@ -337,7 +341,7 @@ export default function ContactsScreen() {
                   <Ionicons
                     name="people-outline"
                     size={35}
-                    color="#059669"
+                    color={colors.primaryLight}
                   />
                 </View>
 
@@ -360,18 +364,18 @@ export default function ContactsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // ----------------------------------
   // Main
   // ----------------------------------
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   content: {
@@ -384,7 +388,7 @@ const styles = StyleSheet.create({
   // Header
   // ----------------------------------
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
 
     paddingHorizontal: 20,
     paddingTop: 18,
@@ -406,7 +410,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -418,7 +422,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 24,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -430,12 +434,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
     marginBottom: 18,
   },
@@ -446,10 +450,10 @@ const styles = StyleSheet.create({
   searchContainer: {
     height: 50,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 12,
 
@@ -464,7 +468,7 @@ const styles = StyleSheet.create({
     height: "100%",
 
     fontSize: 14,
-    color: "#0F172A",
+    color: colors.text,
 
     marginLeft: 9,
   },
@@ -473,7 +477,7 @@ const styles = StyleSheet.create({
   // Summary
   // ----------------------------------
   summaryCard: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -506,13 +510,13 @@ const styles = StyleSheet.create({
 
   summaryLabel: {
     fontSize: 12,
-    color: "#64748B",
+    color: colors.textSecondary,
   },
 
   summaryCount: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#047857",
+    color: colors.primary,
     marginTop: 2,
   },
 
@@ -522,7 +526,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 10,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -543,12 +547,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   resultText: {
     fontSize: 12,
-    color: "#059669",
+    color: colors.primaryLight,
     fontWeight: "600",
   },
 
@@ -560,10 +564,10 @@ const styles = StyleSheet.create({
   },
 
   contactCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 14,
 
@@ -580,7 +584,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 23,
 
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -589,7 +593,7 @@ const styles = StyleSheet.create({
   },
 
   avatarText: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -601,7 +605,7 @@ const styles = StyleSheet.create({
   contactName: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   phoneRow: {
@@ -612,7 +616,7 @@ const styles = StyleSheet.create({
 
   phoneNumber: {
     fontSize: 12,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginLeft: 5,
   },
 
@@ -625,7 +629,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 10,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -649,7 +653,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 33,
 
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     justifyContent: "center",
     alignItems: "center",
@@ -658,13 +662,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginTop: 14,
   },
 
   emptyText: {
     fontSize: 13,
-    color: "#64748B",
+    color: colors.textSecondary,
 
     textAlign: "center",
 
@@ -680,7 +684,7 @@ const styles = StyleSheet.create({
   center: {
     flex: 1,
 
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
 
     justifyContent: "center",
     alignItems: "center",
@@ -688,7 +692,7 @@ const styles = StyleSheet.create({
 
   loadingText: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 12,
   },
 });

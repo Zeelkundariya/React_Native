@@ -1,17 +1,21 @@
+import React, { useMemo } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "../../context/ThemeContext";
+import { AnimatedPressable } from "../../../components/AnimatedPressable";
 
 export default function Dashboard() {
   const router = useRouter();
+  const { colors, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(colors, isDark), [colors, isDark]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -32,14 +36,14 @@ export default function Dashboard() {
             </Text>
           </View>
 
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.profileIcon}
             onPress={() => router.push("/profile")}
           >
             <Text style={styles.profileText}>
               ZK
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
         </View>
 
         {/* Welcome */}
@@ -60,7 +64,7 @@ export default function Dashboard() {
               <Ionicons
                 name="person-outline"
                 size={22}
-                color="#059669"
+                color={colors.primary}
               />
             </View>
 
@@ -82,7 +86,7 @@ export default function Dashboard() {
             <Ionicons
               name="person-outline"
               size={18}
-              color="#64748B"
+              color={colors.textSecondary}
             />
 
             <View style={styles.infoContent}>
@@ -101,7 +105,7 @@ export default function Dashboard() {
             <Ionicons
               name="book-outline"
               size={18}
-              color="#64748B"
+              color={colors.textSecondary}
             />
 
             <View style={styles.infoContent}>
@@ -120,7 +124,7 @@ export default function Dashboard() {
             <Ionicons
               name="school-outline"
               size={18}
-              color="#64748B"
+              color={colors.textSecondary}
             />
 
             <View style={styles.infoContent}>
@@ -147,7 +151,7 @@ export default function Dashboard() {
               <Ionicons
                 name="document-text-outline"
                 size={23}
-                color="#059669"
+                color={colors.primary}
               />
             </View>
 
@@ -195,7 +199,7 @@ export default function Dashboard() {
         <View style={styles.actions}>
 
           {/* New Survey */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.actionCard}
             onPress={() => router.push("/survey")}
           >
@@ -203,7 +207,7 @@ export default function Dashboard() {
               <Ionicons
                 name="add"
                 size={26}
-                color="#059669"
+                color={colors.primary}
               />
             </View>
 
@@ -218,13 +222,13 @@ export default function Dashboard() {
             <Ionicons
               name="arrow-forward"
               size={18}
-              color="#94A3B8"
+              color={colors.textMuted}
               style={styles.arrow}
             />
-          </TouchableOpacity>
+          </AnimatedPressable>
 
           {/* Camera */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.actionCard}
             onPress={() => router.push("/camera")}
           >
@@ -247,13 +251,13 @@ export default function Dashboard() {
             <Ionicons
               name="arrow-forward"
               size={18}
-              color="#94A3B8"
+              color={colors.textMuted}
               style={styles.arrow}
             />
-          </TouchableOpacity>
+          </AnimatedPressable>
 
           {/* Location */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.actionCard}
             onPress={() => router.push("/location")}
           >
@@ -276,13 +280,13 @@ export default function Dashboard() {
             <Ionicons
               name="arrow-forward"
               size={18}
-              color="#94A3B8"
+              color={colors.textMuted}
               style={styles.arrow}
             />
-          </TouchableOpacity>
+          </AnimatedPressable>
 
           {/* Contacts */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.actionCard}
             onPress={() => router.push("/contacts")}
           >
@@ -305,13 +309,13 @@ export default function Dashboard() {
             <Ionicons
               name="arrow-forward"
               size={18}
-              color="#94A3B8"
+              color={colors.textMuted}
               style={styles.arrow}
             />
-          </TouchableOpacity>
+          </AnimatedPressable>
 
           {/* Clipboard */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.actionCard}
             onPress={() => router.push("/clipboard")}
           >
@@ -334,10 +338,10 @@ export default function Dashboard() {
             <Ionicons
               name="arrow-forward"
               size={18}
-              color="#94A3B8"
+              color={colors.textMuted}
               style={styles.arrow}
             />
-          </TouchableOpacity>
+          </AnimatedPressable>
 
         </View>
 
@@ -347,13 +351,13 @@ export default function Dashboard() {
             Recent Surveys
           </Text>
 
-          <TouchableOpacity
+          <AnimatedPressable
             onPress={() => router.push("/history")}
           >
             <Text style={styles.viewAll}>
               View All
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
         </View>
 
         {/* Empty Survey Card */}
@@ -362,7 +366,7 @@ export default function Dashboard() {
             <Ionicons
               name="clipboard-outline"
               size={32}
-              color="#059669"
+              color={colors.primary}
             />
           </View>
 
@@ -374,7 +378,7 @@ export default function Dashboard() {
             Start your first field survey and it will appear here.
           </Text>
 
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.createButton}
             onPress={() => router.push("/survey")}
           >
@@ -387,7 +391,7 @@ export default function Dashboard() {
             <Text style={styles.createButtonText}>
               Create New Survey
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
         </View>
 
       </ScrollView>
@@ -395,15 +399,15 @@ export default function Dashboard() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   scrollContent: {
@@ -412,7 +416,7 @@ const styles = StyleSheet.create({
 
   // Header
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
@@ -424,7 +428,7 @@ const styles = StyleSheet.create({
   },
 
   headerSmall: {
-    color: "#A7F3D0",
+    color: colors.primaryLight,
     fontSize: 11,
     fontWeight: "600",
     letterSpacing: 1,
@@ -441,13 +445,13 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     alignItems: "center",
     justifyContent: "center",
   },
 
   profileText: {
-    color: "#047857",
+    color: colors.primary,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -461,30 +465,30 @@ const styles = StyleSheet.create({
   welcomeTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   welcomeText: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
   },
 
   // Student Card
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     marginTop: 20,
     padding: 18,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.05,
+    shadowOpacity: isDark ? 0.3 : 0.05,
     shadowRadius: 5,
     elevation: 2,
   },
@@ -498,7 +502,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: isDark ? colors.border : colors.primaryHighlight,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -507,18 +511,18 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   cardSubtitle: {
     fontSize: 12,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 2,
   },
 
   divider: {
     height: 1,
-    backgroundColor: "#E2E8F0",
+    backgroundColor: colors.border,
     marginVertical: 15,
   },
 
@@ -535,12 +539,12 @@ const styles = StyleSheet.create({
 
   infoLabel: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   infoValue: {
     fontSize: 14,
-    color: "#334155",
+    color: colors.text,
     fontWeight: "500",
     marginTop: 2,
   },
@@ -549,7 +553,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 19,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginHorizontal: 20,
     marginTop: 28,
     marginBottom: 12,
@@ -567,16 +571,16 @@ const styles = StyleSheet.create({
   quickSectionTitle: {
     fontSize: 19,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   sectionHint: {
     fontSize: 12,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   viewAll: {
-    color: "#059669",
+    color: colors.primary,
     fontSize: 13,
     fontWeight: "600",
   },
@@ -590,18 +594,18 @@ const styles = StyleSheet.create({
 
   statCard: {
     width: "48%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     borderRadius: 15,
     padding: 15,
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
   },
 
   statIconGreen: {
     width: 42,
     height: 42,
     borderRadius: 12,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: isDark ? colors.border : colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -610,7 +614,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 12,
-    backgroundColor: "#FFF7ED",
+    backgroundColor: isDark ? colors.border : "#FFF7ED",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -618,13 +622,13 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 27,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginTop: 10,
   },
 
   statLabel: {
     fontSize: 12,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 2,
   },
 
@@ -638,12 +642,12 @@ const styles = StyleSheet.create({
 
   actionCard: {
     width: "48%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     padding: 15,
     borderRadius: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
     position: "relative",
   },
 
@@ -651,7 +655,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 12,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: isDark ? colors.border : colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -660,7 +664,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 12,
-    backgroundColor: "#F5F3FF",
+    backgroundColor: isDark ? colors.border : "#F5F3FF",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -669,7 +673,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 12,
-    backgroundColor: "#FEF2F2",
+    backgroundColor: isDark ? colors.border : "#FEF2F2",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -678,7 +682,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 12,
-    backgroundColor: "#FFF7ED",
+    backgroundColor: isDark ? colors.border : "#FFF7ED",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -687,7 +691,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 12,
-    backgroundColor: "#EFF6FF",
+    backgroundColor: isDark ? colors.border : "#EFF6FF",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -695,13 +699,13 @@ const styles = StyleSheet.create({
   actionTitle: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginTop: 12,
   },
 
   actionDescription: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 4,
     paddingRight: 15,
   },
@@ -714,12 +718,12 @@ const styles = StyleSheet.create({
 
   // Empty Survey
   emptyCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     padding: 25,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
     alignItems: "center",
   },
 
@@ -727,7 +731,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: isDark ? colors.border : colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -735,20 +739,20 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
     marginTop: 14,
   },
 
   emptyDescription: {
     fontSize: 13,
-    color: "#64748B",
+    color: colors.textSecondary,
     textAlign: "center",
     marginTop: 6,
     lineHeight: 19,
   },
 
   createButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primary,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

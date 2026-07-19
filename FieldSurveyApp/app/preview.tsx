@@ -12,9 +12,13 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme, Colors } from "./context/ThemeContext";
+import { AnimatedPressable } from "../components/AnimatedPressable";
 import { useRouter } from "expo-router";
 
 export default function PreviewScreen() {
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => createStyles(colors, isDark), [colors, isDark]);
   const router = useRouter();
 
   // Sample Survey Data
@@ -76,7 +80,7 @@ export default function PreviewScreen() {
             <Ionicons
               name="document-text-outline"
               size={26}
-              color="#047857"
+              color={colors.primary}
             />
           </View>
         </View>
@@ -103,7 +107,7 @@ export default function PreviewScreen() {
                 <Ionicons
                   name="business-outline"
                   size={22}
-                  color="#059669"
+                  color={colors.primaryLight}
                 />
               </View>
 
@@ -230,7 +234,7 @@ export default function PreviewScreen() {
               <Ionicons
                 name="person-outline"
                 size={18}
-                color="#64748B"
+                color={colors.textSecondary}
               />
 
               <View style={styles.detailContent}>
@@ -248,7 +252,7 @@ export default function PreviewScreen() {
               <Ionicons
                 name="call-outline"
                 size={18}
-                color="#64748B"
+                color={colors.textSecondary}
               />
 
               <View style={styles.detailContent}>
@@ -344,7 +348,7 @@ export default function PreviewScreen() {
             <Ionicons
               name="checkmark-circle"
               size={24}
-              color="#059669"
+              color={colors.primaryLight}
             />
 
             <View style={styles.readyContent}>
@@ -359,36 +363,36 @@ export default function PreviewScreen() {
           </View>
 
           {/* Edit Button */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.editButton}
             onPress={editSurvey}
           >
             <Ionicons
               name="create-outline"
               size={20}
-              color="#047857"
+              color={colors.primary}
             />
 
             <Text style={styles.editButtonText}>
               Edit Survey
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
 
           {/* Submit Button */}
-          <TouchableOpacity
+          <AnimatedPressable
             style={styles.submitButton}
             onPress={submitSurvey}
           >
             <Ionicons
               name="checkmark-circle-outline"
               size={21}
-              color="#FFFFFF"
+              color={colors.card}
             />
 
             <Text style={styles.submitButtonText}>
               Submit Survey
             </Text>
-          </TouchableOpacity>
+          </AnimatedPressable>
 
         </ScrollView>
       </View>
@@ -396,16 +400,16 @@ export default function PreviewScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // Main
   safeArea: {
     flex: 1,
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
   },
 
   content: {
@@ -416,7 +420,7 @@ const styles = StyleSheet.create({
 
   // Header
   header: {
-    backgroundColor: "#047857",
+    backgroundColor: colors.primary,
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
@@ -437,7 +441,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitle: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -448,7 +452,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     justifyContent: "center",
     alignItems: "center",
@@ -458,22 +462,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   subtitle: {
     fontSize: 14,
-    color: "#64748B",
+    color: colors.textSecondary,
     marginTop: 5,
     marginBottom: 18,
   },
 
   // Cards
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.card,
 
     borderWidth: 1,
-    borderColor: "#E2E8F0",
+    borderColor: colors.border,
 
     borderRadius: 16,
 
@@ -498,18 +502,18 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "#0F172A",
+    color: colors.text,
   },
 
   cardSubtitle: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
     marginTop: 2,
   },
 
   divider: {
     height: 1,
-    backgroundColor: "#E2E8F0",
+    backgroundColor: colors.border,
     marginVertical: 14,
   },
 
@@ -518,7 +522,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 11,
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
@@ -571,7 +575,7 @@ const styles = StyleSheet.create({
 
   infoLabel: {
     fontSize: 11,
-    color: "#94A3B8",
+    color: colors.textMuted,
   },
 
   infoValue: {
@@ -631,27 +635,27 @@ const styles = StyleSheet.create({
 
   coordinateBox: {
     width: "48%",
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
     borderRadius: 10,
     padding: 12,
   },
 
   coordinateLabel: {
     fontSize: 10,
-    color: "#94A3B8",
+    color: colors.textMuted,
     fontWeight: "600",
   },
 
   coordinateValue: {
     fontSize: 14,
-    color: "#0F172A",
+    color: colors.text,
     fontWeight: "bold",
     marginTop: 5,
   },
 
   // Notes
   notesBox: {
-    backgroundColor: "#F8FAFC",
+    backgroundColor: colors.background,
     borderRadius: 10,
     padding: 13,
     marginTop: 14,
@@ -665,7 +669,7 @@ const styles = StyleSheet.create({
 
   // Ready Status
   readyCard: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#D1FAE5",
@@ -687,18 +691,18 @@ const styles = StyleSheet.create({
   readyTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#047857",
+    color: colors.primary,
   },
 
   readyText: {
     fontSize: 11,
-    color: "#059669",
+    color: colors.primaryLight,
     marginTop: 2,
   },
 
   // Edit Button
   editButton: {
-    backgroundColor: "#ECFDF5",
+    backgroundColor: colors.primaryHighlight,
 
     borderWidth: 1,
     borderColor: "#A7F3D0",
@@ -714,7 +718,7 @@ const styles = StyleSheet.create({
   },
 
   editButtonText: {
-    color: "#047857",
+    color: colors.primary,
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 7,
@@ -722,7 +726,7 @@ const styles = StyleSheet.create({
 
   // Submit Button
   submitButton: {
-    backgroundColor: "#059669",
+    backgroundColor: colors.primaryLight,
 
     paddingVertical: 15,
     borderRadius: 12,
@@ -735,7 +739,7 @@ const styles = StyleSheet.create({
   },
 
   submitButtonText: {
-    color: "#FFFFFF",
+    color: colors.card,
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 7,
