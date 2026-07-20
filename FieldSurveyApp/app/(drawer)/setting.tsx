@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Switch, TouchableOpacity, Alert, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../context/ThemeContext";
+import { useTheme, Colors } from "../../context/ThemeContext";
 import { AnimatedPressable } from "../../components/AnimatedPressable";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
@@ -213,9 +213,9 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
     alignItems: "center",
   },
   content: {
-    flex: 1,
     paddingHorizontal: 20,
     paddingTop: 22,
+    paddingBottom: 40,
   },
   title: {
     fontSize: 22,
@@ -236,7 +236,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
     marginBottom: 14,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: isDark ? 0.2 : 0.05,
     shadowRadius: 8,
     elevation: 3,
   },
@@ -253,12 +253,12 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   settingLabel: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#334155",
+    color: colors.text,
     marginLeft: 12,
   },
   divider: {
     height: 1,
-    backgroundColor: "#F1F5F9",
+    backgroundColor: colors.border,
     marginVertical: 4,
   },
 });

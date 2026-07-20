@@ -13,7 +13,7 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../context/ThemeContext";
+import { useTheme, Colors } from "../../context/ThemeContext";
 import { AnimatedPressable } from "../../components/AnimatedPressable";
 
 import * as Location from "expo-location";
@@ -389,7 +389,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   headerTitle: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -535,7 +535,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
 
   // Primary Button
   primaryButton: {
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
     marginHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 12,
@@ -545,7 +545,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   primaryButtonText: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 8,

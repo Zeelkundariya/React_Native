@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Animated, Pressable, PressableProps, StyleProp, ViewStyle } from 'react-native';
+import { Animated, Pressable, PressableProps, StyleProp, ViewStyle, Platform } from 'react-native';
 
 interface AnimatedPressableProps extends PressableProps {
   children: React.ReactNode;
@@ -7,13 +7,15 @@ interface AnimatedPressableProps extends PressableProps {
   scaleTo?: number;
 }
 
+const AnimatedPressableComponent = Animated.createAnimatedComponent(Pressable);
+
 export function AnimatedPressable({ children, style, scaleTo = 0.97, onPress, ...props }: AnimatedPressableProps) {
   const scale = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {
     Animated.spring(scale, {
       toValue: scaleTo,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
       speed: 20,
       bounciness: 5,
     }).start();
@@ -22,22 +24,21 @@ export function AnimatedPressable({ children, style, scaleTo = 0.97, onPress, ..
   const handlePressOut = () => {
     Animated.spring(scale, {
       toValue: 1,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
       speed: 20,
       bounciness: 5,
     }).start();
   };
 
   return (
-    <Pressable 
+    <AnimatedPressableComponent 
       onPressIn={handlePressIn} 
       onPressOut={handlePressOut} 
       onPress={onPress}
+      style={[style, { transform: [{ scale }] }]}
       {...props}
     >
-      <Animated.View style={[style, { transform: [{ scale }] }]}>
-        {children}
-      </Animated.View>
-    </Pressable>
+      {children}
+    </AnimatedPressableComponent>
   );
 }

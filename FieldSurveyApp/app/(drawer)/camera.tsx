@@ -13,7 +13,7 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../context/ThemeContext";
+import { useTheme, Colors } from "../../context/ThemeContext";
 import { AnimatedPressable } from "../../components/AnimatedPressable";
 
 import {
@@ -511,7 +511,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   headerTitle: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -570,7 +570,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   capturingText: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 14,
     fontWeight: "600",
     marginTop: 10,
@@ -619,7 +619,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // Capture Button
   // ----------------------------------
   captureButton: {
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
 
     paddingVertical: 15,
 
@@ -638,7 +638,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   captureButtonText: {
-    color: colors.card,
+    color: colors.white,
 
     fontSize: 15,
     fontWeight: "bold",
@@ -650,7 +650,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   // Primary Button
   // ----------------------------------
   primaryButton: {
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
 
     paddingVertical: 14,
     paddingHorizontal: 20,
@@ -665,7 +665,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   primaryButtonText: {
-    color: colors.card,
+    color: colors.white,
 
     fontSize: 15,
     fontWeight: "bold",

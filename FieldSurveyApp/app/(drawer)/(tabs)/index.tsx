@@ -9,7 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../../context/ThemeContext";
+import { useTheme, Colors } from "../../../context/ThemeContext";
 import { AnimatedPressable } from "../../../components/AnimatedPressable";
 
 export default function Dashboard() {
@@ -156,7 +156,7 @@ export default function Dashboard() {
             </View>
 
             <Text style={styles.statNumber}>
-              0
+              3
             </Text>
 
             <Text style={styles.statLabel}>

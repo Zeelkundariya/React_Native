@@ -14,7 +14,7 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../context/ThemeContext";
+import { useTheme, Colors } from "../../context/ThemeContext";
 import { AnimatedPressable } from "../../components/AnimatedPressable";
 
 import * as Contacts from "expo-contacts";

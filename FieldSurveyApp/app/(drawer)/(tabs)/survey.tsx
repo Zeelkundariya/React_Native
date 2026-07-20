@@ -13,7 +13,7 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../../context/ThemeContext";
+import { useTheme, Colors } from "../../../context/ThemeContext";
 import { AnimatedPressable } from "../../../components/AnimatedPressable";
 import { useRouter } from "expo-router";
 
@@ -416,7 +416,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   headerTitle: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 27,
     fontWeight: "bold",
     marginTop: 3,
@@ -657,7 +657,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
 
   // Submit
   submitButton: {
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
 
     paddingVertical: 15,
 
@@ -672,7 +672,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   },
 
   submitText: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 15,
     fontWeight: "bold",
     marginLeft: 8,

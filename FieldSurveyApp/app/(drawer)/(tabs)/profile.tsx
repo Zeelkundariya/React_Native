@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "../../context/ThemeContext";
+import { useTheme, Colors } from "../../../context/ThemeContext";
 import { AnimatedPressable } from "../../../components/AnimatedPressable";
 
 export default function ProfileScreen() {
@@ -34,7 +34,7 @@ export default function ProfileScreen() {
           
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
-              <Text style={styles.statNumber}>0</Text>
+              <Text style={styles.statNumber}>3</Text>
               <Text style={styles.statLabel}>Surveys</Text>
             </View>
             <View style={styles.statDivider} />
@@ -138,7 +138,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.card,
+    color: colors.white,
   },
   profileCard: {
     backgroundColor: colors.card,
@@ -168,7 +168,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
     width: 32,
     height: 32,
     borderRadius: 16,
@@ -262,7 +262,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
     color: "#334155",
   },
   editButton: {
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.primary,
     marginHorizontal: 20,
     marginTop: 24,
     paddingVertical: 16,
@@ -270,7 +270,7 @@ const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
     alignItems: "center",
   },
   editButtonText: {
-    color: colors.card,
+    color: colors.white,
     fontSize: 16,
     fontWeight: "bold",
   },

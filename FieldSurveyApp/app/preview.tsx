@@ -8,11 +8,12 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
+  Platform,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme, Colors } from "./context/ThemeContext";
+import { useTheme, Colors } from "../context/ThemeContext";
 import { AnimatedPressable } from "../components/AnimatedPressable";
 import { useRouter } from "expo-router";
 
@@ -48,16 +49,21 @@ export default function PreviewScreen() {
 
   // Submit Survey
   const submitSurvey = () => {
-    Alert.alert(
-      "Survey Submitted",
-      "Your survey has been submitted successfully.",
-      [
-        {
-          text: "OK",
-          onPress: () => router.push("/(drawer)/(tabs)"),
-        },
-      ]
-    );
+    if (Platform.OS === "web") {
+      window.alert("Your survey has been submitted successfully.");
+      router.push("/(drawer)/(tabs)");
+    } else {
+      Alert.alert(
+        "Survey Submitted",
+        "Your survey has been submitted successfully.",
+        [
+          {
+            text: "OK",
+            onPress: () => router.push("/(drawer)/(tabs)"),
+          },
+        ]
+      );
+    }
   };
 
   return (
