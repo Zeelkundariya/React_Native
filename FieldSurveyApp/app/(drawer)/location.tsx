@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  ScrollView,
-  Linking,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, ScrollView, Linking } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -33,21 +24,16 @@ export default function LocationScreen() {
     try {
       setLoading(true);
 
-      const { status } =
-        await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== "granted") {
-        Alert.alert(
-          "Permission Denied",
-          "Location permission is required"
-        );
+        Alert.alert("Permission Denied", "Location permission is required");
         return;
       }
 
-      const currentLocation =
-        await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.High,
-        });
+      const currentLocation = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High,
+      });
 
       setLatitude(currentLocation.coords.latitude);
       setLongitude(currentLocation.coords.longitude);
@@ -57,10 +43,7 @@ export default function LocationScreen() {
       setTimestamp(new Date().toLocaleString());
     } catch (error) {
       console.log(error);
-      Alert.alert(
-        "Error",
-        "Could not get your current location"
-      );
+      Alert.alert("Error", "Could not get your current location");
     } finally {
       setLoading(false);
     }
@@ -74,89 +57,58 @@ export default function LocationScreen() {
   // Copy Location
   const copyLocation = async () => {
     if (latitude === null || longitude === null) {
-      Alert.alert(
-        "Location Not Available",
-        "Please get your location first"
-      );
+      Alert.alert("Location Not Available", "Please get your location first");
       return;
     }
 
-    const locationText =
-      `Latitude: ${latitude}, Longitude: ${longitude}`;
+    const locationText = `Latitude: ${latitude}, Longitude: ${longitude}`;
 
     await Clipboard.setStringAsync(locationText);
 
-    Alert.alert(
-      "Copied",
-      "Location copied to clipboard"
-    );
+    Alert.alert("Copied", "Location copied to clipboard");
   };
 
   // Open Location in Google Maps
   const openMap = async () => {
     if (latitude === null || longitude === null) {
-      Alert.alert(
-        "Location Not Available",
-        "Please get your location first"
-      );
+      Alert.alert("Location Not Available", "Please get your location first");
       return;
     }
 
-    const url =
-      `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
     await Linking.openURL(url);
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.headerSmall}>
-              SMART FIELD SURVEY
-            </Text>
+            <Text style={styles.headerSmall}>SMART FIELD SURVEY</Text>
 
-            <Text style={styles.headerTitle}>
-              Location
-            </Text>
+            <Text style={styles.headerTitle}>Location</Text>
           </View>
 
           <View style={styles.headerIcon}>
-            <Ionicons
-              name="location"
-              size={26}
-              color={colors.primary}
-            />
+            <Ionicons name="location" size={26} color={colors.primary} />
           </View>
         </View>
 
         {/* Page Introduction */}
         <View style={styles.intro}>
-          <Text style={styles.title}>
-            Current Location
-          </Text>
+          <Text style={styles.title}>Current Location</Text>
 
-          <Text style={styles.subtitle}>
-            View and manage your current GPS location.
-          </Text>
+          <Text style={styles.subtitle}>View and manage your current GPS location.</Text>
         </View>
 
         {/* Loading */}
         {loading ? (
           <View style={styles.loadingCard}>
-            <ActivityIndicator
-              size="large"
-              color={colors.primaryLight}
-            />
+            <ActivityIndicator size="large" color={colors.primaryLight} />
 
-            <Text style={styles.loadingText}>
-              Getting your location...
-            </Text>
+            <Text style={styles.loadingText}>Getting your location...</Text>
           </View>
         ) : (
           <>
@@ -164,21 +116,13 @@ export default function LocationScreen() {
             <View style={styles.locationCard}>
               <View style={styles.cardHeader}>
                 <View style={styles.locationIcon}>
-                  <Ionicons
-                    name="navigate"
-                    size={24}
-                    color={colors.primaryLight}
-                  />
+                  <Ionicons name="navigate" size={24} color={colors.primaryLight} />
                 </View>
 
                 <View>
-                  <Text style={styles.cardTitle}>
-                    GPS Information
-                  </Text>
+                  <Text style={styles.cardTitle}>GPS Information</Text>
 
-                  <Text style={styles.cardSubtitle}>
-                    Your current coordinates
-                  </Text>
+                  <Text style={styles.cardSubtitle}>Your current coordinates</Text>
                 </View>
               </View>
 
@@ -187,165 +131,90 @@ export default function LocationScreen() {
               {/* Latitude */}
               <View style={styles.infoRow}>
                 <View style={styles.smallIcon}>
-                  <Ionicons
-                    name="location-outline"
-                    size={19}
-                    color={colors.primaryLight}
-                  />
+                  <Ionicons name="location-outline" size={19} color={colors.primaryLight} />
                 </View>
 
                 <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>
-                    Latitude
-                  </Text>
+                  <Text style={styles.infoLabel}>Latitude</Text>
 
-                  <Text style={styles.infoValue}>
-                    {latitude !== null
-                      ? latitude.toFixed(6)
-                      : "Not Available"}
-                  </Text>
+                  <Text style={styles.infoValue}>{latitude !== null ? latitude.toFixed(6) : "Not Available"}</Text>
                 </View>
               </View>
 
               {/* Longitude */}
               <View style={styles.infoRow}>
                 <View style={styles.smallIcon}>
-                  <Ionicons
-                    name="compass-outline"
-                    size={19}
-                    color={colors.primaryLight}
-                  />
+                  <Ionicons name="compass-outline" size={19} color={colors.primaryLight} />
                 </View>
 
                 <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>
-                    Longitude
-                  </Text>
+                  <Text style={styles.infoLabel}>Longitude</Text>
 
-                  <Text style={styles.infoValue}>
-                    {longitude !== null
-                      ? longitude.toFixed(6)
-                      : "Not Available"}
-                  </Text>
+                  <Text style={styles.infoValue}>{longitude !== null ? longitude.toFixed(6) : "Not Available"}</Text>
                 </View>
               </View>
 
               {/* Accuracy */}
               <View style={styles.infoRow}>
                 <View style={styles.smallIcon}>
-                  <Ionicons
-                    name="radio-outline"
-                    size={19}
-                    color={colors.primaryLight}
-                  />
+                  <Ionicons name="radio-outline" size={19} color={colors.primaryLight} />
                 </View>
 
                 <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>
-                    Accuracy
-                  </Text>
+                  <Text style={styles.infoLabel}>Accuracy</Text>
 
-                  <Text style={styles.infoValue}>
-                    {accuracy !== null
-                      ? `${accuracy.toFixed(2)} meters`
-                      : "Not Available"}
-                  </Text>
+                  <Text style={styles.infoValue}>{accuracy !== null ? `${accuracy.toFixed(2)} meters` : "Not Available"}</Text>
                 </View>
               </View>
 
               {/* Timestamp - New Feature */}
               <View style={styles.infoRow}>
                 <View style={styles.smallIcon}>
-                  <Ionicons
-                    name="time-outline"
-                    size={19}
-                    color={colors.primaryLight}
-                  />
+                  <Ionicons name="time-outline" size={19} color={colors.primaryLight} />
                 </View>
 
                 <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>
-                    Last Updated
-                  </Text>
+                  <Text style={styles.infoLabel}>Last Updated</Text>
 
-                  <Text style={styles.infoValue}>
-                    {timestamp || "Not Available"}
-                  </Text>
+                  <Text style={styles.infoValue}>{timestamp || "Not Available"}</Text>
                 </View>
               </View>
             </View>
 
             {/* Action Section */}
-            <Text style={styles.sectionTitle}>
-              Location Actions
-            </Text>
+            <Text style={styles.sectionTitle}>Location Actions</Text>
 
             {/* Refresh */}
-            <AnimatedPressable
-              style={styles.primaryButton}
-              onPress={getLocation}
-            >
-              <Ionicons
-                name="refresh"
-                size={20}
-                color={colors.card}
-              />
+            <AnimatedPressable style={styles.primaryButton} onPress={getLocation}>
+              <Ionicons name="refresh" size={20} color={colors.card} />
 
-              <Text style={styles.primaryButtonText}>
-                Refresh Location
-              </Text>
+              <Text style={styles.primaryButtonText}>Refresh Location</Text>
             </AnimatedPressable>
 
             {/* Copy */}
-            <AnimatedPressable
-              style={styles.secondaryButton}
-              onPress={copyLocation}
-            >
-              <Ionicons
-                name="copy-outline"
-                size={20}
-                color={colors.primaryLight}
-              />
+            <AnimatedPressable style={styles.secondaryButton} onPress={copyLocation}>
+              <Ionicons name="copy-outline" size={20} color={colors.primaryLight} />
 
-              <Text style={styles.secondaryButtonText}>
-                Copy Location
-              </Text>
+              <Text style={styles.secondaryButtonText}>Copy Location</Text>
             </AnimatedPressable>
 
             {/* Open Map - New Feature */}
-            <AnimatedPressable
-              style={styles.secondaryButton}
-              onPress={openMap}
-            >
-              <Ionicons
-                name="map-outline"
-                size={20}
-                color={colors.primaryLight}
-              />
+            <AnimatedPressable style={styles.secondaryButton} onPress={openMap}>
+              <Ionicons name="map-outline" size={20} color={colors.primaryLight} />
 
-              <Text style={styles.secondaryButtonText}>
-                Open in Google Maps
-              </Text>
+              <Text style={styles.secondaryButtonText}>Open in Google Maps</Text>
             </AnimatedPressable>
 
             {/* Location Status */}
             <View style={styles.statusCard}>
               <View style={styles.statusIcon}>
-                <Ionicons
-                  name="checkmark-circle"
-                  size={24}
-                  color={colors.primaryLight}
-                />
+                <Ionicons name="checkmark-circle" size={24} color={colors.primaryLight} />
               </View>
 
               <View style={styles.statusContent}>
-                <Text style={styles.statusTitle}>
-                  Location Ready
-                </Text>
+                <Text style={styles.statusTitle}>Location Ready</Text>
 
-                <Text style={styles.statusText}>
-                  Your GPS location can be added to the field survey.
-                </Text>
+                <Text style={styles.statusText}>Your GPS location can be added to the field survey.</Text>
               </View>
             </View>
           </>
@@ -357,258 +226,259 @@ export default function LocationScreen() {
   );
 }
 
-const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.primary,
-  },
-
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-
-  // Header
-  header: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: 20,
-    paddingTop: 18,
-    paddingBottom: 28,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-  },
-
-  headerSmall: {
-    color: "#A7F3D0",
-    fontSize: 11,
-    fontWeight: "600",
-    letterSpacing: 1,
-  },
-
-  headerTitle: {
-    color: colors.white,
-    fontSize: 27,
-    fontWeight: "bold",
-    marginTop: 3,
-  },
-
-  headerIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: colors.card,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  // Introduction
-  intro: {
-    marginHorizontal: 20,
-    marginTop: 24,
-  },
-
-  title: {
-    fontSize: 23,
-    fontWeight: "bold",
-    color: colors.text,
-  },
-
-  subtitle: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginTop: 5,
-  },
-
-  // Loading
-  loadingCard: {
-    backgroundColor: colors.card,
-    margin: 20,
-    padding: 40,
-    borderRadius: 16,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-
-  loadingText: {
-    color: colors.textSecondary,
-    marginTop: 12,
-  },
-
-  // Location Card
-  locationCard: {
-    backgroundColor: colors.card,
-    marginHorizontal: 20,
-    marginTop: 20,
-    padding: 18,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const createStyles = (colors: Colors, isDark: boolean) =>
+  StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: colors.primary,
     },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
-  },
 
-  cardHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
 
-  locationIcon: {
-    width: 45,
-    height: 45,
-    borderRadius: 12,
-    backgroundColor: colors.primaryHighlight,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 12,
-  },
+    // Header
+    header: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: 20,
+      paddingTop: 18,
+      paddingBottom: 28,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderBottomLeftRadius: 24,
+      borderBottomRightRadius: 24,
+    },
 
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: colors.text,
-  },
+    headerSmall: {
+      color: "#A7F3D0",
+      fontSize: 11,
+      fontWeight: "600",
+      letterSpacing: 1,
+    },
 
-  cardSubtitle: {
-    fontSize: 12,
-    color: colors.textMuted,
-    marginTop: 2,
-  },
+    headerTitle: {
+      color: colors.white,
+      fontSize: 27,
+      fontWeight: "bold",
+      marginTop: 3,
+    },
 
-  divider: {
-    height: 1,
-    backgroundColor: colors.border,
-    marginVertical: 16,
-  },
+    headerIcon: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: colors.card,
+      justifyContent: "center",
+      alignItems: "center",
+    },
 
-  // Location Information
-  infoRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 15,
-  },
+    // Introduction
+    intro: {
+      marginHorizontal: 20,
+      marginTop: 24,
+    },
 
-  smallIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
-    backgroundColor: colors.primaryHighlight,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    title: {
+      fontSize: 23,
+      fontWeight: "bold",
+      color: colors.text,
+    },
 
-  infoContent: {
-    flex: 1,
-    marginLeft: 12,
-  },
+    subtitle: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginTop: 5,
+    },
 
-  infoLabel: {
-    fontSize: 11,
-    color: colors.textMuted,
-  },
+    // Loading
+    loadingCard: {
+      backgroundColor: colors.card,
+      margin: 20,
+      padding: 40,
+      borderRadius: 16,
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
 
-  infoValue: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#334155",
-    marginTop: 2,
-  },
+    loadingText: {
+      color: colors.textSecondary,
+      marginTop: 12,
+    },
 
-  // Section
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: colors.text,
-    marginHorizontal: 20,
-    marginTop: 25,
-    marginBottom: 12,
-  },
+    // Location Card
+    locationCard: {
+      backgroundColor: colors.card,
+      marginHorizontal: 20,
+      marginTop: 20,
+      padding: 18,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+      shadowColor: "#000000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.05,
+      shadowRadius: 5,
+      elevation: 2,
+    },
 
-  // Primary Button
-  primaryButton: {
-    backgroundColor: colors.primary,
-    marginHorizontal: 20,
-    paddingVertical: 14,
-    borderRadius: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    cardHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
 
-  primaryButtonText: {
-    color: colors.white,
-    fontSize: 15,
-    fontWeight: "bold",
-    marginLeft: 8,
-  },
+    locationIcon: {
+      width: 45,
+      height: 45,
+      borderRadius: 12,
+      backgroundColor: colors.primaryHighlight,
+      justifyContent: "center",
+      alignItems: "center",
+      marginRight: 12,
+    },
 
-  // Secondary Buttons
-  secondaryButton: {
-    backgroundColor: colors.card,
-    marginHorizontal: 20,
-    marginTop: 10,
-    paddingVertical: 14,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#D1FAE5",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    cardTitle: {
+      fontSize: 17,
+      fontWeight: "bold",
+      color: colors.text,
+    },
 
-  secondaryButtonText: {
-    color: colors.primary,
-    fontSize: 15,
-    fontWeight: "600",
-    marginLeft: 8,
-  },
+    cardSubtitle: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginTop: 2,
+    },
 
-  // Status
-  statusCard: {
-    backgroundColor: colors.primaryHighlight,
-    marginHorizontal: 20,
-    marginTop: 20,
-    padding: 15,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "#D1FAE5",
-    flexDirection: "row",
-    alignItems: "center",
-  },
+    divider: {
+      height: 1,
+      backgroundColor: colors.border,
+      marginVertical: 16,
+    },
 
-  statusIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: "#D1FAE5",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    // Location Information
+    infoRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 15,
+    },
 
-  statusContent: {
-    flex: 1,
-    marginLeft: 12,
-  },
+    smallIcon: {
+      width: 38,
+      height: 38,
+      borderRadius: 10,
+      backgroundColor: colors.primaryHighlight,
+      justifyContent: "center",
+      alignItems: "center",
+    },
 
-  statusTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: colors.primary,
-  },
+    infoContent: {
+      flex: 1,
+      marginLeft: 12,
+    },
 
-  statusText: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 3,
-    lineHeight: 17,
-  },
-});
+    infoLabel: {
+      fontSize: 11,
+      color: colors.textMuted,
+    },
+
+    infoValue: {
+      fontSize: 14,
+      fontWeight: "600",
+      color: "#334155",
+      marginTop: 2,
+    },
+
+    // Section
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: colors.text,
+      marginHorizontal: 20,
+      marginTop: 25,
+      marginBottom: 12,
+    },
+
+    // Primary Button
+    primaryButton: {
+      backgroundColor: colors.primary,
+      marginHorizontal: 20,
+      paddingVertical: 14,
+      borderRadius: 12,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+
+    primaryButtonText: {
+      color: colors.white,
+      fontSize: 15,
+      fontWeight: "bold",
+      marginLeft: 8,
+    },
+
+    // Secondary Buttons
+    secondaryButton: {
+      backgroundColor: colors.card,
+      marginHorizontal: 20,
+      marginTop: 10,
+      paddingVertical: 14,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: "#D1FAE5",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+
+    secondaryButtonText: {
+      color: colors.primary,
+      fontSize: 15,
+      fontWeight: "600",
+      marginLeft: 8,
+    },
+
+    // Status
+    statusCard: {
+      backgroundColor: colors.primaryHighlight,
+      marginHorizontal: 20,
+      marginTop: 20,
+      padding: 15,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: "#D1FAE5",
+      flexDirection: "row",
+      alignItems: "center",
+    },
+
+    statusIcon: {
+      width: 42,
+      height: 42,
+      borderRadius: 21,
+      backgroundColor: "#D1FAE5",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
+    statusContent: {
+      flex: 1,
+      marginLeft: 12,
+    },
+
+    statusTitle: {
+      fontSize: 14,
+      fontWeight: "bold",
+      color: colors.primary,
+    },
+
+    statusText: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginTop: 3,
+      lineHeight: 17,
+    },
+  });

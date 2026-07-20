@@ -43,13 +43,7 @@ export default function DrawerLayout() {
           title: "Dashboard",
           drawerLabel: "Dashboard",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="home-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="home-outline" size={size} color={color} />,
         }}
       />
 
@@ -60,13 +54,7 @@ export default function DrawerLayout() {
           title: "Survey",
           drawerLabel: "Survey",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="document-text-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="document-text-outline" size={size} color={color} />,
         }}
       />
 
@@ -77,13 +65,7 @@ export default function DrawerLayout() {
           title: "Camera",
           drawerLabel: "Camera",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="camera-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="camera-outline" size={size} color={color} />,
         }}
       />
 
@@ -94,13 +76,7 @@ export default function DrawerLayout() {
           title: "Contacts",
           drawerLabel: "Contacts",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="people-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="people-outline" size={size} color={color} />,
         }}
       />
 
@@ -111,13 +87,7 @@ export default function DrawerLayout() {
           title: "Location",
           drawerLabel: "Location",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="location-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="location-outline" size={size} color={color} />,
         }}
       />
 
@@ -128,13 +98,7 @@ export default function DrawerLayout() {
           title: "Clipboard",
           drawerLabel: "Clipboard",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="clipboard-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="clipboard-outline" size={size} color={color} />,
         }}
       />
 
@@ -145,13 +109,7 @@ export default function DrawerLayout() {
           title: "Settings",
           drawerLabel: "Settings",
 
-          drawerIcon: ({ color, size }) => (
-            <Ionicons
-              name="settings-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: ({ color, size }) => <Ionicons name="settings-outline" size={size} color={color} />,
         }}
       />
     </Drawer>

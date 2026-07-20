@@ -30,11 +30,11 @@ export const lightColors: Colors = {
 
 export const darkColors: Colors = {
   background: "#0F172A", // Deep Slate 900
-  card: "#1E293B",       // Slate 800
-  text: "#F8FAFC",       // Slate 50
+  card: "#1E293B", // Slate 800
+  text: "#F8FAFC", // Slate 50
   textSecondary: "#94A3B8", // Slate 400
-  textMuted: "#64748B",     // Slate 500
-  border: "#334155",        // Slate 700
+  textMuted: "#64748B", // Slate 500
+  border: "#334155", // Slate 700
   primary: "#047857",
   primaryLight: "#059669",
   primaryHighlight: "#022C22",
@@ -59,11 +59,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const colors = isDark ? darkColors : lightColors;
 
-  return (
-    <ThemeContext.Provider value={{ isDark, colors, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ isDark, colors, toggleTheme }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

@@ -20,17 +20,25 @@ export default function SettingsScreen() {
   const handleLogout = () => {
     Alert.alert("Log Out", "Are you sure you want to log out of your account?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Log Out", style: "destructive", onPress: () => Alert.alert("Logged Out", "You have been logged out successfully.") }
+      {
+        text: "Log Out",
+        style: "destructive",
+        onPress: () => Alert.alert("Logged Out", "You have been logged out successfully."),
+      },
     ]);
   };
 
   const handleClearData = () => {
     Alert.alert("Clear Data", "This will remove all saved offline surveys and clipboard data. Proceed?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Clear", style: "destructive", onPress: async () => {
+      {
+        text: "Clear",
+        style: "destructive",
+        onPress: async () => {
           await Clipboard.setStringAsync("");
           Alert.alert("Data Cleared", "All offline data and clipboard has been removed.");
-      }}
+        },
+      },
     ]);
   };
 
@@ -88,7 +96,7 @@ export default function SettingsScreen() {
                 thumbColor={isDark ? colors.primary : colors.background}
               />
             </View>
-            
+
             <View style={styles.divider} />
 
             <View style={styles.settingRow}>
@@ -164,7 +172,7 @@ export default function SettingsScreen() {
               </View>
             </AnimatedPressable>
           </View>
-          
+
           <View style={{ height: 40 }} />
         </ScrollView>
       </View>
@@ -172,93 +180,94 @@ export default function SettingsScreen() {
   );
 }
 
-const createStyles = (colors: Colors, isDark: boolean) => StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.primary,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: 20,
-    paddingTop: 18,
-    paddingBottom: 28,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-  },
-  headerSmall: {
-    color: "#A7F3D0",
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 1,
-    marginBottom: 4,
-  },
-  headerTitle: {
-    color: colors.card,
-    fontSize: 28,
-    fontWeight: "bold",
-  },
-  headerIcon: {
-    backgroundColor: colors.primaryHighlight,
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content: {
-    paddingHorizontal: 20,
-    paddingTop: 22,
-    paddingBottom: 40,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: colors.text,
-    marginBottom: 6,
-    marginTop: 10,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  card: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 14,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: isDark ? 0.2 : 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  settingRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
-  },
-  settingInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  settingLabel: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: colors.text,
-    marginLeft: 12,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: colors.border,
-    marginVertical: 4,
-  },
-});
+const createStyles = (colors: Colors, isDark: boolean) =>
+  StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: colors.primary,
+    },
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: 20,
+      paddingTop: 18,
+      paddingBottom: 28,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderBottomLeftRadius: 24,
+      borderBottomRightRadius: 24,
+    },
+    headerSmall: {
+      color: "#A7F3D0",
+      fontSize: 12,
+      fontWeight: "700",
+      letterSpacing: 1,
+      marginBottom: 4,
+    },
+    headerTitle: {
+      color: colors.card,
+      fontSize: 28,
+      fontWeight: "bold",
+    },
+    headerIcon: {
+      backgroundColor: colors.primaryHighlight,
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      paddingHorizontal: 20,
+      paddingTop: 22,
+      paddingBottom: 40,
+    },
+    title: {
+      fontSize: 22,
+      fontWeight: "bold",
+      color: colors.text,
+      marginBottom: 6,
+      marginTop: 10,
+    },
+    subtitle: {
+      fontSize: 15,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    card: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 14,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: isDark ? 0.2 : 0.05,
+      shadowRadius: 8,
+      elevation: 3,
+    },
+    settingRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingVertical: 12,
+    },
+    settingInfo: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    settingLabel: {
+      fontSize: 16,
+      fontWeight: "500",
+      color: colors.text,
+      marginLeft: 12,
+    },
+    divider: {
+      height: 1,
+      backgroundColor: colors.border,
+      marginVertical: 4,
+    },
+  });

@@ -33,13 +33,7 @@ export default function TabLayout() {
         options={{
           title: "Dashboard",
 
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="home-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={size} color={color} />,
         }}
       />
 
@@ -49,13 +43,7 @@ export default function TabLayout() {
         options={{
           title: "New Survey",
 
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="add-circle-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={size} color={color} />,
         }}
       />
 
@@ -65,13 +53,7 @@ export default function TabLayout() {
         options={{
           title: "History",
 
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="time-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="time-outline" size={size} color={color} />,
         }}
       />
 
@@ -81,13 +63,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
 
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="person-outline"
-              size={size}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
         }}
       />
     </Tabs>
