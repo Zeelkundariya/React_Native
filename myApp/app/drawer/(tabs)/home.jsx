@@ -1,54 +1,52 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { Button } from "@react-navigation/elements";
+import * as SecureStore from "expo-secure-store";
+import { router } from "expo-router";
 
-// Custom Component
-const Button = ({ title, onPress }) => {
-  return (
-    <View style={styles.button}>
-      <Text style={styles.buttonText}>{title}</Text>
-    </View>
-  );
-};
+const Home = () => {
+  useEffect(() => {
+    checkLogin();
+  }, []);
 
-const App = () => {
+  const checkLogin = async () => {
+    const token = await SecureStore.getItemAsync("India");
+
+    if (!token) {
+      router.replace("/login");
+    }
+  };
+
+  const handleLogout = async () => {
+    await SecureStore.deleteItemAsync("India");
+
+    router.replace("/login");
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Welcome</Text>
-      
-      {/* Reusing the same Button component */}
-      <Button title="Login" onPress={() => alert('Login Pressed')} />
-      <Button title="Sign Up" onPress={() => alert('Sign Up Pressed')} />
-      <Button title="Forgot Password?" onPress={() => alert('Forgot Password')} />
+      <Text style={styles.title}>Home Page Screen</Text>
+
+      <Button title="Logout" onPress={handleLogout} />
     </View>
   );
 };
+
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 20,
   },
-  heading: {
+
+  title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 40,
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 14,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    marginVertical: 8,
-    width: '80%',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 25,
   },
 });
-
-export default App;
