@@ -39,6 +39,7 @@ const Notification = ()=> {
             },
             trigger:{
                 type:Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                TIME_INTERVAL,
                 seconds:Number(second)
             }
         })
@@ -47,6 +48,13 @@ const Notification = ()=> {
         alert("Notification Scheduled")
         setTitle("")
         setSecond("")
+        loadAllNotification()
+    }
+
+    const loadAllNotification = async () => {
+        const data = await Notifications.getAllScheduledNotificationsAsync()
+
+        setNotification(data)
     }
 
     const handleClearAll = async ()=>{
