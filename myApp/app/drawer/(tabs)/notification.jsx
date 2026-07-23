@@ -44,21 +44,16 @@ const Notification = ()=> {
         })
 
         setNotification([...notification, title])
-
         alert("Notification Scheduled")
-
         setTitle("")
         setSecond("")
     }
 
     const handleClearAll = async ()=>{
         await Notifications.cancelAllScheduledNotificationsAsync()
-
         setNotification([])
-
         alert("All Notifications Cleared")
     }
-
     useEffect(()=>{
 
         getPermission()
