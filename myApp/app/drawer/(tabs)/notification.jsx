@@ -39,19 +39,20 @@ const Notification = ()=> {
             },
             trigger:{
                 type:Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-                TIME_INTERVAL,
-                seconds:Number(second)
+                seconds:Number(second),
+                repeats:false
             }
         })
 
-        setNotification([...notification, title])
         alert("Notification Scheduled")
+
         setTitle("")
         setSecond("")
+
         loadAllNotification()
     }
 
-    const loadAllNotification = async () => {
+    const loadAllNotification = async ()=> {
         const data = await Notifications.getAllScheduledNotificationsAsync()
 
         setNotification(data)
@@ -59,12 +60,17 @@ const Notification = ()=> {
 
     const handleClearAll = async ()=>{
         await Notifications.cancelAllScheduledNotificationsAsync()
+
         setNotification([])
+
         alert("All Notifications Cleared")
     }
+
     useEffect(()=>{
 
         getPermission()
+        loadAllNotification()
+
     },[])
 
     return(
@@ -116,6 +122,10 @@ const Notification = ()=> {
                         Clear Notifications
                     </Text>
                 </TouchableOpacity>
+
+                <Text style={styles.notificationText}>
+                    Scheduled Notifications: {notification.length}
+                </Text>
 
             </View>
 
@@ -210,5 +220,12 @@ const styles = StyleSheet.create({
         color:"#e53935",
         fontSize:16,
         fontWeight:"bold"
+    },
+
+    notificationText:{
+        textAlign:"center",
+        fontSize:14,
+        color:"#666",
+        marginTop:20
     }
 })
