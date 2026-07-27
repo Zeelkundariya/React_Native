@@ -16,7 +16,7 @@ export default function CameraScreen(){
     return(
         <View style={style.container}>
             <Text> Camera Demo Start</Text>
-            <CameraView style={style.camera} facing="front" ref={cameraRef}/>
+            <CameraView style={style.camera} facing="back" ref={cameraRef}/>
         </View>
     );
 }
