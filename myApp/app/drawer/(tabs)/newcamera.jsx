@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import {Text, StyleSheet, View, Button} from "react-native";
-import {CameraView, useCameraPermission} from "expo-camera"
+import {CameraView, useCameraPermissions} from "expo-camera"
 
 export default function CameraScreen(){
-    const [permission, requestPermission] = useCameraPermission();
+    const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef(null);
 
     if(!permission?.granted){
@@ -13,6 +13,7 @@ export default function CameraScreen(){
             </View>
         );
     }
+
     return(
         <View style={style.container}>
             <Text> Camera Demo Start</Text>
