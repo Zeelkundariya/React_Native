@@ -58,9 +58,9 @@ export default function CameraScreen(){
 
             <Button title="Click Picture" onPress={handleClickPicture}/>
 
-            {/* {photo && (
+            {photo && (
                 <Image source={{uri:photo}} style={{height:200, width:200}}/>
-            )} */}
+            )}
         </View>
     );
 }
