@@ -1,117 +1,128 @@
 import { useRef, useState } from "react";
-import {Text, StyleSheet, View, Button, TouchableOpacity, Image} from "react-native";
-import {CameraView, useCameraPermissions} from "expo-camera";
+import { Text, StyleSheet, View, Button, TouchableOpacity, Image } from "react-native";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import Slider from "@react-native-community/slider";
 
-export default function CameraScreen(){
+export default function CameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef(null);
     const [zoom, setZoom] = useState(0);
-    const [flash, setflash] = useState(0)
-    const [photo , setPhoto] = useState(null)
+    const [flash, setflash] = useState(0);
+    const [photo, setPhoto] = useState(null)
     const [facing, setFacing] = useState("back");
 
     const changeCamera = () => {
-        if(facing === "back"){
+        if (facing === "back") {
             setFacing("front");
-        }else{
+        } else {
             setFacing("back");
         }
     }
 
-    if(!permission?.granted){
-        return(
+
+    if (!permission?.granted) {
+        return (
             <View>
-                <Button title="Grant Permission" onPress={requestPermission}/>
+                <Button title="Grant Permission" onPress={requestPermission} />
             </View>
         );
     }
 
 
-    const handleClickPicture = async() => {
+    const handleClickPicture = async () => {
         const result = await cameraRef?.current?.takePictureAsync();
         console.log(result);
 
-        if(result){
+        if (result) {
             setPhoto(result.uri)
         }
 
 
     }
-    return(
+    return (
         <View style={style.container}>
             <Text style={style.title}> Camera Demo Start</Text>
 
-            <CameraView 
-                style={style.camera} facing={facing}  ref={cameraRef} zoom={zoom} flash="on" />
+            <CameraView
+                style={style.camera} facing={facing} ref={cameraRef} zoom={zoom} flash="off" mirror={true} />
 
             <Text style={style.zoomText}>
                 Zoom: {Math.round(zoom * 100)}%
             </Text>
 
             <Slider
-                style={style.slider} minimumValue={0}  maximumValue={1} value={zoom} onValueChange={setZoom} />
+                style={style.slider} minimumValue={0} maximumValue={1} value={zoom} onValueChange={setZoom} />
 
             <TouchableOpacity style={style.button} onPress={changeCamera}>
                 <Text style={style.buttonText}>Switch Camera</Text> </TouchableOpacity>
 
 
-            <Button title="Click Picture" onPress={handleClickPicture}/>
+            <Button title="Click Picture" onPress={handleClickPicture} />
 
             {photo && (
-                <Image source={{uri:photo}} style={{height:200, width:200}}/>
-            )}
+                <Image source={{ uri: photo }} style={style.photo} />)}
         </View>
     );
 }
 
 const style = StyleSheet.create({
-    container:{
-        flex:1,
-        padding:20,
-        backgroundColor:"white"
+    container: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
+        backgroundColor: "white"
     },
 
-    title:{
-        fontSize:20,
-        fontWeight:"bold",
-        textAlign:"center"
+    title: {
+        fontSize: 22,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: 15
     },
 
-    camera:{
-        width:"100%",
-        height:400,
-        marginTop:20
+    camera: {
+        width: "100%",
+        height: 350,
+        borderRadius: 15,
+        marginBottom: 15
     },
 
-    zoomText:{
-        fontSize:18,
-        textAlign:"center",
-        marginTop:15
+    zoomText: {
+        fontSize: 16,
+        textAlign: "center",
+        marginBottom: 5
     },
 
-    slider:{
-        width:"100%",
-        height:40
+    slider: {
+        width: "100%",
+        height: 40,
+        marginBottom: 10
     },
 
-    button:{
-        width:"100%",
-        height:50,
-        backgroundColor:"black",
-        justifyContent:"center",
-        alignItems:"center",
-        borderRadius:10,
-        marginTop:10
+    button: {
+        width: "100%",
+        height: 50,
+        backgroundColor: "black",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        marginBottom: 15
     },
 
-    buttonText:{
-        color:"white",
-        fontSize:16,
-        fontWeight:"bold"
+    buttonText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold"
+    },
+
+    photo: {
+        width: "100%",
+        height: 200,
+        marginTop: 15,
+        borderRadius: 10
     }
 })
-
 
 // import { useRef, useState } from "react";
 // import {StyleSheet, Text, Button} from "react-native"
