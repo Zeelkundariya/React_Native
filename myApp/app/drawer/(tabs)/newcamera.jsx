@@ -34,7 +34,9 @@ export default function CameraScreen() {
     }
 
 
-    const Ending
+    const EndingRecording = async() =>{
+        
+    }
 
     const handleClickPicture = async () => {
         const result = await cameraRef?.current?.takePictureAsync();
