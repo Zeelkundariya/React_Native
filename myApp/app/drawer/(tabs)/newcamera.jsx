@@ -5,6 +5,7 @@ import Slider from "@react-native-community/slider";
 
 export default function CameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
+    const [micPermission, requestMicPermission] = useCameraPermissions();
     const cameraRef = useRef(null);
     const [zoom, setZoom] = useState(0);
     const [flash, setflash] = useState(0);
@@ -35,7 +36,7 @@ export default function CameraScreen() {
 
 
     const EndingRecording = async() =>{
-        
+
     }
 
     const handleClickPicture = async () => {
