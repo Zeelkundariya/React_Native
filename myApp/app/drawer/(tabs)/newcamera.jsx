@@ -266,7 +266,7 @@ export default function CameraScreen(){
         <View style={style.container}>
             <CameraView style={style.camera} ref={videoRef} mode="video"/>
 
-                <Button title="Start Recording" onPress={handleStartRecording} disabled={recording}/>
+                <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} isMuted="true"/>
 
                 <Button title="End Recording" onPress={handleEndingRecording} disabled={!recording}/>
 
