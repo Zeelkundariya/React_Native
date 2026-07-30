@@ -284,12 +284,31 @@ export default function CameraScreen(){
 const style = StyleSheet.create({
     container:{
         flex:1,
+        padding:20,
+        backgroundColor:"white",
     },
+
     camera:{
-        flex:1,
+        width:"100%",
+        height:400,
+        marginBottom:20,
+        borderRadius:10,
     },
+
     video:{
-        height:300,
-        width:"100%"
+        width:"100%",
+        height:250,
+        marginTop:20,
+    },
+
+    buttonContainer:{
+        marginBottom:10,
+    },
+
+    recordingText:{
+        fontSize:18,
+        textAlign:"center",
+        marginTop:15,
+        fontWeight:"bold",
     }
-})
+});
