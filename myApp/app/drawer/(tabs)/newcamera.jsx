@@ -1,16 +1,20 @@
 import { useRef, useState } from "react";
 import { Text, StyleSheet, View, Button, TouchableOpacity, Image } from "react-native";
-import { CameraView, useCameraPermissions } from "expo-camera";
+import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
 import Slider from "@react-native-community/slider";
 
 export default function CameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
-    const [micPermission, requestMicPermission] = useCameraPermissions();
+    const [micPermission, requestMicPermission] = useMicrophonePermissions();
+
     const cameraRef = useRef(null);
+
     const [zoom, setZoom] = useState(0);
     const [flash, setflash] = useState(0);
-    const [photo, setPhoto] = useState(null)
+    const [photo, setPhoto] = useState(null);
+    const [video, setVideo] = useState(null);
     const [facing, setFacing] = useState("back");
+    const [recording, setRecording] = useState(false);
 
     const changeCamera = () => {
         if (facing === "back") {
@@ -20,60 +24,113 @@ export default function CameraScreen() {
         }
     }
 
-
     if (!permission?.granted) {
         return (
             <View>
-                <Button title="Grant Permission" onPress={requestPermission} />
+                <Button title="Grant Camera Permission" onPress={requestPermission} />
             </View>
         );
     }
 
-
-    const StartRecording= async()=> {
-
+    if (!micPermission?.granted) {
+        return (
+            <View>
+                <Button title="Grant Microphone Permission" onPress={requestMicPermission} />
+            </View>
+        );
     }
 
+    const handleStartRecording = async () => {
+        try {
+            setRecording(true);
 
-    const EndingRecording = async() =>{
+            const result = await cameraRef.current?.recordAsync();
 
+            console.log(result);
+
+            if (result) {
+                setVideo(result.uri);
+            }
+
+            setRecording(false);
+
+        } catch (error) {
+            console.log(error);
+            setRecording(false);
+        }
+    }
+
+    const handleEndingRecording = () => {
+        cameraRef.current?.stopRecording();
     }
 
     const handleClickPicture = async () => {
         const result = await cameraRef?.current?.takePictureAsync();
+
         console.log(result);
 
-        if (result){
-            setPhoto(result.uri)
+        if (result) {
+            setPhoto(result.uri);
         }
     }
+
     return (
         <View style={style.container}>
-            <Text style={style.title}> Camera Demo Start</Text>
+
+            <Text style={style.title}>Camera Demo Start</Text>
 
             <CameraView
-                style={style.camera} facing={facing} ref={cameraRef} zoom={zoom} flash="off" mirror={true} />
+                style={style.camera}
+                facing={facing}
+                ref={cameraRef}
+                zoom={zoom}
+                flash="off"
+                mirror={true}
+                mode="video"
+            />
 
             <Text style={style.zoomText}>
                 Zoom: {Math.round(zoom * 100)}%
             </Text>
 
             <Slider
-                style={style.slider} minimumValue={0} maximumValue={1} value={zoom} onValueChange={setZoom} />
+                style={style.slider}
+                minimumValue={0}
+                maximumValue={1}
+                value={zoom}
+                onValueChange={setZoom}
+            />
 
             <TouchableOpacity style={style.button} onPress={changeCamera}>
-                <Text style={style.buttonText}>Switch Camera</Text> </TouchableOpacity>
-
+                <Text style={style.buttonText}>Switch Camera</Text>
+            </TouchableOpacity>
 
             <Button title="Click Picture" onPress={handleClickPicture} />
 
             {photo && (
-                <Image source={{ uri: photo }} style={style.photo} />)}
+                <Image source={{ uri: photo }} style={style.photo} />
+            )}
 
+            <Button
+                title="Start Recording"
+                onPress={handleStartRecording}
+                disabled={recording}
+            />
 
-                <Button title="Start Recording" onPress={handleStartRecording}/>
+            <Button
+                title="Stop Recording"
+                onPress={handleEndingRecording}
+                disabled={!recording}
+            />
 
-                <Button title="Ending Recording" onPress={handleEndingRecording}/>
+            {recording && (
+                <Text style={style.recordingText}>Recording...</Text>
+            )}
+
+            {video && (
+                <Text>Video Saved: {video}</Text>
+            )}
+
         </View>
     );
 }
@@ -134,99 +191,12 @@ const style = StyleSheet.create({
         height: 200,
         marginTop: 15,
         borderRadius: 10
+    },
+
+    recordingText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginTop: 10
     }
 })
-
-
-
-
-
-// import { Text, StyleSheet, Button, View, Image, ScrollView } from "react-native"
-// import { CameraView, useCameraPermissions } from "expo-camera"
-// import { useRef, useState } from "react"
-// import Slider from "@react-native-community/slider";
-
-// export default function CameraScreen() {
-//     const cameraRef = useRef(null);
-//     const [permission, requestPermission] = useCameraPermissions();
-//     const [zoom, setZoom] = useState(0);
-//     const [photo, setPhoto] = useState(null);
-
-//     const handleClickPicture = async()=>{
-//         const result = await cameraRef?.current?.takePictureAsync();
-//         console.log(result);
-
-//         if(result){
-//             setPhoto(result.uri)
-//         }
-//     } 
-//     if (!permission?.granted) {
-//         return (
-//             <View>
-//                 <Button title="granted permission" onPress={requestPermission} />
-//             </View>
-//         )
-//     }
-
-
-
-
-//     return (
-//         <ScrollView style={style.container}>
-//             <Text style={style.title}> Camera Started</Text>
-//             <CameraView style={style.camera} ref={cameraRef} facing="back" zoom={zoom}></CameraView>
-//             <Text style={style.zoomText}>
-//                 Zoom: {Math.round(zoom * 100)}%
-//             </Text>
-//             <Slider style={style.slider} minmumValue={0} maximumValue={1} value={zoom} onValueChange={setZoom} />
-
-//             <Button title="ClickPicture" onPress={handleClickPicture} />
-
-//             {photo && (
-//                 <Image source ={{uri : photo}} style={style.photo}/>
-//             )}
-//         </ScrollView>
-//     )
-// }
-
-// const style = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         paddingHorizontal: 20,
-//         paddingTop: 20,
-//         paddingBottom: 20,
-//         backgroundColor: "white"
-//     },
-
-//     title: {
-//         fontSize: 22,
-//         fontWeight: "bold",
-//         textAlign: "center",
-//         marginBottom: 15
-//     },
-
-//     camera: {
-//         width: "100%",
-//         height: 350,
-//         borderRadius: 15,
-//         marginBottom: 15
-//     },
-
-//     zoomText: {
-//         fontSize: 16,
-//         textAlign: "center",
-//         marginBottom: 5
-//     },
-
-//     slider: {
-//         width: "100%",
-//         height: 40,
-//         marginBottom: 10
-//     },
-//      photo: {
-//         width: "100%",
-//         height: 200,
-//         marginTop: 15,
-//         borderRadius: 10
-//     }
-// })
