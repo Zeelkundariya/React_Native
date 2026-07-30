@@ -10,7 +10,6 @@ export default function CameraScreen() {
     const cameraRef = useRef(null);
 
     const [zoom, setZoom] = useState(0);
-    const [flash, setflash] = useState(0);
     const [photo, setPhoto] = useState(null);
     const [video, setVideo] = useState(null);
     const [facing, setFacing] = useState("back");
@@ -27,7 +26,10 @@ export default function CameraScreen() {
     if (!permission?.granted) {
         return (
             <View>
-                <Button title="Grant Camera Permission" onPress={requestPermission} />
+                <Button
+                    title="Grant Camera Permission"
+                    onPress={requestPermission}
+                />
             </View>
         );
     }
@@ -35,36 +37,40 @@ export default function CameraScreen() {
     if (!micPermission?.granted) {
         return (
             <View>
-                <Button title="Grant Microphone Permission" onPress={requestMicPermission} />
+                <Button
+                    title="Grant Microphone Permission"
+                    onPress={requestMicPermission}
+                />
             </View>
         );
     }
 
-const handleStartRecording = async () => {
-    setRecording(true);
-
-    const result = await cameraRef.current?.recordAsync();
-
-    console.log(result);
-
-    if(result){
-        setVideo(result.uri);
-    }
-
-    setRecording(false);
-}
-
-const handleEndingRecording = () => {
-    cameraRef.current?.stopRecording();
-}
     const handleClickPicture = async () => {
-        const result = await cameraRef?.current?.takePictureAsync();
+        const result = await cameraRef.current?.takePictureAsync();
 
         console.log(result);
 
         if (result) {
             setPhoto(result.uri);
         }
+    }
+
+    const handleStartRecording = async () => {
+        setRecording(true);
+
+        const result = await cameraRef.current?.recordAsync();
+
+        console.log(result);
+
+        if (result) {
+            setVideo(result.uri);
+        }
+
+        setRecording(false);
+    }
+
+    const handleEndingRecording = () => {
+        cameraRef.current?.stopRecording();
     }
 
     return (
@@ -77,9 +83,8 @@ const handleEndingRecording = () => {
                 facing={facing}
                 ref={cameraRef}
                 zoom={zoom}
-                flash="off"
-                mirror={true}
                 mode="video"
+                mirror={true}
             />
 
             <Text style={style.zoomText}>
@@ -94,15 +99,21 @@ const handleEndingRecording = () => {
                 onValueChange={setZoom}
             />
 
-            <TouchableOpacity style={style.button} onPress={changeCamera}>
-                <Text style={style.buttonText}>Switch Camera</Text>
+            <TouchableOpacity
+                style={style.button}
+                onPress={changeCamera}
+            >
+                <Text style={style.buttonText}>
+                    Switch Camera
+                </Text>
             </TouchableOpacity>
 
-            <Button title="Click Picture" onPress={handleClickPicture} />
+            <Button
+                title="Click Picture"
+                onPress={handleClickPicture}
+            />
 
-            {photo && (
-                <Image source={{ uri: photo }} style={style.photo} />
-            )}
+            <View style={style.space}/>
 
             <Button
                 title="Start Recording"
@@ -110,17 +121,33 @@ const handleEndingRecording = () => {
                 disabled={recording}
             />
 
+            <View style={style.space}/>
+
             <Button
                 title="Stop Recording"
                 onPress={handleEndingRecording}
                 disabled={!recording}
             />
+
             {recording && (
-                <Text style={style.recordingText}>Recording...</Text>
+                <Text style={style.recordingText}>
+                    Recording...
+                </Text>
             )}
+
+            {photo && (
+                <Image
+                    source={{ uri: photo }}
+                    style={style.photo}
+                />
+            )}
+
             {video && (
-                <Text>Video Saved: {video}</Text>
+                <Text style={style.videoText}>
+                    Video Recorded: {video}
+                </Text>
             )}
+
         </View>
     );
 }
@@ -143,7 +170,7 @@ const style = StyleSheet.create({
 
     camera: {
         width: "100%",
-        height: 350,
+        height: 300,
         borderRadius: 15,
         marginBottom: 15
     },
@@ -176,11 +203,8 @@ const style = StyleSheet.create({
         fontWeight: "bold"
     },
 
-    photo: {
-        width: "100%",
-        height: 200,
-        marginTop: 15,
-        borderRadius: 10
+    space: {
+        height: 10
     },
 
     recordingText: {
@@ -188,5 +212,17 @@ const style = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         marginTop: 10
+    },
+
+    photo: {
+        width: "100%",
+        height: 200,
+        marginTop: 15,
+        borderRadius: 10
+    },
+
+    videoText: {
+        fontSize: 14,
+        marginTop: 15
     }
 })
