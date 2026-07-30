@@ -266,6 +266,12 @@ export default function CameraScreen(){
                 <Button title="Start Recording" onPress={handleStartRecording}/>
 
                 <Button title="End Recording" onPress={handleEndingRecording}/>
+
+                {video &&(
+                    <Text>
+                        Video Recording:{video}
+                    </Text>
+                )}
         </View>
     )
 }
