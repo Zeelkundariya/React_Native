@@ -227,6 +227,7 @@ export default function CameraScreen(){
     const [video, setVideo] = useState(null);
     const [permission, requestPermission] = useCameraPermissions();
     const [micPermission, micRequestPermission] = useMicrophonePermissions();
+    const player = useVideoPlayer(video)
 
     if(!permission?.granted){
         return(
@@ -269,7 +270,7 @@ export default function CameraScreen(){
                 <Button title="End Recording" onPress={handleEndingRecording}/>
 
                 {video &&(
-                    <videoView />
+                    <videoView style={style.video} player={player} />
                 )}
         </View>
     )
@@ -281,5 +282,9 @@ const style = StyleSheet.create({
     },
     camera:{
         flex:1,
+    },
+    video:{
+        height:300,
+        width:"100%"
     }
 })
