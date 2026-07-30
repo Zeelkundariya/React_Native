@@ -257,7 +257,7 @@ export default function CameraScreen(){
 
 
     const handleEndingRecording =async()=>{
-        
+        videoRef?.current.stoprecordAsync();
     }
     return(
         <View style={style.container}>
