@@ -219,7 +219,7 @@
 import {Button, StyleSheet, View} from "react-native";
 import {CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
 import { useRef, useState } from "react";
-import {videoView} from "expo-video"
+import {videoView, useVideoPlayer} from "expo-video"
 
 export default function CameraScreen(){
 
@@ -227,7 +227,8 @@ export default function CameraScreen(){
     const [video, setVideo] = useState(null);
     const [permission, requestPermission] = useCameraPermissions();
     const [micPermission, micRequestPermission] = useMicrophonePermissions();
-    const player = useVideoPlayer(video)
+    const player = useVideoPlayer(video);
+    const [recording, setRecording] = useState(false)
 
     if(!permission?.granted){
         return(
@@ -265,12 +266,16 @@ export default function CameraScreen(){
         <View style={style.container}>
             <CameraView style={style.camera} ref={videoRef} mode="video"/>
 
-                <Button title="Start Recording" onPress={handleStartRecording}/>
+                <Button title="Start Recording" onPress={handleStartRecording} disabled={recording}/>
 
-                <Button title="End Recording" onPress={handleEndingRecording}/>
+                <Button title="End Recording" onPress={handleEndingRecording} disabled={!recording}/>
+
+                {recording && (
+                    <Text>Start Recording..</Text>
+                )}
 
                 {video &&(
-                    <videoView style={style.video} player={player} />
+                    <videoView style={style.video} player={player}  />
                 )}
         </View>
     )
