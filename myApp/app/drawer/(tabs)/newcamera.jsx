@@ -40,30 +40,23 @@ export default function CameraScreen() {
         );
     }
 
-    const handleStartRecording = async () => {
-        try {
-            setRecording(true);
+const handleStartRecording = async () => {
+    setRecording(true);
 
-            const result = await cameraRef.current?.recordAsync();
+    const result = await cameraRef.current?.recordAsync();
 
-            console.log(result);
+    console.log(result);
 
-            if (result) {
-                setVideo(result.uri);
-            }
-
-            setRecording(false);
-
-        } catch (error) {
-            console.log(error);
-            setRecording(false);
-        }
+    if(result){
+        setVideo(result.uri);
     }
 
-    const handleEndingRecording = () => {
-        cameraRef.current?.stopRecording();
-    }
+    setRecording(false);
+}
 
+const handleEndingRecording = () => {
+    cameraRef.current?.stopRecording();
+}
     const handleClickPicture = async () => {
         const result = await cameraRef?.current?.takePictureAsync();
 
@@ -122,15 +115,12 @@ export default function CameraScreen() {
                 onPress={handleEndingRecording}
                 disabled={!recording}
             />
-
             {recording && (
                 <Text style={style.recordingText}>Recording...</Text>
             )}
-
             {video && (
                 <Text>Video Saved: {video}</Text>
             )}
-
         </View>
     );
 }
