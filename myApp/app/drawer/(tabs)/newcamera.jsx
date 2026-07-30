@@ -219,6 +219,7 @@
 import {Button, StyleSheet, View} from "react-native";
 import {CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
 import { useRef, useState } from "react";
+import {videoView} from "expo-video"
 
 export default function CameraScreen(){
 
@@ -268,9 +269,7 @@ export default function CameraScreen(){
                 <Button title="End Recording" onPress={handleEndingRecording}/>
 
                 {video &&(
-                    <Text>
-                        Video Recording:{video}
-                    </Text>
+                    <videoView />
                 )}
         </View>
     )
