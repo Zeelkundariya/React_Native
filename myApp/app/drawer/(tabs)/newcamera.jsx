@@ -216,12 +216,12 @@
 
 
 
-import {Button, StyleSheet, View} from "react-native";
-import {CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
+import { Button, StyleSheet, View } from "react-native";
+import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
 import { useRef, useState } from "react";
-import {videoView, useVideoPlayer} from "expo-video"
+import { videoView, useVideoPlayer } from "expo-video"
 
-export default function CameraScreen(){
+export default function CameraScreen() {
 
     const videoRef = useRef(null);
     const [video, setVideo] = useState(null);
@@ -230,85 +230,85 @@ export default function CameraScreen(){
     const player = useVideoPlayer(video);
     const [recording, setRecording] = useState(false)
 
-    if(!permission?.granted){
-        return(
+    if (!permission?.granted) {
+        return (
             <View>
-                <Button title="Permission Granted" onPress={requestPermission}/>
+                <Button title="Permission Granted" onPress={requestPermission} />
             </View>
         )
     }
 
-    if(!micPermission?.granted){
-        return(
+    if (!micPermission?.granted) {
+        return (
             <View>
-                <Button title="MicPermission Granted" onPress={micrequestPermission}/>
+                <Button title="MicPermission Granted" onPress={micrequestPermission} />
             </View>
         )
     }
 
 
-    const handleStartRecording = async()=>{
+    const handleStartRecording = async () => {
         setVideo(true)
         const result = await videoRef?.current?.recordAsync();
         console.log(result);
 
-        if(result){
+        if (result) {
             setVideo(result.uri)
         }
         setVideo(false)
     }
 
 
-    const handleEndingRecording =async()=>{
+    const handleEndingRecording = async () => {
         videoRef?.current.stoprecordAsync();
     }
-    return(
+    return (
         <View style={style.container}>
-            <CameraView style={style.camera} ref={videoRef} mode="video"/>
+            <CameraView style={style.camera} ref={videoRef} mode="video" />
+            <View style={style.buttonSpace}>
+                <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} isMuted="true" />
 
-                <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} isMuted="true"/>
+                <Button title="End Recording" onPress={handleEndingRecording} disabled={!recording} />
+            </View>
+            {recording && (
+                <Text style={style.recordingText}>Start Recording..</Text>
+            )}
 
-                <Button title="End Recording" onPress={handleEndingRecording} disabled={!recording}/>
-
-                {recording && (
-                    <Text>Start Recording..</Text>
-                )}
-
-                {video &&(
-                    <videoView style={style.video} player={player}  />
-                )}
+            {video && (
+                <videoView style={style.video} player={player} />
+            )}
         </View>
     )
 }
 
 const style = StyleSheet.create({
-    container:{
-        flex:1,
-        padding:20,
-        backgroundColor:"white",
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "white",
     },
 
-    camera:{
-        width:"100%",
-        height:400,
-        marginBottom:20,
-        borderRadius:10,
+    camera: {
+        width: "100%",
+        height: 400,
+        marginBottom: 20,
+        borderRadius: 10,
     },
 
-    video:{
-        width:"100%",
-        height:250,
-        marginTop:20,
+    video: {
+        width: "100%",
+        height: 250,
+        marginTop: 20,
     },
 
-    buttonContainer:{
-        marginBottom:10,
+    buttonContainer: {
+        marginBottom: 10,
     },
 
-    recordingText:{
-        fontSize:18,
-        textAlign:"center",
-        marginTop:15,
-        fontWeight:"bold",
+    recordingText: {
+        fontSize: 18,
+        textAlign: "center",
+        marginTop: 15,
+        fontWeight: "bold",
     }
 });
