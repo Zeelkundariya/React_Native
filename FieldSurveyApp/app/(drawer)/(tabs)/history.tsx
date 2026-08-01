@@ -22,10 +22,10 @@ export default function History() {
   const [surveys, setSurveys] = useState<Survey[]>([
     {
       id: "SURVEY-001",
-      siteName: "ABC Construction Site",
+      siteName: "ABC Site",
       clientName: "ABC Company",
       priority: "High",
-      date: "18/07/2026",
+      date: "20/07/2026",
     },
     {
       id: "SURVEY-002",

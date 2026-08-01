@@ -216,99 +216,300 @@
 
 
 
-import { Button, StyleSheet, View } from "react-native";
-import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
-import { useRef, useState } from "react";
-import { videoView, useVideoPlayer } from "expo-video"
+// import { Button, StyleSheet, View } from "react-native";
+// import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
+// import { useRef, useState } from "react";
+// import { videoView, useVideoPlayer } from "expo-video"
 
-export default function CameraScreen() {
+// export default function CameraScreen() {
 
-    const videoRef = useRef(null);
-    const [video, setVideo] = useState(null);
-    const [permission, requestPermission] = useCameraPermissions();
-    const [micPermission, micRequestPermission] = useMicrophonePermissions();
-    const player = useVideoPlayer(video);
-    const [recording, setRecording] = useState(false)
+//     const videoRef = useRef(null);
+//     const [video, setVideo] = useState(null);
+//     const [permission, requestPermission] = useCameraPermissions();
+//     const [micPermission, micRequestPermission] = useMicrophonePermissions();
+//     const player = useVideoPlayer(video);
+//     const [recording, setRecording] = useState(false)
 
-    if (!permission?.granted) {
-        return (
-            <View>
-                <Button title="Permission Granted" onPress={requestPermission} />
-            </View>
-        )
-    }
+//     if (!permission?.granted) {
+//         return (
+//             <View>
+//                 <Button title="Permission Granted" onPress={requestPermission} />
+//             </View>
+//         )
+//     }
 
-    if (!micPermission?.granted) {
-        return (
-            <View>
-                <Button title="MicPermission Granted" onPress={micrequestPermission} />
-            </View>
-        )
-    }
-
-
-    const handleStartRecording = async () => {
-        setVideo(true)
-        const result = await videoRef?.current?.recordAsync();
-        console.log(result);
-
-        if (result) {
-            setVideo(result.uri)
-        }
-        setVideo(false)
-    }
+//     if (!micPermission?.granted) {
+//         return (
+//             <View>
+//                 <Button title="MicPermission Granted" onPress={micrequestPermission} />
+//             </View>
+//         )
+//     }
 
 
-    const handleEndingRecording = async () => {
-        videoRef?.current.stoprecordAsync();
-    }
+//     const handleStartRecording = async () => {
+//         setVideo(true)
+//         const result = await videoRef?.current?.recordAsync();
+//         console.log(result);
+
+//         if (result) {
+//             setVideo(result.uri)
+//         }
+//         setVideo(false)
+//     }
+
+
+//     const handleEndingRecording = async () => {
+//         videoRef?.current.stoprecordAsync();
+//     }
+//     return (
+//         <View style={style.container}>
+//             <CameraView style={style.camera} ref={videoRef} mode="video" />
+//             <View style={style.buttonSpace}>
+//                 <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} isMuted="true" />
+
+//                 <Button title="End Recording" onPress={handleEndingRecording} disabled={!recording} />
+//             </View>
+//             {recording && (
+//                 <Text style={style.recordingText}>Start Recording..</Text>
+//             )}
+
+//             {video && (
+//                 <videoView style={style.video} player={player} />
+//             )}
+//         </View>
+//     )
+// }
+
+// const style = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         padding: 20,
+//         backgroundColor: "white",
+//     },
+
+//     camera: {
+//         width: "100%",
+//         height: 400,
+//         marginBottom: 20,
+//         borderRadius: 10,
+//     },
+
+//     video: {
+//         width: "100%",
+//         height: 250,
+//         marginTop: 20,
+//     },
+
+//     buttonContainer: {
+//         marginBottom: 10,
+//     },
+
+//     recordingText: {
+//         fontSize: 18,
+//         textAlign: "center",
+//         marginTop: 15,
+//         fontWeight: "bold",
+//     }
+// });
+
+
+
+// import { View, Button, StyleSheet, Text } from "react-native"
+// import { cameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera"
+// import { useRef, useState } from "react"
+// import { videoView, useVideoPlayer } from "expo-video"
+
+// export default function CameraScreen() {
+//     const Video = useRef(null);
+//     const [permission, requestPermission] = useCameraPermissions();
+//     const [micPermission, requestMicPermission] = useMicrophonePermissions();
+//     const [video, setVideo] = useState(null);
+//     const [recording, setRecording] = useState(false);
+//     const player = useVideoPlayer();
+
+
+
+//     const handleStartRecording = async () => {
+//         setRecording(true)
+//         const result = await VideoRef?.current.recordAsyns();
+//         console.log(result)
+
+//         if (result) {
+//             setVideo(result.uri)
+//         }
+//         setRecording(false)
+//     }
+
+//     const handleEndingRecording = async () => {
+//         Video?.current.stopRecordAsync();
+//     }
+
+
+//     if (!permission?.granted) {
+//         return (
+//             <View>
+//                 <Button title=" Permission Granted" onPress={requestPermission} />
+//             </View>
+//         )
+//     }
+
+//     if (!micPermission?.granted) {
+//         return (
+//             <View>
+//                 <Button title="MicPermission Granted" onPress={requestMicPermission} />
+//             </View>
+//         )
+//     }
+
+//     return (
+//         <View style={style.container}>
+//             <cameraView style={style.camera} ref={VideoRef} mode="video" />
+
+//             <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} />
+
+//             <Button title="Ending Recording" onPress={handleEndingRecording} disabled={!recording} />
+
+//             {video && (
+//                 <VideoView style={style.video} player={player} />
+//             )}
+
+
+//         </View>
+//     )
+// }
+
+
+
+
+
+
+
+// import { View } from "react-native"
+// import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
+// import { useRef, useState } from "react";
+// import { VideoView, useVideoPlayer } from "expo-video"
+
+
+// export default function CameraScreen() {
+//     const videoRef = useRef(null)
+//     const [permission, requestPermission] = useCameraPermissions();
+//     const [micPermission, micRequestPermission] = useMicrophonePermissions();
+//     const { video, setVideo } = useState(null)
+//     const { recording, setRecording } = useStat(false);
+//     const video = useVideoPlayer();
+
+
+//     const handleStartRecording = async () => {
+//         setRecording(true)
+//         const result = await videoRef?.current?.recordAsync();
+//         console.log(result);
+
+//         if (result) {
+//             setVideo(result)
+//         }
+//         setVideo(video.uri)
+//         setRecording(false)
+//     }
+
+//     const handleStopRecording= async()=> {
+//         videoRef?.current.stopRecording();
+//         setRecording(false)
+//     }
+
+//     if (!permission?.granted) {
+//         return (
+//             <View>
+//                 <Button title="Permission Granted" onPress={requestPermission} />
+//             </View>
+//         )
+//     }
+
+//     if (!micPermission?.granted) {
+//         return (
+//             <View>
+//                 <Button title="MicPermission Granted" onPress={micRequestPermission} />
+//             </View>
+//         )
+//     }
+
+
+//     return (
+//         <View>
+//             <CameraView style={style.camera} mode="video" ref={videoRef} />
+
+//             <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} />
+
+//             <Button title="Stop Recording" onPress={handleStopRecording} disabled={!recording} />
+
+
+//             {video && (
+//                 <VideoView player={player}/>
+//             )}
+//         </View>
+//     )
+// }
+
+
+
+
+
+
+
+import { View, Button, SafeAreaView} from 'react-native';
+import { CameraView,useCameraPermissions,useMicrophonePermissions } from "expo-camera";
+import { useRef, useState } from 'react';
+import { VideoView,useVideoPlayer } from 'expo-video';
+
+export default function App() {
+  const videoRef = useRef(null);
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+  const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
+  const [video, setVideo] = useState(null);
+  const player = useVideoPlayer(video);
+  console.log(player);
+  
+  if (!cameraPermission || !audioPermission) {
+    return <View />;
+  }
+
+  if (!cameraPermission.granted || !audioPermission.granted) {
     return (
-        <View style={style.container}>
-            <CameraView style={style.camera} ref={videoRef} mode="video" />
-            <View style={style.buttonSpace}>
-                <Button title="Start Recording" onPress={handleStartRecording} disabled={recording} isMuted="true" />
-
-                <Button title="End Recording" onPress={handleEndingRecording} disabled={!recording} />
-            </View>
-            {recording && (
-                <Text style={style.recordingText}>Start Recording..</Text>
-            )}
-
-            {video && (
-                <videoView style={style.video} player={player} />
-            )}
-        </View>
+      <SafeAreaView>
+        <Button title="grant permission" onPress={requestCameraPermission} />
+        <View style={{ height: 20 }} />
+        <Button title="grant audio permission" onPress={ requestAudioPermission} />
+      </SafeAreaView>
     )
+  }
+
+  const handleStartRecording = async () => {
+    const result = await videoRef.current.recordAsync();
+    console.log(result);
+    setVideo(result.uri);
+  };
+
+  const handleStopRecording = async () => {
+    await videoRef.current.stopRecording();
+    
+  }
+
+  return (
+    <View style={{ flex: 1 }}>
+
+
+      <CameraView style={{ flex: 1 }} ref={videoRef}  mode="video"/>
+      
+      <Button title="start recording" onPress={handleStartRecording} />
+
+      <View style={{ height: 20 }} />
+      
+      <Button title="stop recording" onPress={handleStopRecording} />
+
+      {video && (
+        <VideoView player={player} style={ {height:300,width:"100%"}} />
+      )}
+      
+  </View>
+  )
 }
-
-const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: "white",
-    },
-
-    camera: {
-        width: "100%",
-        height: 400,
-        marginBottom: 20,
-        borderRadius: 10,
-    },
-
-    video: {
-        width: "100%",
-        height: 250,
-        marginTop: 20,
-    },
-
-    buttonContainer: {
-        marginBottom: 10,
-    },
-
-    recordingText: {
-        fontSize: 18,
-        textAlign: "center",
-        marginTop: 15,
-        fontWeight: "bold",
-    }
-});
