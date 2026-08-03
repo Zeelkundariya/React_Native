@@ -4,13 +4,17 @@ import * as Location from "expo-location"
 export default function LocationScreen(){
     const handleLocationPermission= async()=>{
         const result = await Location.requestForegroundPermissionsAsync();
+
+        if(!result.granted){
+            Alert.alert("Success","Permission Denied")
+        }
         console.log(result)
     }
 
 
     return (
         <View style={style.container}>
-            <Button title="Request Permission" onPress={handleLocationPermission}/>
+            <Button title="Get current location" onPress={handleLocationPermission}/>
         </View>
     )
 }
