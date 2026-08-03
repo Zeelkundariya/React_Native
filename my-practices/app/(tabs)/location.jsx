@@ -1,8 +1,9 @@
 import {View, Button,StyleSheet} from "react-native";
+import * as Location from "expo-location"
 
 export default function LocationScreen(){
     return(
-        <View>
+        <View style={style.container}>
 
         </View>
     )
@@ -10,4 +11,5 @@ export default function LocationScreen(){
 
 const style = StyleSheet.create({
     
+
 })
