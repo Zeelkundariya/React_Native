@@ -1,15 +1,21 @@
-import {View, Button,StyleSheet} from "react-native";
+import { View, Button, StyleSheet } from "react-native";
 import * as Location from "expo-location"
 
 export default function LocationScreen(){
-    return(
-        <View style={style.container}>
+    const handleLocationPermission= async()=>{
+        const result = await Location.requestForegroundPermissionsAsync();
+        console.log(result)
+    }
 
+
+    return (
+        <View style={style.container}>
+            <Button title="Request Permission" onPress={handleLocationPermission}/>
         </View>
     )
 }
 
 const style = StyleSheet.create({
-    
+
 
 })
