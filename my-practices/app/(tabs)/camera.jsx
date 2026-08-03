@@ -1,4 +1,4 @@
-// import { View, StyleSheet, Button, Text, Image, ScrollView } from "react-native";
+// import { View, StyleSheet, Button, Text, Image } from "react-native";
 // import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
 // import { useState, useRef } from "react";
 // import Slider from "@react-native-community/slider";
@@ -6,16 +6,56 @@
 
 
 // export default function CameraScreen() {
-//     const cameraRef = useRef(null);
 //     const [permission, requestPermission] = useCameraPermissions();
-//     const [micPermission, micRequestPermission] = useMicrophonePermissions();
+//     const [microphonePermission, requestMicrophonePermission] = useMicrophonePermissions();
+
 //     const [flip, setFlip] = useState("back");
 //     const [flash, setFlash] = useState("off");
 //     const [zoom, setZoom] = useState(0);
+//     const cameraRef = useRef(null);
 //     const [photo, setPhoto] = useState(null);
-//     const [video, setVideo] = useState(null);
+
 //     const [recording, setRecording] = useState(false);
-//     const player = useVideoPlayer(video);
+//     const [video, setVideo] = useState(null);
+
+
+//     const player = useVideoPlayer(video, (player) => {
+//         player.loop = true;
+//     });
+
+
+//     if (!permission || !microphonePermission) {
+//         return (
+//             <View style={style.root}>
+//                 <Text>Permission is loading...</Text>
+//             </View>
+//         )
+//     }
+
+
+//     if (!permission.granted || !microphonePermission.granted) {
+//         return (
+//             <View style={style.root}>
+
+//                 <Text>Camera and Microphone Permission Required</Text>
+
+//                 {!permission.granted && (
+//                     <Button
+//                         title="Camera Permission"
+//                         onPress={requestPermission}
+//                     />
+//                 )}
+
+//                 {!microphonePermission.granted && (
+//                     <Button
+//                         title="Microphone Permission"
+//                         onPress={requestMicrophonePermission}
+//                     />
+//                 )}
+
+//             </View>
+//         )
+//     }
 
 
 //     const handleFlipCamera = () => {
@@ -33,7 +73,8 @@
 
 
 //     const handleClickPictures = async () => {
-//         const result = await cameraRef?.current?.takePictureAsync();
+//         const result = await cameraRef.current?.takePictureAsync();
+
 //         console.log(result);
 
 //         if (result) {
@@ -43,58 +84,46 @@
 
 
 //     const handleStartRecording = async () => {
-//         setRecording(true)
 
-//         const result = await cameraRef?.current?.recordAsync();
-//         console.log(result)
+//         if (!cameraRef.current) {
+//             return;
+//         }
+
+//         setRecording(true);
+
+//         const result = await cameraRef.current.recordAsync();
+
+//         console.log(result);
 
 //         if (result) {
 //             setVideo(result.uri)
 //         }
 
-//         setRecording(false)
-//     }
-
-
-//     const handleEndingRecording = async () => {
-//         cameraRef?.current?.stopRecording();
 //         setRecording(false);
 //     }
 
 
-//     if (!permission?.granted) {
-//         return (
-//             <View style={style.root}>
-//                 <Text>Camera Permission Required</Text>
+//     const handleStopRecording = () => {
 
-//                 <Button
-//                     title="Permission Granted"
-//                     onPress={requestPermission}
-//                 />
-//             </View>
-//         )
+//         if (cameraRef.current) {
+//             cameraRef.current.stopRecording();
+//         }
+
 //     }
 
 
-//     if (!micPermission?.granted) {
-//         return (
-//             <View style={style.root}>
-//                 <Text>Microphone Permission Required</Text>
+//     const handlePlayVideo = () => {
+//         player.play();
+//     }
 
-//                 <Button
-//                     title="Mic Permission"
-//                     onPress={micRequestPermission}
-//                 />
-//             </View>
-//         )
+
+//     const handlePauseVideo = () => {
+//         player.pause();
 //     }
 
 
 //     return (
-//         <ScrollView
-//             style={style.container}
-//             contentContainerStyle={style.contentContainer}
-//         >
+//         <View style={style.container}>
 
 //             <CameraView
 //                 ref={cameraRef}
@@ -105,13 +134,6 @@
 //                 mode="video"
 //             />
 
-
-//             <View style={{ height: 20 }} />
-
-
-//             <Text style={style.text}>
-//                 Zoom
-//             </Text>
 
 //             <Slider
 //                 style={style.slider}
@@ -129,12 +151,10 @@
 //                     onPress={handleFlipCamera}
 //                 />
 
-
 //                 <Button
 //                     title="Click Pictures"
 //                     onPress={handleClickPictures}
 //                 />
-
 
 //                 <Button
 //                     title="Flash"
@@ -142,59 +162,54 @@
 //                 />
 
 
-//                 <Button
-//                     title="Start Recording"
-//                     onPress={handleStartRecording}
-//                     disabled={recording}
-//                 />
+//                 {!recording ? (
+//                     <Button
+//                         title="Start Recording"
+//                         onPress={handleStartRecording}
+//                     />
+//                 ) : (
+//                     <Button
+//                         title="Stop Recording"
+//                         onPress={handleStopRecording}
+//                     />
+//                 )}
 
 
-//                 <Button
-//                     title="End Recording"
-//                     onPress={handleEndingRecording}
-//                     disabled={!recording}
-//                 />
-
-//             </View>
-
-
-//             {recording && (
-//                 <Text style={style.recordingText}>
-//                     Recording...
-//                 </Text>
-//             )}
-
-
-//             {photo && (
-//                 <View>
-//                     <Text style={style.title}>
-//                         Captured Photo
+//                 {recording && (
+//                     <Text style={style.recordingText}>
+//                         Recording...
 //                     </Text>
+//                 )}
 
+
+//                 {photo && (
 //                     <Image
 //                         source={{ uri: photo }}
 //                         style={style.image}
 //                     />
-//                 </View>
-//             )}
+//                 )}
 
 
-//             {video && (
-//                 <View>
-//                     <Text style={style.title}>
-//                         Recorded Video
-//                     </Text>
+//                 {video && (
+//                     <View>
 
-//                     <VideoView
-//                         player={player}
-//                         style={style.video}
-//                         nativeControls
-//                         allowsFullscreen
-//                     />
-//                 </View>
-//             )}
+//                         <Text style={style.videoText}>
+//                             Recorded Video
+//                         </Text>
 
-//         </ScrollView>
+//                         <VideoView
+//                             style={style.video}
+//                             player={player}
+//                             allowsFullscreen
+//                             allowsPictureInPicture
+//                         />
+
+//                     </View>
+//                 )}
+
+//             </View>
+
+//         </View>
 //     )
 // }
 
@@ -203,11 +218,7 @@
 //     container: {
 //         flex: 1,
 //         backgroundColor: "#000",
-//     },
-
-//     contentContainer: {
 //         padding: 10,
-//         paddingBottom: 40,
 //     },
 
 //     root: {
@@ -221,15 +232,9 @@
 
 //     camera: {
 //         width: "100%",
-//         height: 500,
+//         height: 400,
 //         borderRadius: 20,
 //         overflow: "hidden",
-//     },
-
-//     text: {
-//         color: "#fff",
-//         textAlign: "center",
-//         fontSize: 16,
 //     },
 
 //     slider: {
@@ -242,31 +247,54 @@
 //         gap: 10,
 //     },
 
-//     recordingText: {
-//         color: "red",
-//         textAlign: "center",
-//         fontSize: 18,
-//         marginTop: 15,
-//     },
-
-//     title: {
-//         color: "#fff",
-//         textAlign: "center",
-//         fontSize: 18,
-//         marginTop: 20,
-//         marginBottom: 10,
-//     },
-
 //     image: {
 //         width: "100%",
 //         height: 250,
 //         borderRadius: 15,
+//         marginTop: 20,
 //         resizeMode: "cover",
+//     },
+
+//     recordingText: {
+//         color: "red",
+//         fontSize: 18,
+//         textAlign: "center",
+//     },
+
+//     videoText: {
+//         color: "white",
+//         fontSize: 18,
+//         textAlign: "center",
+//         marginTop: 10,
+//         marginBottom: 10,
 //     },
 
 //     video: {
 //         width: "100%",
 //         height: 250,
-//         borderRadius: 15,
+//     },
+
+//     videoButton: {
+//         marginTop: 10,
+//         gap: 10,
 //     },
 // });
+
+
+import { View, Text, StyleSheet } from "react-native";
+
+export default function CameraScreen() {
+    return (
+        <View style={styles.container}>
+            <Text>Camera Screen</Text>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+});
