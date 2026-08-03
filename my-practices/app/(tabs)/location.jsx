@@ -8,7 +8,9 @@ export default function LocationScreen(){
         if(!result.granted){
             Alert.alert("Success","Permission Denied")
         }
-        console.log(result)
+        console.log(result);
+
+        const res = await Location.getCurrentPositionAsync();
     }
 
 
