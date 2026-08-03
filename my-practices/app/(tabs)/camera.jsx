@@ -1,272 +1,272 @@
-import { View, StyleSheet, Button, Text, Image, ScrollView } from "react-native";
-import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
-import { useState, useRef } from "react";
-import Slider from "@react-native-community/slider";
-import { VideoView, useVideoPlayer } from "expo-video";
+// import { View, StyleSheet, Button, Text, Image, ScrollView } from "react-native";
+// import { CameraView, useCameraPermissions, useMicrophonePermissions } from "expo-camera";
+// import { useState, useRef } from "react";
+// import Slider from "@react-native-community/slider";
+// import { VideoView, useVideoPlayer } from "expo-video";
 
 
-export default function CameraScreen() {
-    const cameraRef = useRef(null);
-    const [permission, requestPermission] = useCameraPermissions();
-    const [micPermission, micRequestPermission] = useMicrophonePermissions();
-    const [flip, setFlip] = useState("back");
-    const [flash, setFlash] = useState("off");
-    const [zoom, setZoom] = useState(0);
-    const [photo, setPhoto] = useState(null);
-    const [video, setVideo] = useState(null);
-    const [recording, setRecording] = useState(false);
-    const player = useVideoPlayer(video);
+// export default function CameraScreen() {
+//     const cameraRef = useRef(null);
+//     const [permission, requestPermission] = useCameraPermissions();
+//     const [micPermission, micRequestPermission] = useMicrophonePermissions();
+//     const [flip, setFlip] = useState("back");
+//     const [flash, setFlash] = useState("off");
+//     const [zoom, setZoom] = useState(0);
+//     const [photo, setPhoto] = useState(null);
+//     const [video, setVideo] = useState(null);
+//     const [recording, setRecording] = useState(false);
+//     const player = useVideoPlayer(video);
 
 
-    const handleFlipCamera = () => {
-        setFlip((prev) => prev === "back" ? "front" : "back")
-    }
+//     const handleFlipCamera = () => {
+//         setFlip((prev) => prev === "back" ? "front" : "back")
+//     }
 
 
-    const handleFlash = () => {
-        setFlash((prev) => {
-            if (prev === "off") return "on";
-            if (prev === "on") return "auto";
-            return "off";
-        })
-    }
+//     const handleFlash = () => {
+//         setFlash((prev) => {
+//             if (prev === "off") return "on";
+//             if (prev === "on") return "auto";
+//             return "off";
+//         })
+//     }
 
 
-    const handleClickPictures = async () => {
-        const result = await cameraRef?.current?.takePictureAsync();
-        console.log(result);
+//     const handleClickPictures = async () => {
+//         const result = await cameraRef?.current?.takePictureAsync();
+//         console.log(result);
 
-        if (result) {
-            setPhoto(result.uri)
-        }
-    }
-
-
-    const handleStartRecording = async () => {
-        setRecording(true)
-
-        const result = await cameraRef?.current?.recordAsync();
-        console.log(result)
-
-        if (result) {
-            setVideo(result.uri)
-        }
-
-        setRecording(false)
-    }
+//         if (result) {
+//             setPhoto(result.uri)
+//         }
+//     }
 
 
-    const handleEndingRecording = async () => {
-        cameraRef?.current?.stopRecording();
-        setRecording(false);
-    }
+//     const handleStartRecording = async () => {
+//         setRecording(true)
+
+//         const result = await cameraRef?.current?.recordAsync();
+//         console.log(result)
+
+//         if (result) {
+//             setVideo(result.uri)
+//         }
+
+//         setRecording(false)
+//     }
 
 
-    if (!permission?.granted) {
-        return (
-            <View style={style.root}>
-                <Text>Camera Permission Required</Text>
-
-                <Button
-                    title="Permission Granted"
-                    onPress={requestPermission}
-                />
-            </View>
-        )
-    }
+//     const handleEndingRecording = async () => {
+//         cameraRef?.current?.stopRecording();
+//         setRecording(false);
+//     }
 
 
-    if (!micPermission?.granted) {
-        return (
-            <View style={style.root}>
-                <Text>Microphone Permission Required</Text>
+//     if (!permission?.granted) {
+//         return (
+//             <View style={style.root}>
+//                 <Text>Camera Permission Required</Text>
 
-                <Button
-                    title="Mic Permission"
-                    onPress={micRequestPermission}
-                />
-            </View>
-        )
-    }
-
-
-    return (
-        <ScrollView
-            style={style.container}
-            contentContainerStyle={style.contentContainer}
-        >
-
-            <CameraView
-                ref={cameraRef}
-                style={style.camera}
-                facing={flip}
-                flash={flash}
-                zoom={zoom}
-                mode="video"
-            />
+//                 <Button
+//                     title="Permission Granted"
+//                     onPress={requestPermission}
+//                 />
+//             </View>
+//         )
+//     }
 
 
-            <View style={{ height: 20 }} />
+//     if (!micPermission?.granted) {
+//         return (
+//             <View style={style.root}>
+//                 <Text>Microphone Permission Required</Text>
+
+//                 <Button
+//                     title="Mic Permission"
+//                     onPress={micRequestPermission}
+//                 />
+//             </View>
+//         )
+//     }
 
 
-            <Text style={style.text}>
-                Zoom
-            </Text>
+//     return (
+//         <ScrollView
+//             style={style.container}
+//             contentContainerStyle={style.contentContainer}
+//         >
 
-            <Slider
-                style={style.slider}
-                minimumValue={0}
-                maximumValue={1}
-                value={zoom}
-                onValueChange={setZoom}
-            />
-
-
-            <View style={style.buttonContainer}>
-
-                <Button
-                    title="Flip Camera"
-                    onPress={handleFlipCamera}
-                />
+//             <CameraView
+//                 ref={cameraRef}
+//                 style={style.camera}
+//                 facing={flip}
+//                 flash={flash}
+//                 zoom={zoom}
+//                 mode="video"
+//             />
 
 
-                <Button
-                    title="Click Pictures"
-                    onPress={handleClickPictures}
-                />
+//             <View style={{ height: 20 }} />
 
 
-                <Button
-                    title="Flash"
-                    onPress={handleFlash}
-                />
+//             <Text style={style.text}>
+//                 Zoom
+//             </Text>
+
+//             <Slider
+//                 style={style.slider}
+//                 minimumValue={0}
+//                 maximumValue={1}
+//                 value={zoom}
+//                 onValueChange={setZoom}
+//             />
 
 
-                <Button
-                    title="Start Recording"
-                    onPress={handleStartRecording}
-                    disabled={recording}
-                />
+//             <View style={style.buttonContainer}>
+
+//                 <Button
+//                     title="Flip Camera"
+//                     onPress={handleFlipCamera}
+//                 />
 
 
-                <Button
-                    title="End Recording"
-                    onPress={handleEndingRecording}
-                    disabled={!recording}
-                />
-
-            </View>
+//                 <Button
+//                     title="Click Pictures"
+//                     onPress={handleClickPictures}
+//                 />
 
 
-            {recording && (
-                <Text style={style.recordingText}>
-                    Recording...
-                </Text>
-            )}
+//                 <Button
+//                     title="Flash"
+//                     onPress={handleFlash}
+//                 />
 
 
-            {photo && (
-                <View>
-                    <Text style={style.title}>
-                        Captured Photo
-                    </Text>
-
-                    <Image
-                        source={{ uri: photo }}
-                        style={style.image}
-                    />
-                </View>
-            )}
+//                 <Button
+//                     title="Start Recording"
+//                     onPress={handleStartRecording}
+//                     disabled={recording}
+//                 />
 
 
-            {video && (
-                <View>
-                    <Text style={style.title}>
-                        Recorded Video
-                    </Text>
+//                 <Button
+//                     title="End Recording"
+//                     onPress={handleEndingRecording}
+//                     disabled={!recording}
+//                 />
 
-                    <VideoView
-                        player={player}
-                        style={style.video}
-                        nativeControls
-                        allowsFullscreen
-                    />
-                </View>
-            )}
-
-        </ScrollView>
-    )
-}
+//             </View>
 
 
-const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#000",
-    },
+//             {recording && (
+//                 <Text style={style.recordingText}>
+//                     Recording...
+//                 </Text>
+//             )}
 
-    contentContainer: {
-        padding: 10,
-        paddingBottom: 40,
-    },
 
-    root: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: 20,
-        backgroundColor: "#fff",
-        gap: 10,
-    },
+//             {photo && (
+//                 <View>
+//                     <Text style={style.title}>
+//                         Captured Photo
+//                     </Text>
 
-    camera: {
-        width: "100%",
-        height: 500,
-        borderRadius: 20,
-        overflow: "hidden",
-    },
+//                     <Image
+//                         source={{ uri: photo }}
+//                         style={style.image}
+//                     />
+//                 </View>
+//             )}
 
-    text: {
-        color: "#fff",
-        textAlign: "center",
-        fontSize: 16,
-    },
 
-    slider: {
-        width: "100%",
-        marginVertical: 15,
-    },
+//             {video && (
+//                 <View>
+//                     <Text style={style.title}>
+//                         Recorded Video
+//                     </Text>
 
-    buttonContainer: {
-        marginTop: 10,
-        gap: 10,
-    },
+//                     <VideoView
+//                         player={player}
+//                         style={style.video}
+//                         nativeControls
+//                         allowsFullscreen
+//                     />
+//                 </View>
+//             )}
 
-    recordingText: {
-        color: "red",
-        textAlign: "center",
-        fontSize: 18,
-        marginTop: 15,
-    },
+//         </ScrollView>
+//     )
+// }
 
-    title: {
-        color: "#fff",
-        textAlign: "center",
-        fontSize: 18,
-        marginTop: 20,
-        marginBottom: 10,
-    },
 
-    image: {
-        width: "100%",
-        height: 250,
-        borderRadius: 15,
-        resizeMode: "cover",
-    },
+// const style = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: "#000",
+//     },
 
-    video: {
-        width: "100%",
-        height: 250,
-        borderRadius: 15,
-    },
-});
+//     contentContainer: {
+//         padding: 10,
+//         paddingBottom: 40,
+//     },
+
+//     root: {
+//         flex: 1,
+//         justifyContent: "center",
+//         alignItems: "center",
+//         paddingHorizontal: 20,
+//         backgroundColor: "#fff",
+//         gap: 10,
+//     },
+
+//     camera: {
+//         width: "100%",
+//         height: 500,
+//         borderRadius: 20,
+//         overflow: "hidden",
+//     },
+
+//     text: {
+//         color: "#fff",
+//         textAlign: "center",
+//         fontSize: 16,
+//     },
+
+//     slider: {
+//         width: "100%",
+//         marginVertical: 15,
+//     },
+
+//     buttonContainer: {
+//         marginTop: 10,
+//         gap: 10,
+//     },
+
+//     recordingText: {
+//         color: "red",
+//         textAlign: "center",
+//         fontSize: 18,
+//         marginTop: 15,
+//     },
+
+//     title: {
+//         color: "#fff",
+//         textAlign: "center",
+//         fontSize: 18,
+//         marginTop: 20,
+//         marginBottom: 10,
+//     },
+
+//     image: {
+//         width: "100%",
+//         height: 250,
+//         borderRadius: 15,
+//         resizeMode: "cover",
+//     },
+
+//     video: {
+//         width: "100%",
+//         height: 250,
+//         borderRadius: 15,
+//     },
+// });
