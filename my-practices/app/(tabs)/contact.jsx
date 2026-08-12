@@ -32,7 +32,7 @@ export default function ContactsScreen() {
       sort: Contacts.SortTypes.FirstName,
     });
 
-    console.log(contactData.data[0].phoneNumbers?.[0]?.number);
+    // console.log(contactData.data[0].phoneNumbers?.[0]?.number);
 
     setContacts(contactData.data);
   };
