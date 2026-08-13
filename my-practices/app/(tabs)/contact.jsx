@@ -169,6 +169,251 @@
 //   },
 // });
 
+import React, { useState } from "react";
+
+import {
+  View,
+  Text,
+  Button,
+  FlatList,
+  Image,
+  Alert,
+  TextInput,
+  StyleSheet,
+} from "react-native";
+
+import * as Contacts from "expo-contacts";
+
+export default function ContactScreen() {
+  const [contacts, setContacts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  // =========================
+  // Get Contacts
+  // =========================
+  const getContacts = async () => {
+    const permission =
+      await Contacts.requestPermissionsAsync();
+
+    if (!permission.granted) {
+      Alert.alert(
+        "Permission Denied",
+        "Contact permission is required."
+      );
+
+      return;
+    }
+
+    const { data } = await Contacts.getContactsAsync({
+      fields: [
+        Contacts.Fields.PhoneNumbers,
+        Contacts.Fields.Image,
+      ],
+    });
+
+    setContacts(data);
+  };
+
+  const handleDeleteContact = (contact) => {
+    Alert.alert(
+      "Delete Contact",
+      `Are you sure you want to delete ${
+        contact.name || "this contact"
+      }?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+
+        {
+          text: "Delete",
+          style: "destructive",
+
+          onPress: async () => {
+            try {
+              await Contacts.removeContactAsync(
+                contact.id
+              );
+
+              setContacts((previousContacts) =>
+                previousContacts.filter(
+                  (item) => item.id !== contact.id
+                )
+              );
+
+              Alert.alert(
+                "Success",
+                "Contact deleted successfully"
+              );
+            } catch (error) {
+              console.log("DELETE ERROR:", error);
+
+              Alert.alert(
+                "Error",
+                "Unable to delete contact"
+              );
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name
+      ?.toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  const renderContact = ({ item }) => {
+    const phone =
+      item.phoneNumbers?.[0]?.number ||
+      "No Phone Number";
+
+    const email =
+      item.emails?.[0]?.email ||
+      "No Email";
+
+    return (
+      <View style={styles.contactCard}>
+
+        {item.imageAvailable && item.image?.uri ? (
+          <Image
+            source={{ uri: item.image.uri }}
+            style={styles.image}
+          />
+        ) : (
+          <Text style={styles.noImage}>
+            No Image
+          </Text>
+        )}
+
+        <Text style={styles.name}>
+          {item.name || "Unknown Name"}
+        </Text>
+
+        <Text style={styles.info}>
+         {phone}
+        </Text>
+
+        <Text style={styles.info}>
+          {email}
+        </Text>
+
+        <Button
+          title="Delete"
+          color="red"
+          onPress={() =>
+            handleDeleteContact(item)
+          }
+        />
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+
+      <Text style={styles.title}>
+        My Contacts
+      </Text>
+
+      <View style={styles.buttons}>
+        <Button
+          title="Get Contacts"
+          onPress={getContacts}
+        />
+      </View>
+
+      <TextInput
+        style={styles.search}
+        placeholder="Search contacts..."
+        value={search}
+        onChangeText={setSearch}
+      />
+
+      <FlatList
+        data={filteredContacts}
+        keyExtractor={(item) => item.id}
+        renderItem={renderContact}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  buttons: {
+    gap: 10,
+    marginBottom: 20,
+  },
+
+  search: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
+
+  contactCard: {
+    backgroundColor: "white",
+    padding: 15,
+    marginBottom: 12,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 10,
+  },
+
+  noImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#ddd",
+    textAlign: "center",
+    paddingTop: 30,
+    marginBottom: 10,
+  },
+
+  name: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+
+  info: {
+    fontSize: 15,
+    marginBottom: 5,
+  },
+
+});
+
+
+
+
+
 
 // import { useState } from "react";
 // import {
