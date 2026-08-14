@@ -169,479 +169,182 @@
 //   },
 // });
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
-import {
-  View,
-  Text,
-  Button,
-  FlatList,
-  Image,
-  Alert,
-  TextInput,
-  StyleSheet,
-} from "react-native";
-
-import * as Contacts from "expo-contacts";
-
-export default function ContactScreen() {
-  const [contacts, setContacts] = useState([]);
-  const [search, setSearch] = useState("");
-
-  // =========================
-  // Get Contacts
-  // =========================
-  const getContacts = async () => {
-    const permission =
-      await Contacts.requestPermissionsAsync();
-
-    if (!permission.granted) {
-      Alert.alert(
-        "Permission Denied",
-        "Contact permission is required."
-      );
-
-      return;
-    }
-
-    const { data } = await Contacts.getContactsAsync({
-      fields: [
-        Contacts.Fields.PhoneNumbers,
-        Contacts.Fields.Image,
-      ],
-    });
-
-    setContacts(data);
-  };
-
-  const handleDeleteContact = (contact) => {
-    Alert.alert(
-      "Delete Contact",
-      `Are you sure you want to delete ${
-        contact.name || "this contact"
-      }?`,
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-
-        {
-          text: "Delete",
-          style: "destructive",
-
-          onPress: async () => {
-            try {
-              await Contacts.removeContactAsync(
-                contact.id
-              );
-
-              setContacts((previousContacts) =>
-                previousContacts.filter(
-                  (item) => item.id !== contact.id
-                )
-              );
-
-              Alert.alert(
-                "Success",
-                "Contact deleted successfully"
-              );
-            } catch (error) {
-              console.log("DELETE ERROR:", error);
-
-              Alert.alert(
-                "Error",
-                "Unable to delete contact"
-              );
-            }
-          },
-        },
-      ]
-    );
-  };
-
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name
-      ?.toLowerCase()
-      .includes(search.toLowerCase())
-  );
-
-  const renderContact = ({ item }) => {
-    const phone =
-      item.phoneNumbers?.[0]?.number ||
-      "No Phone Number";
-
-    const email =
-      item.emails?.[0]?.email ||
-      "No Email";
-
-    return (
-      <View style={styles.contactCard}>
-
-        {item.imageAvailable && item.image?.uri ? (
-          <Image
-            source={{ uri: item.image.uri }}
-            style={styles.image}
-          />
-        ) : (
-          <Text style={styles.noImage}>
-            No Image
-          </Text>
-        )}
-
-        <Text style={styles.name}>
-          {item.name || "Unknown Name"}
-        </Text>
-
-        <Text style={styles.info}>
-         {phone}
-        </Text>
-
-        <Text style={styles.info}>
-          {email}
-        </Text>
-
-        <Button
-          title="Delete"
-          color="red"
-          onPress={() =>
-            handleDeleteContact(item)
-          }
-        />
-      </View>
-    );
-  };
-
-  return (
-    <View style={styles.container}>
-
-      <Text style={styles.title}>
-        My Contacts
-      </Text>
-
-      <View style={styles.buttons}>
-        <Button
-          title="Get Contacts"
-          onPress={getContacts}
-        />
-      </View>
-
-      <TextInput
-        style={styles.search}
-        placeholder="Search contacts..."
-        value={search}
-        onChangeText={setSearch}
-      />
-
-      <FlatList
-        data={filteredContacts}
-        keyExtractor={(item) => item.id}
-        renderItem={renderContact}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
-
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-
-  buttons: {
-    gap: 10,
-    marginBottom: 20,
-  },
-
-  search: {
-    backgroundColor: "white",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-
-  contactCard: {
-    backgroundColor: "white",
-    padding: 15,
-    marginBottom: 12,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-
-  image: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 10,
-  },
-
-  noImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#ddd",
-    textAlign: "center",
-    paddingTop: 30,
-    marginBottom: 10,
-  },
-
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-
-  info: {
-    fontSize: 15,
-    marginBottom: 5,
-  },
-
-});
-
-
-
-
-
-
-// import { useState } from "react";
 // import {
 //   View,
+//   Text,
 //   Button,
 //   FlatList,
 //   Image,
-//   Text,
+//   Alert,
 //   TextInput,
 //   StyleSheet,
-//   Alert,
 // } from "react-native";
+
 // import * as Contacts from "expo-contacts";
 
-// export default function ContactsScreen() {
+// export default function ContactScreen() {
 //   const [contacts, setContacts] = useState([]);
 //   const [search, setSearch] = useState("");
 
-//   const [showAdd, setShowAdd] = useState(false);
-
-//   const [firstName, setFirstName] = useState("");
-//   const [lastName, setLastName] = useState("");
-//   const [phone, setPhone] = useState("");
-//   const [email, setEmail] = useState("");
-
-//   const handlePermission = async () => {
-//     const permission = await Contacts.requestPermissionsAsync();
+//   // =========================
+//   // Get Contacts
+//   // =========================
+//   const getContacts = async () => {
+//     const permission =
+//       await Contacts.requestPermissionsAsync();
 
 //     if (!permission.granted) {
 //       Alert.alert(
-//         "Permission Required",
-//         "Please allow Contacts permission."
+//         "Permission Denied",
+//         "Contact permission is required."
 //       );
-//       return false;
-//     }
 
-//     return true;
-//   };
-
-//   const getContacts = async () => {
-//     const permission = await handlePermission();
-
-//     if (!permission) {
 //       return;
 //     }
 
-//     const contactData = await Contacts.getContactsAsync({
+//     const { data } = await Contacts.getContactsAsync({
 //       fields: [
 //         Contacts.Fields.PhoneNumbers,
-//         Contacts.Fields.Emails,
 //         Contacts.Fields.Image,
 //       ],
-//       sort: Contacts.SortTypes.FirstName,
 //     });
 
-//     setContacts(contactData.data);
+//     setContacts(data);
 //   };
 
-//   const addContact = async () => {
-//     if (!firstName && !lastName) {
-//       Alert.alert("Error", "Please enter a name.");
-//       return;
-//     }
+//   const handleDeleteContact = (contact) => {
+//     Alert.alert(
+//       "Delete Contact",
+//       `Are you sure you want to delete ${
+//         contact.name || "this contact"
+//       }?`,
+//       [
+//         {
+//           text: "Cancel",
+//           style: "cancel",
+//         },
 
-//     if (!phone) {
-//       Alert.alert("Error", "Please enter a phone number.");
-//       return;
-//     }
+//         {
+//           text: "Delete",
+//           style: "destructive",
 
-//     const permission = await handlePermission();
+//           onPress: async () => {
+//             try {
+//               await Contacts.removeContactAsync(
+//                 contact.id
+//               );
 
-//     if (!permission) {
-//       return;
-//     }
+//               setContacts((previousContacts) =>
+//                 previousContacts.filter(
+//                   (item) => item.id !== contact.id
+//                 )
+//               );
 
-//     try {
-//       const contact = {
-//         firstName: firstName,
-//         lastName: lastName,
-//         phoneNumbers: [
-//           {
-//             label: "mobile",
-//             number: phone,
+//               Alert.alert(
+//                 "Success",
+//                 "Contact deleted successfully"
+//               );
+//             } catch (error) {
+//               console.log("DELETE ERROR:", error);
+
+//               Alert.alert(
+//                 "Error",
+//                 "Unable to delete contact"
+//               );
+//             }
 //           },
-//         ],
-//         emails: email
-//           ? [
-//               {
-//                 label: "home",
-//                 email: email,
-//               },
-//             ]
-//           : [],
-//       };
-
-//       await Contacts.addContactAsync(contact);
-
-//       Alert.alert("Success", "Contact saved successfully.");
-
-//       setFirstName("");
-//       setLastName("");
-//       setPhone("");
-//       setEmail("");
-//       setShowAdd(false);
-
-//       getContacts();
-//     } catch (error) {
-//       console.log(error);
-//       Alert.alert("Error", "Could not save contact.");
-//     }
+//         },
+//       ]
+//     );
 //   };
 
-//   const searchedData = contacts.filter((item) => {
-//     const name = item.name?.toLowerCase() || "";
-//     const phoneNumber = item.phoneNumbers?.[0]?.number || "";
+//   const filteredContacts = contacts.filter((contact) =>
+//     contact.name
+//       ?.toLowerCase()
+//       .includes(search.toLowerCase())
+//   );
+
+//   const renderContact = ({ item }) => {
+//     const phone =
+//       item.phoneNumbers?.[0]?.number ||
+//       "No Phone Number";
+
+//     const email =
+//       item.emails?.[0]?.email ||
+//       "No Email";
 
 //     return (
-//       name.includes(search.toLowerCase()) ||
-//       phoneNumber.includes(search)
+//       <View style={styles.contactCard}>
+
+//         {item.imageAvailable && item.image?.uri ? (
+//           <Image
+//             source={{ uri: item.image.uri }}
+//             style={styles.image}
+//           />
+//         ) : (
+//           <Text style={styles.noImage}>
+//             No Image
+//           </Text>
+//         )}
+
+//         <Text style={styles.name}>
+//           {item.name || "Unknown Name"}
+//         </Text>
+
+//         <Text style={styles.info}>
+//          {phone}
+//         </Text>
+
+//         <Text style={styles.info}>
+//           {email}
+//         </Text>
+
+//         <Button
+//           title="Delete"
+//           color="red"
+//           onPress={() =>
+//             handleDeleteContact(item)
+//           }
+//         />
+//       </View>
 //     );
-//   });
+//   };
 
 //   return (
 //     <View style={styles.container}>
-//       <Text style={styles.title}>My Contacts</Text>
+
+//       <Text style={styles.title}>
+//         My Contacts
+//       </Text>
 
 //       <View style={styles.buttons}>
-//         <Button
-//           title="Request Permission"
-//           onPress={handlePermission}
-//         />
-
 //         <Button
 //           title="Get Contacts"
 //           onPress={getContacts}
 //         />
-
-//         <Button
-//           title="Add Contact"
-//           onPress={() => setShowAdd(!showAdd)}
-//         />
 //       </View>
 
-//       {showAdd && (
-//         <View style={styles.addBox}>
-//           <Text style={styles.addTitle}>Add New Contact</Text>
-
-//           <TextInput
-//             placeholder="First Name"
-//             value={firstName}
-//             onChangeText={setFirstName}
-//             style={styles.input}
-//           />
-
-//           <TextInput
-//             placeholder="Last Name"
-//             value={lastName}
-//             onChangeText={setLastName}
-//             style={styles.input}
-//           />
-
-//           <TextInput
-//             placeholder="Phone Number"
-//             value={phone}
-//             onChangeText={setPhone}
-//             keyboardType="phone-pad"
-//             style={styles.input}
-//           />
-
-//           <TextInput
-//             placeholder="Email"
-//             value={email}
-//             onChangeText={setEmail}
-//             keyboardType="email-address"
-//             style={styles.input}
-//           />
-
-//           <Button
-//             title="Save Contact"
-//             onPress={addContact}
-//           />
-//         </View>
-//       )}
-
 //       <TextInput
-//         placeholder="Search Contacts..."
+//         style={styles.search}
+//         placeholder="Search contacts..."
 //         value={search}
 //         onChangeText={setSearch}
-//         style={styles.search}
 //       />
 
 //       <FlatList
-//         data={searchedData}
+//         data={filteredContacts}
 //         keyExtractor={(item) => item.id}
-//         renderItem={({ item }) => (
-//           <View style={styles.contactCard}>
-//             {item.imageAvailable && item.image?.uri ? (
-//               <Image
-//                 source={{ uri: item.image.uri }}
-//                 style={styles.image}
-//               />
-//             ) : (
-//               <Text style={styles.noImage}>
-//                 No Image
-//               </Text>
-//             )}
-
-//             <Text style={styles.name}>
-//               Name: {item.name}
-//             </Text>
-
-//             <Text style={styles.info}>
-//               Phone Number:{" "}
-//               {item.phoneNumbers?.[0]?.number || "No Phone"}
-//             </Text>
-
-//             <Text style={styles.info}>
-//               Email:{" "}
-//               {item.emails?.[0]?.email || "No Email"}
-//             </Text>
-//           </View>
-//         )}
+//         renderItem={renderContact}
+//         showsVerticalScrollIndicator={false}
 //       />
 //     </View>
 //   );
 // }
 
 // const styles = StyleSheet.create({
+
 //   container: {
 //     flex: 1,
 //     padding: 20,
@@ -658,28 +361,6 @@ const styles = StyleSheet.create({
 //   buttons: {
 //     gap: 10,
 //     marginBottom: 20,
-//   },
-
-//   addBox: {
-//     backgroundColor: "white",
-//     padding: 15,
-//     borderRadius: 10,
-//     marginBottom: 15,
-//   },
-
-//   addTitle: {
-//     fontSize: 20,
-//     fontWeight: "bold",
-//     marginBottom: 10,
-//   },
-
-//   input: {
-//     backgroundColor: "#f5f5f5",
-//     borderWidth: 1,
-//     borderColor: "#ddd",
-//     borderRadius: 8,
-//     padding: 10,
-//     marginBottom: 10,
 //   },
 
 //   search: {
@@ -726,4 +407,292 @@ const styles = StyleSheet.create({
 //     fontSize: 15,
 //     marginBottom: 5,
 //   },
-// });   
+
+// });
+
+
+import React, { useState } from "react";
+
+import {
+  View,
+  Text,
+  Button,
+  FlatList,
+  Image,
+  Alert,
+  TextInput,
+  StyleSheet,
+} from "react-native";
+
+import * as Contacts from "expo-contacts";
+
+export default function ContactScreen() {
+
+  const [contacts, setContacts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  // Get Contacts
+  const getContacts = async () => {
+    const permission = await Contacts.requestPermissionsAsync();
+
+    if (!permission.granted) {
+      Alert.alert(
+        "Permission Denied",
+        "Please allow contact permission."
+      );
+      return;
+    }
+
+    const { data } = await Contacts.getContactsAsync({
+        fields: [
+          Contacts.Fields.PhoneNumbers,
+          Contacts.Fields.Image,
+        ],
+      });
+
+    setContacts(data);
+  };
+
+
+  // Add Contact
+  const addContact = async () => {
+    const permission =  await Contacts.requestPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(
+        "Permission Denied",
+        "Please allow contact permission."
+      );
+      return;
+    }
+
+    const contact = {
+      [Contacts.Fields.FirstName]: "New",
+      [Contacts.Fields.LastName]: "Contact",
+
+      [Contacts.Fields.PhoneNumbers]: [
+        {
+          label: "mobile",
+          number: "9999999999",
+        },
+      ],
+    };
+
+    await Contacts.addContactAsync(contact);
+
+    Alert.alert(
+      "Success",  "Contact added successfully!"
+    );
+
+    getContacts();
+  };
+
+
+  // Delete Contact
+  const deleteContact = (contact) => {
+    Alert.alert(
+      "Delete Contact",`Delete ${contact.name}?`,
+      [
+        {
+          text: "Cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+
+          onPress: async () => {
+             await Contacts.removeContactAsync(contact.id);
+            setContacts(
+              contacts.filter(
+                (item) => item.id !== contact.id
+              )
+            );
+          },
+        },
+      ]
+    );
+  };
+
+
+  // Search
+  const filteredContacts =
+    contacts.filter((contact) =>
+      contact.name
+        ?.toLowerCase()
+        .includes(search.toLowerCase())
+    );
+
+
+  // Contact Card
+  const renderContact = ({ item }) => {
+    const phone =
+      item.phoneNumbers?.[0]?.number ||
+      "No Number";
+
+    return (
+      <View style={styles.contact}>
+
+        {/* Image */}
+
+        {item.imageAvailable &&
+        item.image?.uri ? (
+          <Image
+            source={{
+              uri: item.image.uri,
+            }}
+            style={styles.image}
+          />
+
+        ) : (
+
+          <View style={styles.noImage}>
+            <Text>No Image</Text>
+          </View>
+
+        )}
+
+
+        {/* Name */}
+
+        <Text style={styles.name}>
+          {item.name || "Unknown"}
+        </Text>
+
+
+        {/* Phone */}
+
+        <Text style={styles.phone}>
+          {phone}
+        </Text>
+
+
+        {/* Delete */}
+
+        <Button
+          title="Delete"
+          color="red"
+          onPress={() =>
+            deleteContact(item)
+          }
+        />
+
+      </View>
+    );
+  };
+
+
+  return (
+    <View style={styles.container}>
+
+      {/* Title */}
+
+      <Text style={styles.title}>
+        My Contacts
+      </Text>
+
+
+      {/* Buttons */}
+
+      <View style={styles.buttons}>
+
+        <Button
+          title="Get Contacts"
+          onPress={getContacts}
+        />
+
+        <Button
+          title="Add Contact"
+          onPress={addContact}
+        />
+
+      </View>
+
+
+      {/* Search */}
+
+      <TextInput
+        style={styles.search}
+        placeholder="Search contact..."
+        value={search}
+        onChangeText={setSearch}
+      />
+
+
+      {/* Contact List */}
+
+      <FlatList
+        data={filteredContacts}
+        keyExtractor={(item) => item.id}
+        renderItem={renderContact}
+      />
+
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  buttons: {
+    gap: 10,
+    marginBottom: 20,
+  },
+
+  search: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    marginBottom: 15,
+  },
+
+  contact: {
+    backgroundColor: "white",
+    padding: 15,
+    marginBottom: 12,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 10,
+  },
+
+  noImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  name: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+
+  phone: {
+    fontSize: 15,
+    marginBottom: 10,
+  },
+
+});
