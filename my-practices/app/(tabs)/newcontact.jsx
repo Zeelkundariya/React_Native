@@ -30,7 +30,12 @@ export default function ContactScreen() {
     }
 
     const { data } =
-      await Contacts.getContactsAsync();
+      await Contacts.getContactsAsync({
+       fields: [
+                 Contacts.Fields.PhoneNumbers,
+                 Contacts.Fields.Image,
+               ],
+      });
 
     console.log(data[0]);
 
