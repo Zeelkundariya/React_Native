@@ -30,10 +30,7 @@ export default function ContactScreen() {
     }
 
     const { data } =
-      await Contacts.getContactsAsync({
-        fields: [
-        ],
-      });
+      await Contacts.getContactsAsync();
 
     console.log(data[0]);
 
