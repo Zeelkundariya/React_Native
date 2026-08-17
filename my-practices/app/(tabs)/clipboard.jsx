@@ -11,7 +11,7 @@ import * as Clipboard from "expo-clipboard";
 
 export default function Clip() {
   const [text, setText] = useState("");
-  const [copiedText, setCopiedText] = useState("");
+  const [copiedTexts, setCopiedTexts] = useState([]);
 
   const handleCopyText = async () => {
     if (!text.trim()) {
@@ -21,12 +21,12 @@ export default function Clip() {
 
     await Clipboard.setStringAsync(text);
 
-    Alert.alert("Copied", "Text copied to clipboard");
-  };
+    // Add new copied text to the list
+    setCopiedTexts((prev) => [...prev, text]);
 
-  const handleCopiedData = async () => {
-    const data = await Clipboard.getStringAsync();
-    setCopiedText(data);
+    setText("");
+
+    Alert.alert("Copied", "Text copied to clipboard");
   };
 
   return (
@@ -42,15 +42,13 @@ export default function Clip() {
 
       <Button title="Copy Text" onPress={handleCopyText} />
 
-      <View style={styles.space} />
+      <Text style={styles.heading}>Copied Data:</Text>
 
-      <Button title="Get Copied Data" onPress={handleCopiedData} />
-
-      {copiedText && (
-        <Text style={styles.result}>
-          Copied Data: {copiedText}
+      {copiedTexts.map((item, index) => (
+        <Text key={index} style={styles.result}>
+          {index + 1}. {item}
         </Text>
-      )}
+      ))}
     </View>
   );
 }
@@ -60,6 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
 
   title: {
@@ -68,20 +67,21 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    color:"grey",
     borderWidth: 1,
     padding: 10,
     width: 250,
     marginBottom: 15,
   },
 
-  space: {
-    height: 20,
+  heading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 30,
+    marginBottom: 10,
   },
 
   result: {
-    color:"grey",
-    marginTop: 20,
     fontSize: 18,
+    marginBottom: 5,
   },
 });
