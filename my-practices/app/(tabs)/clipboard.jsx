@@ -3,52 +3,44 @@ import {
   View,
   Text,
   Button,
+  Image,
   StyleSheet,
-  TextInput,
   Alert,
 } from "react-native";
 import * as Clipboard from "expo-clipboard";
+import * as FileSystem from "expo-file-system/legacy";
 
-export default function Clip() {
-  const [text, setText] = useState("");
-  const [copiedTexts, setCopiedTexts] = useState([]);
+export default function App() {
+  const [image, setImage] = useState(null);
 
-  const handleCopyText = async () => {
-    if (!text.trim()) {
-      Alert.alert("Empty Text", "Please enter some text");
-      return;
-    }
+  const getImage = async () => {
+   
+      const res = await Clipboard.getImageAsync({
+        format: "png",
+      });
 
-    await Clipboard.setStringAsync(text);
+      setImage(res?.data)
 
-    // Add new copied text to the list
-    setCopiedTexts((prev) => [...prev, text]);
-
-    setText("");
-
-    Alert.alert("Copied", "Text copied to clipboard");
-  };
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Clipboard Class</Text>
+      <Text style={styles.title}>
+        Clipboard Image
+      </Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Write something"
-        value={text}
-        onChangeText={setText}
+      <Button
+        title="Get Clipboard Image"
+        onPress={getImage}
       />
 
-      <Button title="Copy Text" onPress={handleCopyText} />
-
-      <Text style={styles.heading}>Copied Data:</Text>
-
-      {copiedTexts.map((item, index) => (
-        <Text key={index} style={styles.result}>
-          {index + 1}. {item}
-        </Text>
-      ))}
+      <View style={styles.imageBox}>
+        {
+            image && (
+                <Image source={{uri:image}} style={{height:100, width:100}} />
+            )
+        }
+      </View>
     </View>
   );
 }
@@ -59,29 +51,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    backgroundColor:"teal"
   },
 
   title: {
     fontSize: 24,
-    marginBottom: 20,
+    marginBottom: 30,
   },
 
-  input: {
-    borderWidth: 1,
-    padding: 10,
-    width: 250,
-    marginBottom: 15,
-  },
-
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
+  imageBox: {
+    width: 320,
+    height: 320,
     marginTop: 30,
-    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  result: {
-    fontSize: 18,
-    marginBottom: 5,
+  image: {
+    width: 300,
+    height: 300,
   },
 });

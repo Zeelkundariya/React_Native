@@ -298,3 +298,493 @@
 //         alignItems: "center",
 //     },
 // });
+
+
+
+
+import React, { useRef, useState } from "react";
+
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Alert,
+} from "react-native";
+
+import {
+  CameraView,
+  useCameraPermissions,
+} from "expo-camera";
+
+
+export default function App() {
+
+  // --------------------------------
+  // CAMERA REFERENCE
+  // --------------------------------
+
+  const cameraRef = useRef(null);
+
+
+  // --------------------------------
+  // CAMERA PERMISSION
+  // --------------------------------
+
+  const [permission, requestPermission] =
+    useCameraPermissions();
+
+
+  // --------------------------------
+  // CAMERA SETTINGS
+  // --------------------------------
+
+  const [facing, setFacing] =
+    useState("back");
+
+  const [flash, setFlash] =
+    useState("off");
+
+
+  // --------------------------------
+  // VIDEO RECORDING STATE
+  // --------------------------------
+
+  const [isRecording, setIsRecording] =
+    useState(false);
+
+
+  // --------------------------------
+  // QR / BARCODE STATE
+  // --------------------------------
+
+  const [scanned, setScanned] =
+    useState(false);
+
+  const [scanResult, setScanResult] =
+    useState("");
+
+
+  // =========================================
+  // 1. PERMISSION NOT DETERMINED YET
+  // =========================================
+
+  if (!permission) {
+    return (
+      <View style={styles.center}>
+        <Text>
+          Checking camera permission...
+        </Text>
+      </View>
+    );
+  }
+
+
+  // =========================================
+  // 2. PERMISSION NOT GRANTED
+  // =========================================
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.center}>
+
+        <Text style={styles.permissionText}>
+          Camera permission is required.
+        </Text>
+
+        <Button
+          title="Allow Camera"
+          onPress={requestPermission}
+        />
+
+      </View>
+    );
+  }
+
+
+  // =========================================
+  // 3. TAKE PHOTO
+  // =========================================
+
+  const takePhoto = async () => {
+
+    try {
+
+      const photo =
+        await cameraRef.current.takePictureAsync({
+          quality: 0.8,
+        });
+
+      console.log("Photo URI:", photo.uri);
+
+      Alert.alert(
+        "Photo Captured",
+        photo.uri
+      );
+
+    } catch (error) {
+
+      console.log(
+        "Photo error:",
+        error
+      );
+
+      Alert.alert(
+        "Error",
+        "Could not take photo"
+      );
+    }
+  };
+
+
+  // =========================================
+  // 4. START VIDEO RECORDING
+  // =========================================
+
+  const startRecording = async () => {
+
+    try {
+
+      setIsRecording(true);
+
+      const video =
+        await cameraRef.current.recordAsync();
+
+      console.log(
+        "Video URI:",
+        video.uri
+      );
+
+      Alert.alert(
+        "Video Recorded",
+        video.uri
+      );
+
+    } catch (error) {
+
+      console.log(
+        "Recording error:",
+        error
+      );
+
+    } finally {
+
+      setIsRecording(false);
+
+    }
+  };
+
+
+  // =========================================
+  // 5. STOP VIDEO RECORDING
+  // =========================================
+
+  const stopRecording = () => {
+
+    cameraRef.current.stopRecording();
+
+  };
+
+
+  // =========================================
+  // 6. SWITCH FRONT / BACK CAMERA
+  // =========================================
+
+  const switchCamera = () => {
+
+    setFacing(
+      facing === "back"
+        ? "front"
+        : "back"
+    );
+
+  };
+
+
+  // =========================================
+  // 7. TOGGLE FLASH
+  // =========================================
+
+  const toggleFlash = () => {
+
+    setFlash(
+      flash === "off"
+        ? "on"
+        : "off"
+    );
+
+  };
+
+
+  // =========================================
+  // 8. QR / BARCODE SCANNING
+  // =========================================
+
+  const handleBarcodeScanned = ({
+    type,
+    data,
+  }) => {
+
+    if (scanned) {
+      return;
+    }
+
+    setScanned(true);
+    setScanResult(data);
+
+    Alert.alert(
+      "Code Scanned",
+      `Type: ${type}\nData: ${data}`
+    );
+  };
+
+
+  // =========================================
+  // 9. RESET SCANNER
+  // =========================================
+
+  const scanAgain = () => {
+
+    setScanned(false);
+    setScanResult("");
+
+  };
+
+
+  // =========================================
+  // USER INTERFACE
+  // =========================================
+
+  return (
+
+    <View style={styles.container}>
+
+      {/* ================================
+          CAMERA
+      ================================= */}
+
+      <CameraView
+        ref={cameraRef}
+
+        style={styles.camera}
+
+        facing={facing}
+
+        flash={flash}
+
+        autofocus="on"
+
+        mute={false}
+
+        onBarcodeScanned={
+          scanned
+            ? undefined
+            : handleBarcodeScanned
+        }
+      />
+
+
+      {/* ================================
+          TOP INFORMATION
+      ================================= */}
+
+      <View style={styles.topBar}>
+
+        <Text style={styles.infoText}>
+          Camera: {facing}
+        </Text>
+
+        <Text style={styles.infoText}>
+          Flash: {flash}
+        </Text>
+
+        {isRecording && (
+          <Text style={styles.recordingText}>
+            🔴 RECORDING
+          </Text>
+        )}
+
+      </View>
+
+
+      {/* ================================
+          SCAN RESULT
+      ================================= */}
+
+      {scanResult !== "" && (
+
+        <View style={styles.scanBox}>
+
+          <Text style={styles.scanText}>
+            Scanned:
+          </Text>
+
+          <Text style={styles.scanData}>
+            {scanResult}
+          </Text>
+
+          <Button
+            title="Scan Again"
+            onPress={scanAgain}
+          />
+
+        </View>
+
+      )}
+
+
+      {/* ================================
+          CONTROLS
+      ================================= */}
+
+      <View style={styles.controls}>
+
+        {/* Camera Switch */}
+
+        <Button
+          title="🔄 Switch"
+          onPress={switchCamera}
+        />
+
+
+        {/* Flash */}
+
+        <Button
+          title={
+            flash === "off"
+              ? "⚡ Flash ON"
+              : "⚡ Flash OFF"
+          }
+          onPress={toggleFlash}
+        />
+
+
+        {/* Photo */}
+
+        <Button
+          title="📸 Photo"
+          onPress={takePhoto}
+        />
+
+
+        {/* Video */}
+
+        {isRecording ? (
+
+          <Button
+            title="⏹ Stop"
+            onPress={stopRecording}
+          />
+
+        ) : (
+
+          <Button
+            title="🎥 Record"
+            onPress={startRecording}
+          />
+
+        )}
+
+      </View>
+
+    </View>
+  );
+}
+
+
+// =========================================
+// STYLES
+// =========================================
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+  },
+
+  camera: {
+    flex: 1,
+  },
+
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+
+  permissionText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+
+  topBar: {
+    position: "absolute",
+    top: 50,
+    left: 15,
+    right: 15,
+
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+
+    alignItems: "center",
+  },
+
+  infoText: {
+    color: "white",
+    fontSize: 14,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: 8,
+    borderRadius: 8,
+  },
+
+  recordingText: {
+    color: "red",
+    fontWeight: "bold",
+    backgroundColor: "white",
+    padding: 8,
+    borderRadius: 8,
+  },
+
+  scanBox: {
+    position: "absolute",
+
+    bottom: 170,
+    left: 20,
+    right: 20,
+
+    backgroundColor: "white",
+
+    padding: 15,
+
+    borderRadius: 10,
+  },
+
+  scanText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  scanData: {
+    fontSize: 14,
+    marginVertical: 10,
+  },
+
+  controls: {
+    position: "absolute",
+
+    bottom: 30,
+    left: 10,
+    right: 10,
+
+    flexDirection: "row",
+
+    justifyContent: "space-around",
+
+    alignItems: "center",
+  },
+
+});
