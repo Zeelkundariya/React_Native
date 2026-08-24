@@ -7,7 +7,7 @@ export default function ShareScreen() {
     }
     return (
         <View style={styles.container}>
-            <Text>Share Class</Text>
+            <Text>Share Features</Text>
             <Button title="Share Text" onPress={handleShare} />
         </View>
     )
