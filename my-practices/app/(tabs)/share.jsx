@@ -41,45 +41,70 @@
 //image-picker
 
 
-import { View, Text, Button, Share, StyleSheet, TextInput } from "react-native";
+import { View, Text, Button, Image, StyleSheet } from "react-native";
 import { useState } from "react";
-import * as Sharing from "expo-sharing"
-import * as ImagePicker from "expo-image-picker"
+import * as ImagePicker from "expo-image-picker";
+import * as Sharing from "expo-sharing";
 
 export default function ShareScreen() {
-    const [image, setImage] = useState(null)
-    const handleShare = async () => {
-        const res = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes:["images"],
-            allowedEditing: false,
-            quality:1,
-        });
-        console.log(res)
+  const [image, setImage] = useState(null);
 
-        if(res.canceled){
-            return;
-        }
-      const imageuri= await Sharing.shareAsync(res.assets[0].uri);
-      console.log(imageuri)
-    }
-    return (
-        <View style={styles.container}>
-            <Text>Share Features</Text>
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+    });
 
-            {image && (
-                <Image source={{uri : image}} />
-            )}
-            <Button title="Share Text" onPress={handleShare} />
-        </View>
-    )
+    if (result.canceled) return;
+
+    setImage(result.assets[0].uri);
+  };
+
+  const shareImage = async () => {
+    if (!image) return;
+
+    await Sharing.shareAsync(image);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text>Share Image</Text>
+
+      {image && (
+        <Image
+          source={{ uri: image }}
+          style={styles.image}
+        />
+      )}
+
+      <Button
+        title="Select Image"
+        onPress={selectImage}
+      />
+
+      <View style={styles.space}>
+        <Button
+          title="Share Image"
+          onPress={shareImage}
+        />
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "grey",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 20,
-    },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  image: {
+    width: 250,
+    height: 250,
+    margin: 20,
+  },
+
+  space: {
+    marginTop: 15,
+  },
 });
