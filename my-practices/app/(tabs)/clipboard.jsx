@@ -1,149 +1,152 @@
-// import React, { useState } from "react";
-// import {
-//   View,
-//   Text,
-//   Button,
-//   Image,
-//   StyleSheet,
-//   Alert,
-// } from "react-native";
-// import * as Clipboard from "expo-clipboard";
-// import * as FileSystem from "expo-file-system/legacy";
+// // import React, { useState } from "react";
+// // import {
+// //   View,
+// //   Text,
+// //   Button,
+// //   Image,
+// //   StyleSheet,
+// //   Alert,
+// // } from "react-native";
+// // import * as Clipboard from "expo-clipboard";
+// // import * as FileSystem from "expo-file-system/legacy";
 
-// export default function App() {
-//   const [image, setImage] = useState(null);
+// // export default function App() {
+// //   const [image, setImage] = useState(null);
 
-//   const getImage = async () => {
-   
-//       const res = await Clipboard.getImageAsync({
-//         format: "png",
-//       });
+// //   const getImage = async () => {
 
-//       setImage(res?.data)
+// //       const res = await Clipboard.getImageAsync({
+// //         format: "png",
+// //       });
 
-//   }
+// //       setImage(res?.data)
 
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>
-//         Clipboard Image
-//       </Text>
+// //   }
 
-//       <Button
-//         title="Get Clipboard Image"
-//         onPress={getImage}
-//       />
+// //   return (
+// //     <View style={styles.container}>
+// //       <Text style={styles.title}>
+// //         Clipboard Image
+// //       </Text>
 
-//       <View style={styles.imageBox}>
-//         {
-//             image && (
-//                 <Image source={{uri:image}} style={{height:100, width:100}} />
-//             )
-//         }
-//       </View>
-//     </View>
-//   );
-// }
+// //       <Button
+// //         title="Get Clipboard Image"
+// //         onPress={getImage}
+// //       />
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     padding: 20,
-//     backgroundColor:"teal"
-//   },
+// //       <View style={styles.imageBox}>
+// //         {
+// //             image && (
+// //                 <Image source={{uri:image}} style={{height:100, width:100}} />
+// //             )
+// //         }
+// //       </View>
+// //     </View>
+// //   );
+// // }
 
-//   title: {
-//     fontSize: 24,
-//     marginBottom: 30,
-//   },
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     flex: 1,
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //     padding: 20,
+// //     backgroundColor:"teal"
+// //   },
 
-//   imageBox: {
-//     width: 320,
-//     height: 320,
-//     marginTop: 30,
-//     borderWidth: 2,
-//     borderColor: "white",
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
+// //   title: {
+// //     fontSize: 24,
+// //     marginBottom: 30,
+// //   },
 
-//   image: {
-//     width: 300,
-//     height: 300,
-//   },
-// });
+// //   imageBox: {
+// //     width: 320,
+// //     height: 320,
+// //     marginTop: 30,
+// //     borderWidth: 2,
+// //     borderColor: "white",
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //   },
+
+// //   image: {
+// //     width: 300,
+// //     height: 300,
+// //   },
+// // });
 
 
-// import React, { useState } from "react";
-// import { View, Text, Button, Image, StyleSheet, Alert,} from "react-native";
-// import * as Clipboard from "expo-clipboard";
-// import * as FileSystem from "expo-file-system/legacy";
+// // import React, { useState } from "react";
+// // import { View, Text, Button, Image, StyleSheet, Alert,} from "react-native";
+// // import * as Clipboard from "expo-clipboard";
+// // import * as FileSystem from "expo-file-system/legacy";
 
-// export default function App() {
-//   const [image, setImage] = useState(null);
+// // export default function App() {
+// //   const [image, setImage] = useState(null);
 
-//   const getImage = async () => {
-   
-//       const res = await Clipboard.getImageAsync({
-//         format: "png",
-//       });
-// console.log(res)
-//       setImage(res?.data)
+// //   const getImage = async () => {
 
-//   }
+// //       const res = await Clipboard.getImageAsync({
+// //         format: "png",
+// //       });
+// // console.log(res)
+// //       setImage(res?.data)
 
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>
-//         Clipboard Image
-//       </Text>
+// //   }
 
-//       <Button
-//         title="Get Clipboard Image"
-//         onPress={getImage}
-//       />
+// //   return (
+// //     <View style={styles.container}>
+// //       <Text style={styles.title}>
+// //         Clipboard Image
+// //       </Text>
 
-//       <View style={styles.imageBox}>
-//         {
-//             image && (
-//                 <Image source={{uri:image}} style={{height:100, width:100}} />
-//             )
-//         }
-//       </View>
-//     </View>
-//   );
-// }
+// //       <Button
+// //         title="Get Clipboard Image"
+// //         onPress={getImage}
+// //       />
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     padding: 20,
-//     backgroundColor:"lightblue"
-//   },
+// //       <View style={styles.imageBox}>
+// //         {
+// //             image && (
+// //                 <Image source={{uri:image}} style={{height:100, width:100}} />
+// //             )
+// //         }
+// //       </View>
+// //     </View>
+// //   );
+// // }
 
-//   title: {
-//     fontSize: 24,
-//     marginBottom: 30,
-//   },
+// // const styles = StyleSheet.create({
+// //   container: {
+// //     flex: 1,
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //     padding: 20,
+// //     backgroundColor:"lightblue"
+// //   },
 
-//   imageBox: {
-//     width: 320,
-//     height: 320,
-//     marginTop: 30,
-//     borderWidth: 2,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
+// //   title: {
+// //     fontSize: 24,
+// //     marginBottom: 30,
+// //   },
 
-//   image: {
-//     width: 300,
-//     height: 300,
-//   },
-// });
+// //   imageBox: {
+// //     width: 320,
+// //     height: 320,
+// //     marginTop: 30,
+// //     borderWidth: 2,
+// //     justifyContent: "center",
+// //     alignItems: "center",
+// //   },
+
+// //   image: {
+// //     width: 300,
+// //     height: 300,
+// //   },
+// // });
+
+
+
 import React, { useState } from "react";
 
 import {
@@ -339,3 +342,34 @@ const styles = StyleSheet.create({
   },
 
 });
+
+
+
+
+
+
+
+
+
+// import { Alert, View } from "react-native";
+// import { useState } from "react";
+// import * as Clipboard from "expo-clipboard"
+
+// export default function ClipboardScreen() {
+//   const [text, setText] = useState("");
+
+//   const handleCopy = async () => {
+//     await Clipboard.setStringAsync(text);
+
+//     const 
+
+
+//     Alert.alert("Success", "Your text has been copyed")
+//   }
+//   return (
+//     <View>
+//       <Button title="Copy" onPress={handleCopy} />
+//       <Button title="Pasted" onPress={handlePasted}/>
+//     </View>
+//   )
+// }
