@@ -190,15 +190,15 @@ export default function NotificationScreen() {
 
         if (!permission.granted) return;
 
-        await Notifications.scheduleNotificationAsync({
+       const id = await Notifications.scheduleNotificationAsync({
             content: {
                 title: "React Native",
                 body: "Do your project!",
             },
-            trigger: {
-                type:"timeinterval",
-                second:10,
-            }
+             trigger: {
+    type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+    seconds: 6,
+  },
         });
         console.log(id);
         setNotId(id);
