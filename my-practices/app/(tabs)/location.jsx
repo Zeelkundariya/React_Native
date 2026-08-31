@@ -311,398 +311,398 @@
 
 
 
-import React, { useState, useRef } from "react";
+// import React, { useState, useRef } from "react";
 
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-} from "react-native";
+// import {
+//   View,
+//   Text,
+//   Button,
+//   StyleSheet,
+// } from "react-native";
 
-import * as Location from "expo-location";
+// import * as Location from "expo-location";
 
-import MapView, { Marker } from "react-native-maps";
-
-
-export default function LocationScreen() {
-
-  // Current location
-  const [location, setLocation] = useState(null);
-
-  // Last known location
-  const [lastLocation, setLastLocation] = useState(null);
-
-  // Address
-  const [address, setAddress] = useState(null);
-
-  // Tracker reference
-  const watchRef = useRef(null);
+// import MapView, { Marker } from "react-native-maps";
 
 
-  // =================================
-  // GET PERMISSION
-  // =================================
+// export default function LocationScreen() {
 
-  const handleGetPermission = async () => {
+//   // Current location
+//   const [location, setLocation] = useState(null);
 
-    const permission =
-      await Location.requestForegroundPermissionsAsync();
+//   // Last known location
+//   const [lastLocation, setLastLocation] = useState(null);
 
-    if (!permission.granted) {
+//   // Address
+//   const [address, setAddress] = useState(null);
 
-      alert("Permission denied");
-
-      return;
-    }
-
-    alert("Permission granted");
-  };
-
-
-  // =================================
-  // GET CURRENT LOCATION
-  // =================================
-
-  const handleGetCurrentLocation = async () => {
-
-    const currentLocation =
-      await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
-      });
-
-    setLocation(currentLocation);
-  };
-
-
-  // =================================
-  // GET LAST LOCATION
-  // =================================
-
-  const handleGetLastLocation = async () => {
-
-    const last =
-      await Location.getLastKnownPositionAsync();
-
-    if (!last) {
-
-      alert("Last location not available");
-
-      return;
-    }
-
-    setLastLocation(last);
-  };
-
-
-  // =================================
-  // GET ADDRESS
-  // =================================
-
-  const handleGetCurrentAddress = async () => {
-
-    if (!location) {
-
-      alert("Get current location first");
-
-      return;
-    }
-
-
-    const result =
-      await Location.reverseGeocodeAsync({
-
-        latitude: location.coords.latitude,
-
-        longitude: location.coords.longitude,
-
-      });
-
-
-    if (result.length > 0) {
-
-      setAddress(result[0]);
-
-    }
-
-  };
+//   // Tracker reference
+//   const watchRef = useRef(null);
 
 
 //   // =================================
-//   // START TRACKING
+//   // GET PERMISSION
 //   // =================================
 
-  const handleStartTracker = async () => {
+//   const handleGetPermission = async () => {
 
-    const permission =
-      await Location.requestForegroundPermissionsAsync();
+//     const permission =
+//       await Location.requestForegroundPermissionsAsync();
 
+//     if (!permission.granted) {
 
-    if (!permission.granted) {
+//       alert("Permission denied");
 
-      alert("Permission denied");
+//       return;
+//     }
 
-      return;
-    }
+//     alert("Permission granted");
+//   };
 
 
-    watchRef.current =
-      await Location.watchPositionAsync(
+//   // =================================
+//   // GET CURRENT LOCATION
+//   // =================================
 
-        {
-          accuracy: Location.Accuracy.High,
-        },
+//   const handleGetCurrentLocation = async () => {
 
-        (newLocation) => {
+//     const currentLocation =
+//       await Location.getCurrentPositionAsync({
+//         accuracy: Location.Accuracy.High,
+//       });
 
-          console.log(newLocation);
+//     setLocation(currentLocation);
+//   };
 
-          setLocation(newLocation);
 
-        }
+//   // =================================
+//   // GET LAST LOCATION
+//   // =================================
 
-      );
+//   const handleGetLastLocation = async () => {
 
-  };
+//     const last =
+//       await Location.getLastKnownPositionAsync();
 
+//     if (!last) {
 
-  // =================================
-  // STOP TRACKING
-  // =================================
+//       alert("Last location not available");
 
-  const handleStopTracker = () => {
+//       return;
+//     }
 
-    if (watchRef.current) {
+//     setLastLocation(last);
+//   };
 
-      watchRef.current.remove();
 
-      watchRef.current = null;
+//   // =================================
+//   // GET ADDRESS
+//   // =================================
 
-    }
+//   const handleGetCurrentAddress = async () => {
 
-  };
+//     if (!location) {
 
+//       alert("Get current location first");
 
-  return (
+//       return;
+//     }
 
-    <View style={styles.container}>
 
-      <Text style={styles.title}>
-        📍 Location App
-      </Text>
+//     const result =
+//       await Location.reverseGeocodeAsync({
 
+//         latitude: location.coords.latitude,
 
-      {/* Permission */}
+//         longitude: location.coords.longitude,
 
-      <Button
-        title="Get Permission"
-        onPress={handleGetPermission}
-      />
+//       });
 
 
-      {/* Current Location */}
+//     if (result.length > 0) {
 
-      <Button
-        title="Get Current Location"
-        onPress={handleGetCurrentLocation}
-      />
+//       setAddress(result[0]);
 
+//     }
 
-      {location && (
+//   };
 
-        <View>
 
-          <Text>
-            Latitude: {location.coords.latitude}
-          </Text>
+// //   // =================================
+// //   // START TRACKING
+// //   // =================================
 
-          <Text>
-            Longitude: {location.coords.longitude}
-          </Text>
+//   const handleStartTracker = async () => {
 
-          <Text>
-            Accuracy: {location.coords.accuracy}
-          </Text>
+//     const permission =
+//       await Location.requestForegroundPermissionsAsync();
 
-          <Text>
-            Altitude: {location.coords.altitude}
-          </Text>
 
-          <Text>
-            Speed: {location.coords.speed}
-          </Text>
+//     if (!permission.granted) {
 
-          <Text>
-            Heading: {location.coords.heading}
-          </Text>
+//       alert("Permission denied");
 
-        </View>
+//       return;
+//     }
 
-      )}
 
+//     watchRef.current =
+//       await Location.watchPositionAsync(
 
-      {/* Last Location */}
+//         {
+//           accuracy: Location.Accuracy.High,
+//         },
 
-      <Button
-        title="Get Last Location"
-        onPress={handleGetLastLocation}
-      />
+//         (newLocation) => {
 
+//           console.log(newLocation);
 
-      {lastLocation && (
+//           setLocation(newLocation);
 
-        <View>
+//         }
 
-          <Text>
-            Last Latitude:
-            {lastLocation.coords.latitude}
-          </Text>
+//       );
 
-          <Text>
-            Last Longitude:
-            {lastLocation.coords.longitude}
-          </Text>
+//   };
 
-          <Text>
-            Last Accuracy:
-            {lastLocation.coords.accuracy}
-          </Text>
 
-        </View>
+//   // =================================
+//   // STOP TRACKING
+//   // =================================
 
-      )}
+//   const handleStopTracker = () => {
 
+//     if (watchRef.current) {
 
-      {/* Address */}
+//       watchRef.current.remove();
 
-      <Button
-        title="Get Current Address"
-        onPress={handleGetCurrentAddress}
-      />
+//       watchRef.current = null;
 
+//     }
 
-      {address && (
+//   };
 
-        <View>
 
-          <Text>
-            Name: {address.name}
-          </Text>
+//   return (
 
-          <Text>
-            Street: {address.street}
-          </Text>
+//     <View style={styles.container}>
 
-          <Text>
-            City: {address.city}
-          </Text>
+//       <Text style={styles.title}>
+//         📍 Location App
+//       </Text>
 
-          <Text>
-            District: {address.district}
-          </Text>
 
-          <Text>
-            State: {address.region}
-          </Text>
+//       {/* Permission */}
 
-          <Text>
-            Country: {address.country}
-          </Text>
+//       <Button
+//         title="Get Permission"
+//         onPress={handleGetPermission}
+//       />
 
-          <Text>
-            Postal Code: {address.postalCode}
-          </Text>
 
-        </View>
+//       {/* Current Location */}
 
-      )}
+//       <Button
+//         title="Get Current Location"
+//         onPress={handleGetCurrentLocation}
+//       />
 
 
-      {/* Tracking */}
+//       {location && (
 
-      <Button
-        title="Start Tracker"
-        onPress={handleStartTracker}
-      />
+//         <View>
 
+//           <Text>
+//             Latitude: {location.coords.latitude}
+//           </Text>
 
-      <Button
-        title="Stop Tracker"
-        onPress={handleStopTracker}
-      />
+//           <Text>
+//             Longitude: {location.coords.longitude}
+//           </Text>
 
+//           <Text>
+//             Accuracy: {location.coords.accuracy}
+//           </Text>
 
-      {/* MAP */}
+//           <Text>
+//             Altitude: {location.coords.altitude}
+//           </Text>
 
-      {location && (
+//           <Text>
+//             Speed: {location.coords.speed}
+//           </Text>
 
-        <MapView
+//           <Text>
+//             Heading: {location.coords.heading}
+//           </Text>
 
-          style={styles.map}
+//         </View>
 
-          initialRegion={{
+//       )}
 
-            latitude:
-              location.coords.latitude,
 
-            longitude:
-              location.coords.longitude,
+//       {/* Last Location */}
 
-            latitudeDelta: 0.01,
+//       <Button
+//         title="Get Last Location"
+//         onPress={handleGetLastLocation}
+//       />
 
-            longitudeDelta: 0.01,
 
-          }}
+//       {lastLocation && (
 
-        >
+//         <View>
 
-          <Marker
+//           <Text>
+//             Last Latitude:
+//             {lastLocation.coords.latitude}
+//           </Text>
 
-            coordinate={{
+//           <Text>
+//             Last Longitude:
+//             {lastLocation.coords.longitude}
+//           </Text>
 
-              latitude:
-                location.coords.latitude,
+//           <Text>
+//             Last Accuracy:
+//             {lastLocation.coords.accuracy}
+//           </Text>
 
-              longitude:
-                location.coords.longitude,
+//         </View>
 
-            }}
+//       )}
 
-            title="Current Location"
 
-            description="You are here"
+//       {/* Address */}
 
-          />
+//       <Button
+//         title="Get Current Address"
+//         onPress={handleGetCurrentAddress}
+//       />
 
-        </MapView>
 
-      )}
+//       {address && (
 
-    </View>
+//         <View>
 
-  );
+//           <Text>
+//             Name: {address.name}
+//           </Text>
 
-}
+//           <Text>
+//             Street: {address.street}
+//           </Text>
 
+//           <Text>
+//             City: {address.city}
+//           </Text>
 
-const styles = StyleSheet.create({
+//           <Text>
+//             District: {address.district}
+//           </Text>
 
-  container: {
-    flex: 1,
-    padding: 20,
-    gap: 10,
-  },
+//           <Text>
+//             State: {address.region}
+//           </Text>
 
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+//           <Text>
+//             Country: {address.country}
+//           </Text>
 
-  map: {
-    width: "100%",
-    height: 300,
-    marginTop: 10,
-  },
+//           <Text>
+//             Postal Code: {address.postalCode}
+//           </Text>
 
-});
+//         </View>
+
+//       )}
+
+
+//       {/* Tracking */}
+
+//       <Button
+//         title="Start Tracker"
+//         onPress={handleStartTracker}
+//       />
+
+
+//       <Button
+//         title="Stop Tracker"
+//         onPress={handleStopTracker}
+//       />
+
+
+//       {/* MAP */}
+
+//       {location && (
+
+//         <MapView
+
+//           style={styles.map}
+
+//           initialRegion={{
+
+//             latitude:
+//               location.coords.latitude,
+
+//             longitude:
+//               location.coords.longitude,
+
+//             latitudeDelta: 0.01,
+
+//             longitudeDelta: 0.01,
+
+//           }}
+
+//         >
+
+//           <Marker
+
+//             coordinate={{
+
+//               latitude:
+//                 location.coords.latitude,
+
+//               longitude:
+//                 location.coords.longitude,
+
+//             }}
+
+//             title="Current Location"
+
+//             description="You are here"
+
+//           />
+
+//         </MapView>
+
+//       )}
+
+//     </View>
+
+//   );
+
+// }
+
+
+// const styles = StyleSheet.create({
+
+//   container: {
+//     flex: 1,
+//     padding: 20,
+//     gap: 10,
+//   },
+
+//   title: {
+//     fontSize: 25,
+//     fontWeight: "bold",
+//     textAlign: "center",
+//   },
+
+//   map: {
+//     width: "100%",
+//     height: 300,
+//     marginTop: 10,
+//   },
+
+// });

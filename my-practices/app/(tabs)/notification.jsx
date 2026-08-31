@@ -116,48 +116,102 @@
 
 
 
-import { Button, StyleSheet, Text, View } from 'react-native'
-import * as Notification from 'expo-notifications'
-import React from 'react'
+// import { Button, StyleSheet, Text, View } from 'react-native'
+// import * as Notification from 'expo-notifications'
+// import React from 'react'
 
-Notification.setNotificationHandler({
-    handleNotification: async () =>(
-        {
-            shouldShowBanner: true,
-            shouldShowList:true,
-            shouldPlaySound: true,
-            shouldSetBadge:true,
-        }
-    )
-})
+// Notification.setNotificationHandler({
+//     handleNotification: async () =>(
+//         {
+//             shouldShowBanner: true,
+//             shouldShowList:true,
+//             shouldPlaySound: true,
+//             shouldSetBadge:true,
+//         }
+//     )
+// })
 
-const NotificationFeature = () => {
+// const NotificationFeature = () => {
 
-    const handleNotifications = async () =>{
-        const permission = await Notification.requestPermissionsAsync();
-        if(!permission.granted) return;
-        await Notification.scheduleNotificationAsync({
-            content:{
-                title:"Zeel",
-                body:"Kundariya"
+//     const handleNotifications = async () =>{
+//         const permission = await Notification.requestPermissionsAsync();
+//         if(!permission.granted) return;
+//         await Notification.scheduleNotificationAsync({
+//             content:{
+//                 title:"Zeel",
+//                 body:"Kundariya"
+//             },
+//             trigger: {
+//                 type: 'timeInterval',
+//                 seconds: 10,
+//                 repeats: false, 
+//             },
+//         });
+//     }
+
+//   return (
+//     <View style={{flex:1, justifyContent:"center", alignItems:"center", backgroundColor:"teal"}}>
+//       <Text>Notification Feature</Text>
+
+//       <Button title="Get Notifications" onPress={handleNotifications} />
+//     </View>
+//   )
+// }
+
+// export default NotificationFeature
+
+// const styles = StyleSheet.create({})
+
+
+import { View, Button, StyleSheet } from "react-native";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
+    }),
+});
+
+export default function NotificationScreen() {
+    const [notId, setNotId] = useState(null);
+    const handleNotification = async () => {
+        const permission =
+            await Notifications.requestPermissionsAsync();
+
+        if (!permission.granted) return;
+
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "React Native",
+                body: "Do your project!",
             },
-            trigger: {
-                type: 'timeInterval',
-                seconds: 10,
-                repeats: false,
-            },
+            trigger: null,
+            second: 10,
         });
+        console.log(id);
+        setNotId(id);
+    };
+
+    const handleCancelNotification = async () => {
+        await Notification.cancelAllScheduledNotificationAsync(notId)
     }
 
-  return (
-    <View style={{flex:1, justifyContent:"center", alignItems:"center", backgroundColor:"teal"}}>
-      <Text>Notification Feature</Text>
-
-      <Button title="Get Notifications" onPress={handleNotifications} />
-    </View>
-  )
+    return (
+        <View style={styles.container}>
+            <Button title="Notification" onPress={handleNotification} />
+            <View style={{ height: 20 }} />
+            <Button title="Cancel Notification" onPress={handleCancelNotification} />
+        </View>
+    );
 }
 
-export default NotificationFeature
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+});
