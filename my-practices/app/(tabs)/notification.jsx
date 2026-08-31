@@ -165,6 +165,7 @@
 
 import { View, Button, StyleSheet } from "react-native";
 import * as Notifications from "expo-notifications";
+import {useState} from "react"
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -179,7 +180,13 @@ export default function NotificationScreen() {
     const [notId, setNotId] = useState(null);
     const handleNotification = async () => {
         const permission =
-            await Notifications.requestPermissionsAsync();
+            await Notifications.requestPermissionsAsync({
+      ios: {
+        allowSound: true,
+        allowAlert: true,
+        allowBadge: true,
+      },
+    });
 
         if (!permission.granted) return;
 
@@ -188,8 +195,10 @@ export default function NotificationScreen() {
                 title: "React Native",
                 body: "Do your project!",
             },
-            trigger: null,
-            second: 10,
+            trigger: {
+                type:"timeinterval",
+                second:10,
+            }
         });
         console.log(id);
         setNotId(id);
