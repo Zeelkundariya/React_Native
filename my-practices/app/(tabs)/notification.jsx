@@ -163,64 +163,119 @@
 // const styles = StyleSheet.create({})
 
 
-import { View, Button, StyleSheet } from "react-native";
-import * as Notifications from "expo-notifications";
-import {useState} from "react"
+// import { View, Button, StyleSheet } from "react-native";
+// import * as Notifications from "expo-notifications";
+// import {useState} from "react"
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-        shouldShowBanner: true,
-        shouldShowList: true,
-    }),
-});
+// Notifications.setNotificationHandler({
+//     handleNotification: async () => ({
+//         shouldPlaySound: true,
+//         shouldSetBadge: true,
+//         shouldShowBanner: true,
+//         shouldShowList: true,
+//     }),
+// });
 
+// export default function NotificationScreen() {
+//     const [notId, setNotId] = useState(null);
+//     const handleNotification = async () => {
+//         const permission =
+//             await Notifications.requestPermissionsAsync({
+//       ios: {
+//         allowSound: true,
+//         allowAlert: true,
+//         allowBadge: true,
+//       },
+//     });
+
+//         if (!permission.granted) return;
+
+//        const id = await Notifications.scheduleNotificationAsync({
+//             content: {
+//                 title: "React Native",
+//                 body: "Do your project!",
+//             },
+//              trigger: {
+//     type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+//     seconds: 6,
+//   },
+//         });
+//         console.log(id);
+//         setNotId(id);
+//     };
+
+//     const handleCancelNotification = async () => {
+//         await Notification.cancelAllScheduledNotificationAsync(notId)
+//     }
+
+//     return (
+//         <View style={styles.container}>
+//             <Button title="Notification" onPress={handleNotification} />
+//             <View style={{ height: 20 }} />
+//             <Button title="Cancel Notification" onPress={handleCancelNotification} />
+//         </View>
+//     );
+// }
+
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         justifyContent: "center",
+//         alignItems: "center",
+//     },
+// });
+
+
+
+import { View } from "react-native";
+import { useState } from "react";
+import * as Notifications from "expo-notifications"
+
+
+Notifications.setNotifications({
+    handleNotifications: ({
+        shouldPlaysound: true,
+        shouldsetBadge: true,
+        shouldshowBanner: true,
+        shouldshowList: true,
+    })
+})
+let id = null
 export default function NotificationScreen() {
-    const [notId, setNotId] = useState(null);
-    const handleNotification = async () => {
-        const permission =
-            await Notifications.requestPermissionsAsync({
-      ios: {
-        allowSound: true,
-        allowAlert: true,
-        allowBadge: true,
-      },
-    });
-
-        if (!permission.granted) return;
-
-       const id = await Notifications.scheduleNotificationAsync({
-            content: {
-                title: "React Native",
-                body: "Do your project!",
-            },
-             trigger: {
-    type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-    seconds: 6,
-  },
-        });
-        console.log(id);
-        setNotId(id);
+    const [notId, setNotId] = useState(null)
+    const handleNotifications = async () => {
+        const permission = await Notifications.requestPermissionsAsync({
+            ios: {
+                allowAlert: true,
+                allowBadge: true,
+                allowSound: true,
+            }
+        })
+    
+    if (!permission.granted) {
+        return
     };
 
-    const handleCancelNotification = async () => {
-        await Notification.cancelAllScheduledNotificationAsync(notId)
-    }
-
-    return (
-        <View style={styles.container}>
-            <Button title="Notification" onPress={handleNotification} />
-            <View style={{ height: 20 }} />
-            <Button title="Cancel Notification" onPress={handleCancelNotification} />
-        </View>
-    );
+    const id = await Notifications.scheduleNotificationAsync({
+        content: {
+            title: "React-Native",
+            body: "Complete the project"
+        },
+        trigger: {
+            type: Notifications.scheduledTrigger.InputType.TIME_INTERVAL,
+            second: 5,
+        }
+    })
+    setNotId(id)
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-});
+const handleCancelNotification = async()=>{
+    await Notifications.cancelAllScheduledNotificationsAsync()
+}
+    return (
+        <View>
+            <Button title="Notifications" onPress={handleNotifications} />
+            <Button  title="cancelNotification" onPress={handleCancelNotification}/> 
+        </View>
+    )
+}
