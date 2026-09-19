@@ -34,3 +34,9 @@ A collection of React Native and Expo applications, practice modules, assignment
 - **Expo Router** (File-based navigation)
 - **TypeScript / JavaScript (ES6+)**
 - **Expo Modules**: `expo-file-system`, `expo-network`, `expo-local-authentication`, `expo-secure-store`, etc.
+
+## 📌 Practice Highlights
+
+- Native file downloading and background tasks using `expo-file-system`
+- Biometric security integration with `expo-local-authentication`
+- Device network diagnostics and state tracking with `expo-network`
