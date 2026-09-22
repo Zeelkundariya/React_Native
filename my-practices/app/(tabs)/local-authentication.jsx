@@ -16,7 +16,7 @@ export default function LocalAuthentication(){
     )
 }
 
-
+    
 const style = StyleSheet.create({
     container:{
         flex:1,
