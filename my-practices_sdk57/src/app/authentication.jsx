@@ -107,3 +107,32 @@ export default function LocalAuthScreen() {
     </View>
   );
 } 
+
+
+
+// import { Button, View } from "react-native"
+// import * as LocalAuthentication from "react-"
+
+// export default function AuthenticationScreen() {
+//     const handleAuthentication = async () => {
+//         const handle = await LocalAuthentication.hasHardwareAsync();
+//         console.log("Hardware");
+
+
+//         const enrolled = await LocalAuthentication.isEnrolledAysnc();
+//         console.log("isEnrolled");
+
+//         const authencate = await LocalAuthentication.authencateAysnc();
+//         console.log("authencate");
+
+
+//         const security = await LocalAuthentication.getEnrolledLevelAysnc();
+//         console.log("security level");
+
+//     }
+//     return (
+//         <View>
+//             <Button title="handle" onPress={handleAuthentication} />
+//         </View>
+//     )
+// }
