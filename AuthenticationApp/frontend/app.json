@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "AuthenticationApp",
+    "slug": "authenticationapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "authenticationapp",
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
