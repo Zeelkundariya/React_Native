@@ -17,7 +17,7 @@ export default function Register() {
         try {
 
             const response = await fetch(
-                "http://YOUR_IP_ADDRESS:5000/api/auth/register",
+                "http://localhost:5000/api/auth/register",
                 {
                     method: "POST",
 
@@ -34,8 +34,10 @@ export default function Register() {
 
             const data = await response.json();
 
-            Alert.alert(data.message);
+            console.log("Status:", response.status);
+            console.log("Response:", data);
 
+            Alert.alert(data.message);  
         } catch (error) {
 
             Alert.alert("Something went wrong");
@@ -82,3 +84,52 @@ export default function Register() {
         </View>
     );
 }
+
+
+
+// import { Alert, View } from "react-native";
+// import { useState } from "react";
+// import { TextInput } from "react-native/types_generated/index";
+
+// export default function Register() {
+//     const [email, setEmail] = useState("");
+//     const [password, setPassword] = useState("")
+//     const handleRegister = async () => {
+//         try {
+//             const response = await fetch("",
+//                 {
+//                     method: "POST",
+
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                     },
+//                     body: JSON.stringify({
+//                         email: email,
+//                         password: password
+//                     })
+//                 }
+//             );
+//             const data = response.json();
+
+//             Alert.alert(data.message);
+//         }
+//         catch(errro){
+//             Alert.alert("Some thing went wrong")
+//         }
+//     }
+//     return (
+//         <View>
+
+//             <TextInput 
+//             placeholder="emial"
+//             value={email}
+//             onChangeText={setEmail}/>
+
+//             <TextInput 
+//             placeholder="password"
+//             value={password}
+//             onChangeText={setPassword}/>
+//             <Button title="register" onPress={handleRegister} />
+//         </View>
+//     )
+// }
