@@ -100,7 +100,7 @@ export default function FileSystemScreen() {
         console.log("Course:", data.course);
     }
 
-    
+
     return (
         <View style={style.container}>
             <Button title="File Data" onPress={handlefilesystem} />
@@ -115,3 +115,56 @@ const style = StyleSheet.create({
         backgroundColor: "grey"
     }
 })
+
+
+import { StyleSheet, Text, View, Button } from 'react-native'
+import { Paths, Directory, File } from "expo-file-system";
+
+export default function file_system() {
+  async function a() {
+    console.log(Paths.document);
+    console.log(Paths.availableDiskSpace);
+    console.log(Paths.totalDiskSpace);
+
+    const imagesFolder = new Directory(Paths.document, "nitish kumar");
+    console.log(imagesFolder);
+
+    imagesFolder.create({
+      idempotent : true
+    });
+    console.log(" imagesFolder created");
+    const profileImage = new File(imagesFolder , "profile.jpg");
+    console.log(profileImage.exists);
+
+    const fileData = new File(Paths.document , "notes.json");
+
+    const student = {
+      name : "asc",
+      age : 29,
+      course : "react"
+    }
+
+    const jsonData = JSON.stringify(student);
+
+    fileData.write(jsonData);
+
+    const res = await fileData.text();
+    console.log(res)
+
+    // fileData.write("ljdvjh");
+    // const res = await fileData.text();
+    const data = JSON.parse(res);
+
+    console.log(data);
+    console.log(typeof(data));
+
+  }
+  return (
+    <View style={{ flex: 1 }}>
+      <Text>file_system</Text>
+      <Button title='Click' onPress={a} />
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({})
