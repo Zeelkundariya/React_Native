@@ -99,6 +99,7 @@ export default function FileSystemScreen() {
         console.log("Age:", data.age);
         console.log("Course:", data.course);
     }
+
     
     return (
         <View style={style.container}>
