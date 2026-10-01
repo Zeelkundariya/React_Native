@@ -110,7 +110,7 @@
 //             console.log("Network Error:", error);
 //         }
 //     };
- 
+
 //     const getIPInfo = async () => {
 //         try {
 //             const response = await fetch("https://ipinfo.io/json");

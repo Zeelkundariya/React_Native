@@ -144,6 +144,7 @@ export default function file_system() {
       course : "react"
     }
 
+    
     const jsonData = JSON.stringify(student);
 
     fileData.write(jsonData);
@@ -168,3 +169,34 @@ export default function file_system() {
 }
 
 const styles = StyleSheet.create({})
+
+
+
+
+
+
+
+
+import{View,Button,Text} from "react-native"
+import {Paths,Directory} from "expo-file-system";
+export default function app(){
+const handlePaths=()=>{
+    console.log(Paths.Document);
+    const imageFolder=new Directory(Paths.Document,"images")
+    imageFolder.create();
+    console.log(imageFolder);
+
+    const availableGB=Paths.availableDiskSpace/1024/1024;
+    console.log(available.toFixed(2));
+
+};
+
+
+
+    return(
+        <View>
+        <Text>file system</Text>
+        <Button title="path" onPress={handlePaths}/>
+        </View>
+    )
+}
