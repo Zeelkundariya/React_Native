@@ -121,51 +121,51 @@ import { StyleSheet, Text, View, Button } from 'react-native'
 import { Paths, Directory, File } from "expo-file-system";
 
 export default function file_system() {
-  async function a() {
-    console.log(Paths.document);
-    console.log(Paths.availableDiskSpace);
-    console.log(Paths.totalDiskSpace);
+    async function a() {
+        console.log(Paths.document);
+        console.log(Paths.availableDiskSpace);
+        console.log(Paths.totalDiskSpace);
 
-    const imagesFolder = new Directory(Paths.document, "nitish kumar");
-    console.log(imagesFolder);
+        const imagesFolder = new Directory(Paths.document, "nitish kumar");
+        console.log(imagesFolder);
 
-    imagesFolder.create({
-      idempotent : true
-    });
-    console.log(" imagesFolder created");
-    const profileImage = new File(imagesFolder , "profile.jpg");
-    console.log(profileImage.exists);
+        imagesFolder.create({
+            idempotent: true
+        });
+        console.log(" imagesFolder created");
+        const profileImage = new File(imagesFolder, "profile.jpg");
+        console.log(profileImage.exists);
 
-    const fileData = new File(Paths.document , "notes.json");
+        const fileData = new File(Paths.document, "notes.json");
 
-    const student = {
-      name : "asc",
-      age : 29,
-      course : "react"
+        const student = {
+            name: "asc",
+            age: 29,
+            course: "react"
+        }
+
+
+        const jsonData = JSON.stringify(student);
+
+        fileData.write(jsonData);
+
+        const res = await fileData.text();
+        console.log(res)
+
+        // fileData.write("ljdvjh");
+        // const res = await fileData.text();
+        const data = JSON.parse(res);
+
+        console.log(data);
+        console.log(typeof (data));
+
     }
-
-    
-    const jsonData = JSON.stringify(student);
-
-    fileData.write(jsonData);
-
-    const res = await fileData.text();
-    console.log(res)
-
-    // fileData.write("ljdvjh");
-    // const res = await fileData.text();
-    const data = JSON.parse(res);
-
-    console.log(data);
-    console.log(typeof(data));
-
-  }
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>file_system</Text>
-      <Button title='Click' onPress={a} />
-    </View>
-  )
+    return (
+        <View style={{ flex: 1 }}>
+            <Text>file_system</Text>
+            <Button title='Click' onPress={a} />
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({})
@@ -177,26 +177,77 @@ const styles = StyleSheet.create({})
 
 
 
-import{View,Button,Text} from "react-native"
-import {Paths,Directory} from "expo-file-system";
-export default function app(){
-const handlePaths=()=>{
-    console.log(Paths.Document);
-    const imageFolder=new Directory(Paths.Document,"images")
-    imageFolder.create();
-    console.log(imageFolder);
+// import{View,Button,Text} from "react-native"
+// import {Paths,Directory} from "expo-file-system";
+// export default function app(){
+// const handlePaths=()=>{
+//     console.log(Paths.Document);
+//     const imageFolder=new Directory(Paths.Document,"images")
+//     imageFolder.create();
+//     console.log(imageFolder);
 
-    const availableGB=Paths.availableDiskSpace/1024/1024;
-    console.log(available.toFixed(2));
+//     const availableGB=Paths.availableDiskSpace/1024/1024;
+//     console.log(available.toFixed(2));
 
-};
+// };
 
 
 
-    return(
-        <View>
-        <Text>file system</Text>
-        <Button title="path" onPress={handlePaths}/>
-        </View>
+//     return(
+//         <View>
+//         <Text>file system</Text>
+//         <Button title="path" onPress={handlePaths}/>
+//         </View>
+//     )
+// }
+
+
+
+
+import { View, Button, Text } from "react-native";
+import { Paths, Directory, File } from "expo-file-system"
+
+export default function FileSystemScreen() {
+    const handlePaths = async () => {
+        console.log(Paths.document);
+        console.log(Paths.availableDiskSpace);
+        console.log(Paths.totalDiskSpace);
+
+        const imageFolder = new Directory(Paths.document, "zeel kundariya");
+        console.log(imageFolder);
+
+        imageFolder.create({
+            idempotent:true
+        })
+        console.log("imageFolder created");
+
+
+        const profileImage = new File(imageFolder, "profile.jpg");
+        console.log(profileImage.exists);
+
+
+        const fileData = new File(Paths.document, "response.json");
+
+        const students =({
+            name:"zeel",
+            age:19,
+            course:"react-native"
+        })
+
+        const jsonData = JSON.stringify(students)
+
+        fileData.write(jsonData);
+
+        const res = await fileData.text();
+        console.log(res);
+
+        const data = JSON.parse();
+        console.log(data)
+    }
+    
+    return (
+        <Text>
+            <Button title="Get file" onPress={handlePaths} />
+        </Text>
     )
 }
