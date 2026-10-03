@@ -24,6 +24,12 @@ export default function AppTabs() {
           <TabTrigger name="home" href="/" asChild>
             <TabButton>Home</TabButton>
           </TabTrigger>
+          <TabTrigger name="timercounter" href="/timercounter" asChild>
+            <TabButton>Timer</TabButton>
+          </TabTrigger>
+          <TabTrigger name="filesystem" href="/filesystem" asChild>
+            <TabButton>File System</TabButton>
+          </TabTrigger>
           <TabTrigger name="explore" href="/explore" asChild>
             <TabButton>Explore</TabButton>
           </TabTrigger>

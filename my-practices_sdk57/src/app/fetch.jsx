@@ -626,55 +626,121 @@
 
 
 
-import { useEffect, useState } from "react";
-import { Button, FlatList, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Button, FlatList, TextInput, View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 
-export default function () {
+export default function FetchScreen() {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
-    const [debouncedSearch, setDebouncedSearch] = useState("")
-
-
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const fetchData = async () => {
-        fetch("https://fakestoreapi.com/products")
-            .then((res) => res.json())
-            .then((data) => setData(data))
-    }
-
-    useEffect(()=>{
-        const timer = setTimeout(()=>{
-            setDebouncedSearch(search)
-        },500)
-
-        return()=>{
-            clearInterval(timer)
+        try {
+            setLoading(true);
+            const res = await fetch("https://fakestoreapi.com/products");
+            const result = await res.json();
+            setData(result);
+        } catch (err) {
+            console.log("Error fetching data:", err);
+        } finally {
+            setLoading(false);
         }
-    },[search])
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+        }, 500);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [search]);
 
     const filteredData = data.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase())
-    )
+        item.title?.toLowerCase().includes(debouncedSearch.toLowerCase())
+    );
+
     return (
-        <View>
-
-            <FlatList
-                data={filteredData}
-                keyExtractor={((item) => item.id.toString())}
-                renderItem={({ item } = (
-                    <View>
-                        <Image source={{ uri: item.image }} />
-                        <Text>{item.title}</Text>
-                        <Text>{item.price}</Text>
-                    </View>
-                ))} />
-
+        <View style={styles.container}>
+            <Text style={styles.header}>Product Search</Text>
             <TextInput
-                placeholder="search"
+                style={styles.input}
+                placeholder="Search products..."
                 value={search}
                 onChangeText={setSearch}
             />
-            <Button title="Fetch Data" onPress={fetchData} />
+            <Button title="Fetch Products" onPress={fetchData} />
+
+            {loading && <ActivityIndicator size="large" color="#007AFF" style={{ marginVertical: 15 }} />}
+
+            <FlatList
+                data={filteredData}
+                keyExtractor={(item) => item.id.toString()}
+                contentContainerStyle={styles.listContent}
+                renderItem={({ item }) => (
+                    <View style={styles.card}>
+                        <Image source={{ uri: item.image }} style={styles.image} resizeMode="contain" />
+                        <View style={styles.cardDetails}>
+                            <Text style={styles.productTitle} numberOfLines={2}>{item.title}</Text>
+                            <Text style={styles.productPrice}>${item.price}</Text>
+                        </View>
+                    </View>
+                )}
+            />
         </View>
-    )
+    );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        paddingTop: 50,
+        backgroundColor: "#fff",
+    },
+    header: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginBottom: 12,
+        textAlign: "center",
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 8,
+        padding: 10,
+        marginBottom: 10,
+    },
+    listContent: {
+        paddingVertical: 12,
+    },
+    card: {
+        flexDirection: "row",
+        padding: 12,
+        marginBottom: 10,
+        borderRadius: 8,
+        backgroundColor: "#f9f9f9",
+        alignItems: "center",
+    },
+    image: {
+        width: 60,
+        height: 60,
+        marginRight: 12,
+    },
+    cardDetails: {
+        flex: 1,
+    },
+    productTitle: {
+        fontSize: 14,
+        fontWeight: "600",
+        color: "#333",
+    },
+    productPrice: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#2e7d32",
+        marginTop: 4,
+    },
+});
