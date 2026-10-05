@@ -146,7 +146,7 @@
 
 //         const handleReset = () => {
 //             setRunning(false);
-//             setTime(0)
+//             setTime(60)
 //         }
 
 //         return () => {
@@ -164,24 +164,23 @@
 // }
 
 
+import { useEffect, useState } from "react";
+import { Button, Text, View } from "react-native";
 
-import React, { useEffect, useState } from "react";
-import { Button, View, Text, StyleSheet, TouchableOpacity } from "react-native";
-
-export default function StopWatch() {
+export default function TimerCountScreen() {
+    const [time, setTime] = useState(10);
     const [running, setRunning] = useState(false);
-    const [time, setTime] = useState(60);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         let timer;
 
-        // Fixed: Check 'time > 0' instead of 'timer > 0'
         if (running && time > 0) {
             timer = setInterval(() => {
-                setTime((prev) => prev - 1); // Countdown from 60
+                setTime((prevTime) => prevTime - 1);
             }, 1000);
         }
-        
+
         if (time === 0) {
             setRunning(false);
         }
@@ -189,99 +188,51 @@ export default function StopWatch() {
         return () => {
             clearInterval(timer);
         };
-    }, [running, time]); // Fixed: Single dependency array containing both values
+    }, [running, time]);
 
-    // Fixed: Moved handleReset outside of useEffect so the Button can access it
-    const handleReset = () => {
+    const startTimer = () => {
+        setRunning(true);
+    };
+
+    const pressButton = () => {
+        if (running) {
+            setCount((prevCount) => prevCount + 1);
+        }
+    };
+
+    const resetTimer = () => {
+        setTime(10);
+        setCount(0);
         setRunning(false);
-        setTime(60); // Reset back to initial 60 seconds
     };
 
     return (
-        <View style={styles.container}>
-            {/* Timer Display */}
-            <Text style={styles.timerText}>{time}s</Text>
+        <View>
 
-            {/* Controls Row */}
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity 
-                    style={[styles.button, running ? styles.disabledButton : styles.startButton]} 
-                    onPress={() => setRunning(true)}
-                    disabled={running || time === 0}
-                >
-                    <Text style={styles.buttonText}>Start</Text>
-                </TouchableOpacity>
+            <Text>Time: {time}</Text>
 
-                <TouchableOpacity 
-                    style={[styles.button, !running ? styles.disabledButton : styles.stopButton]} 
-                    onPress={() => setRunning(false)}
-                    disabled={!running}
-                >
-                    <Text style={styles.buttonText}>Stop</Text>
-                </TouchableOpacity>
+            <Button
+                title="Start"
+                onPress={startTimer}
+            />
 
-                <TouchableOpacity 
-                    style={[styles.button, styles.resetButton]} 
-                    onPress={handleReset}
-                >
-                    <Text style={styles.buttonText}>Reset</Text>
-                </TouchableOpacity>
-            </View>
+            <Button
+                title="PRESS"
+                onPress={pressButton}
+                disabled={!running}
+            />
+
+            <Text>Total Presses: {count}</Text>
+
+            <Button
+                title="Reset"
+                onPress={resetTimer}
+            />
+
         </View>
     );
 }
 
-// React Native Styles (Equivalent to CSS)
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f5f5f5',
-        padding: 20,
-    },
-    timerText: {
-        fontSize: 72,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 40,
-        fontVariant: ['tabular-nums'], // Prevents layout jittering as numbers change
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        maxWidth: 320,
-    },
-    button: {
-        flex: 1,
-        paddingVertical: 12,
-        marginHorizontal: 5,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 2, // Shadow for Android
-        shadowColor: '#000', // Shadow for iOS
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    startButton: {
-        backgroundColor: '#4CD964', // Green
-    },
-    stopButton: {
-        backgroundColor: '#FF3B30', // Red
-    },
-    resetButton: {
-        backgroundColor: '#007AFF', // Blue
-    },
-    disabledButton: {
-        backgroundColor: '#A8A8A8', // Greyed out when inactive
-        opacity: 0.6,
-    }
-});
+
+
+//
