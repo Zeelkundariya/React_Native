@@ -233,9 +233,3 @@ export default function TimerCountScreen() {
     );
 }
 
-
-//
-//
-//
-//
-//
