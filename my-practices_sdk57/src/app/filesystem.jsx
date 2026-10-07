@@ -202,3 +202,43 @@
 // // }
 
 
+
+
+import { Button, View ,Text} from "react-native";
+import { useState } from "react";
+import { Paths, Directory, File } from "expo-file-system"
+
+export default function FileSystemScreen() {
+    const [progress , setProgress] = useState(0)
+    const handleDownload = async()=>{
+        try{
+            const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
+            const destination = new Directory(Paths.cache,"download");
+
+            destination.create({
+                idempotent :true,
+                intermediates: true,
+            });
+
+            const res = await File.downloadFileAsync(url, destination,{
+                idempotent:true,
+                onProgress:({ bytesWritten, totalBytes})=>{
+                    if(totalBytes > 0){
+                        const calc = (bytesWritten / totalBytes) * 100;
+                        setProgress(calc);
+                    }
+                }
+            })
+            console.log(res.uri)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+    return (
+        <View>
+            <Button title="Download" onPress={handleDownload} />
+            <Text>{Math.round(progress)}%</Text>
+        </View>
+    )
+}
