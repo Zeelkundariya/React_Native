@@ -204,47 +204,350 @@
 
 
 
-import { Button, View ,Text} from "react-native";
-import { useState } from "react";
-import { Paths, Directory, File } from "expo-file-system"
+// import { Button, View ,Text} from "react-native";
+// import { useState } from "react";
+// import { Paths, Directory, File } from "expo-file-system"
+
+// export default function FileSystemScreen() {
+//     const [progress , setProgress] = useState(0)
+//     const handleDownload = async()=>{
+//         try{
+//             const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
+//             const destination = new Directory(Paths.cache,"download");
+
+//             destination.create({
+//                 idempotent :true,
+//                 intermediates: true,
+//             });
+
+//             const res = await File.downloadFileAsync(url, destination,{
+//                 idempotent:true,
+//                 onProgress:({ bytesWritten, totalBytes})=>{
+//                     if(totalBytes > 0){
+//                         const calc = (bytesWritten / totalBytes) * 100;
+//                         setProgress(calc);
+//                     }
+//                 }
+//             })
+//             console.log(res.uri)
+//         }
+//         catch(err){
+//             console.log(err)
+//         }
+//     }
+//     return (
+//         <View>
+//             <Button title="Download" onPress={handleDownload}/>
+//             <Text>{Math.round(progress)}%</Text>
+//         </View>
+//     )
+// }
+
+
+
+
+// import { Button, View, Text } from "react-native";
+// import { Paths, File, Directory } from "expo-file-system";
+// import { useState, useRef } from "react";
+
+// export default function FileSystemScreen() {
+//     const [progress, setProgress] = useState(0);
+//     const controllerRef = useRef(null);
+
+//     const downloadVideo = async () => {
+//         const url = "https://samplelib.com/mp4/sample-5s.mp4";
+//         const destination = new File(Paths.cache, "video.mp4");
+
+//         const controller = new AbortController();
+//         controllerRef.current = controller;
+
+//         try {
+//             const file = await File.downloadFileAsync(url, destination, {
+//                 idempotent: true,
+//                 signal: controller.signal,
+
+//                 onProgress: ({ bytesWritten, totalBytes }) => {
+//                     if (totalBytes > 0) {
+//                         setProgress(bytesWritten / totalBytes);
+//                     }
+//                 }
+//             });
+//             console.log("Downloaded:", file.uri);
+//         } catch (err) {
+//             if (err.name === "AbortError") {
+//                 console.log("Download Cancelled");
+//             } else {
+//                 console.log("err", err);
+//             }
+//             console.log(err);
+//         }
+//     };
+
+//     const cancelDownload = () => {
+//         if (controllerRef.current) {
+//             controllerRef.current.abort();
+//             controllerRef.current = null;
+//         }
+//     };
+
+//     return (
+//         <View style={{ flex: 1, justifyContent: "center" }}>
+//             <Button title="Download Video" onPress={downloadVideo} />
+//             <Button title="Cancel Download" onPress={cancelDownload} />
+//             <Text>Progress:{Math.round(progress * 100)}%</Text>
+//         </View>
+//     );
+// }
+
+
+
+// import { Button, View } from "react-native";
+// import { Paths, File, Directory } from "expo-file-system";
+
+// export default function FileSystemScreen() {
+//     const downloadVideo = async () => {
+//         try {
+//             const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
+//             const destination = new File(Paths.document, "video.mp4");
+
+//             const task = File.createDownloadTask(url, destination);
+//             const file = await task.downloadAsync();
+
+//             console.log("Downloaded:", file.uri);
+//         } catch (err) {
+//             console.log("Download Error:", err);
+//         }
+//     };
+
+//     return (
+//         <View>
+//             <Button title="Download Video" onPress={downloadVideo} />
+//         </View>
+//     );
+// }
+
+
+
+
+
+// import { Button, View } from "react-native";
+// import { Paths, Files, Directory } from "expo-file-system";
+// import { useState } from "react";
+
+// export default function FileSystemScreen() {
+//     const [progress, setProgress] = useState("");
+//     const controllerRef = useRef(null);
+
+//     const handleFile = async () => {
+//         const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
+//         const destination = new File(Paths.cache, "video.mp4");
+
+//         const controller = new AbortController;
+//         controllerRef.current = controller;
+
+//         try {
+//             const file = await File.downloadFileAsync(uri, destination, {
+//                 idempotent: true,
+//                 signal: controller.signal,
+//                 onProgress : ({bytesWritten, totalBytes}) => {
+//                     if (totalBytes > 0) {
+//                         setProgress(bytesWritten / totalBytes)
+//                     }
+//                 }
+//             })
+//             console.log("Downloaded", file.uri)
+//         }catch(err){
+//             console.log(err)
+//         }
+//     }
+
+//     const CancelDownload = ()=>{
+//         if(controller.current){
+//             controllerRef.current.abort();
+//             controllerRef.current= null;
+//         }
+//     }
+//     return (
+//         <View>
+//             <Button title="FetchData" onPress={handleFile} />
+//             <Button title="Cancel Download" onPress={CancelDownload}/>
+//             <Text>Progress:{Math.round(progress*100)}%</Text>
+//         </View>
+//     )
+// }
+
+
+
+
+
+// import { Button, View } from "react-native";
+// import { Paths, Files, Directory } from "expo-file-system"
+// import { useState } from "react";
+
+// export default function FileSystemScreen() {
+//     const [progress, setProgress] = useState("");
+
+//     const handleDownload = async () => {
+//         const uri = "https://samplelib.com/mp4/sample-5s-720p.mp4";
+//         const destination = new File(Paths.cache, "video.mp4");
+
+//         try {
+//             const file = await file.downloadFileAsync(uri, destination, {
+//                 idempotent: true,
+//                 onProgress: ({ bytesWritten, totalBytes }) => {
+//                     if (totalbytes > 0) {
+//                         setProgress(bytesWritten / totalBytes)
+//                     }
+//                 }
+//             })
+//         } catch (err) { console.log(err) }
+//     }
+//     return (
+//         <View>
+//             <Button title="download video" onPress={handleDownload} />
+//             <Text>Progess:{Math.round(progress * 100)}%</Text>
+//         </View>
+//     )
+// }
+
+
+
+
+
+
+// import { useRef, useState } from "react";
+// import { Button, View } from "react-native";
+
+// export default function FileSystemScreen() {
+//     const [progress, setProgress] = useState("");
+//     const controllerRef = useRef(null)
+
+//     const handleDownload = async () => {
+//         const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
+//         const destination = new File(Paths.cache, "video.mp4");
+
+//         const controller = new AbortController;
+//         controllerRef.current = controller;
+
+//         try {
+//             const file = await file.downloadFileAsync(url, destination, {
+//                 idempotent: true,
+//                 signal: controller.signal,
+
+//                 onProgress: ({ bytesWritten, totalbytes }) => {
+//                     if (totalbytes > 0)
+//                         setProgress(bytesWritten / totalbytes)
+//                 }
+//             })
+//         } catch (err) {
+//             if(err.name === "AbortError"){
+//                 console.log("Download Cancelled")
+//             }else{
+//                 console.log("err", err)
+//             }
+//             console.log(err)
+//         }
+//     }   
+
+//     const CancelDownload =()=>{
+//         if(controller.current){
+//             controller.current.abort();
+//             controller.current =null;
+//         }
+//     }
+//     return (
+//         <View>
+//             <Button title="Download Video" onPress={handleDownload} />
+//             <Button title="Cancel Download" onPress={CancelDownload}/>
+//             <Text>Progress:{Math.round(progress * 100)}%</Text>
+//         </View>
+//     )
+// }
+
+
+
+
+import { View } from "react-native";
+import { Paths, Files, Directory } from "expo-file-system";
+import { useState ,useRef} from "react";
+
 
 export default function FileSystemScreen() {
-    const [progress , setProgress] = useState(0)
-    const handleDownload = async()=>{
-        try{
+    const [progress, setProgress] = useState(0);
+    const taskRef = useRef(null);
+
+    const handleStartDownload = async () => {
+        try {
+            setProgress(0);
             const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
-            const destination = new Directory(Paths.cache,"download");
+            const destination = new File(Paths.cache, "video.mp4");
 
-            destination.create({
-                idempotent :true,
-                intermediates: true,
-            });
-
-            const res = await File.downloadFileAsync(url, destination,{
-                idempotent:true,
-                onProgress:({ bytesWritten, totalBytes})=>{
-                    if(totalBytes > 0){
-                        const calc = (bytesWritten / totalBytes) * 100;
-                        setProgress(calc);
+            const task = File.downloadFileAsync(url, destination, {
+                idempotent: true,
+                onProgress: ({ bytesWritten, totalBytes }) => {
+                    if (totalBytes > 0) {
+                        const percentage = (bytesWritten / totalBytes) * 100;
+                        setProgress(percentage);
                     }
                 }
-            })
-            console.log(res.uri)
+            });
+
+            taskRef.current = task;
+            const file = await task.downloadAsync();
+
+            if (!file) {
+                setProgress(100);
+                console.log(file.uri);
+            } else {
+                console.log("Download stopped")
+            }
         }
-        catch(err){
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handlePauseDownload = async () => {
+        const task = taskRef.current;
+
+        if(!task || task.state !== "active"){
+            return;
+        }
+
+        try{
+            const file = await task.pauseAsync();
+            console.log(file.uri)
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const handleResumeDownload = async()=>{
+        const task = taskRef.current;
+
+        if(!task || task.state !== "paused"){
+            return;
+        }
+        try{
+            const file = await task.resumeAsync();
+
+            if(file){
+                setProgress(100);
+                console.log(file.uri);
+            }else{
+                console.log("Download Paused")
+            }
+        }catch(err){
             console.log(err)
         }
     }
     return (
         <View>
-            <Button title="Download" onPress={handleDownload} />
-            <Text>{Math.round(progress)}%</Text>
+            <button title="StartDownload" onPress={handleStartDownload} />
+            < button title="Pause Download" onPress={handlePauseDownload} />
+            <button title="Resume Download" onPress={handleResumeDownload} />
         </View>
     )
 }
 
-//
-//
-//
-//
-//
+//@ts-check//
