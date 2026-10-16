@@ -207,12 +207,18 @@ export default function TimerCountScreen() {
     };
 
     return (
-        <View>
-
-            <Text>Time: {time}</Text>
+        <View
+            style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 12,
+            }}
+        >
+            <Text style={{ fontSize: 24, fontWeight: "bold" }}>Time: {time}s</Text>
 
             <Button
-                title="Start"
+                title="Start Timer"
                 onPress={startTimer}
             />
 
@@ -222,13 +228,12 @@ export default function TimerCountScreen() {
                 disabled={!running}
             />
 
-            <Text>Total Presses: {count}</Text>
+            <Text style={{ fontSize: 18 }}>Total Presses: {count}</Text>
 
             <Button
                 title="Reset"
                 onPress={resetTimer}
             />
-
         </View>
     );
 }
