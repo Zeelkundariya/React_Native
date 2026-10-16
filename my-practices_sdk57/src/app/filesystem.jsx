@@ -467,9 +467,9 @@
 
 
 
-import { View } from "react-native";
-import { Paths, Files, Directory } from "expo-file-system";
-import { useState ,useRef} from "react";
+import { Button, Text, View } from "react-native";
+import { Paths, File, Directory } from "expo-file-system";
+import { useState, useRef } from "react";
 
 
 export default function FileSystemScreen() {
