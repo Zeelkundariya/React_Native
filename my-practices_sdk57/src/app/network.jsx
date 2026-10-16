@@ -170,12 +170,13 @@
 
 
 
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Button, Alert } from "react-native";
 import * as Network from "expo-network";
 
 export default function NetworkScreen() {
   const networkState = Network.useNetworkState();
+  const [ipAddress, setIpAddress] = useState("");
 
   const getNetworkInfo = async () => {
     try {
@@ -184,6 +185,7 @@ export default function NetworkScreen() {
 
       // IP address
       const ip = await Network.getIpAddressAsync();
+      setIpAddress(ip);
 
       // Airplane mode
       const airplaneMode = await Network.isAirplaneModeEnabledAsync();
@@ -229,6 +231,8 @@ Airplane Mode: ${airplaneMode}`
         Internet Reachable:{" "}
         {String(networkState.isInternetReachable)}
       </Text>
+
+      {ipAddress ? <Text>IP Address: {ipAddress}</Text> : null}
 
       <Button
         title="Get Network Info"
