@@ -543,6 +543,7 @@ export default function FileSystemScreen() {
             <Button title="Start Download" onPress={handleStartDownload} />
             <Button title="Pause Download" onPress={handlePauseDownload} />
             <Button title="Resume Download" onPress={handleResumeDownload} />
+            <Text>Progress: {Math.round(progress)}%</Text>
         </View>
     );
 }
