@@ -543,10 +543,10 @@ export default function FileSystemScreen() {
     }
     return (
         <View>
-            <button title="StartDownload" onPress={handleStartDownload} />
-            < button title="Pause Download" onPress={handlePauseDownload} />
-            <button title="Resume Download" onPress={handleResumeDownload} />
+            <Button title="Start Download" onPress={handleStartDownload} />
+            <Button title="Pause Download" onPress={handlePauseDownload} />
+            <Button title="Resume Download" onPress={handleResumeDownload} />
         </View>
-    )
+    );
 }
 
