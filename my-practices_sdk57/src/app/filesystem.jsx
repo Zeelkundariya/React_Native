@@ -482,8 +482,7 @@ export default function FileSystemScreen() {
             const url = "https://samplelib.com/mp4/sample-5s-720p.mp4";
             const destination = new File(Paths.cache, "video.mp4");
 
-            const task = File.downloadFileAsync(url, destination, {
-                idempotent: true,
+            const task = File.createDownloadTask(url, destination, {
                 onProgress: ({ bytesWritten, totalBytes }) => {
                     if (totalBytes > 0) {
                         const percentage = (bytesWritten / totalBytes) * 100;
@@ -495,11 +494,9 @@ export default function FileSystemScreen() {
             taskRef.current = task;
             const file = await task.downloadAsync();
 
-            if (!file) {
+            if (file) {
                 setProgress(100);
-                console.log(file.uri);
-            } else {
-                console.log("Download stopped")
+                console.log("Downloaded:", file.uri);
             }
         }
         catch (err) {
